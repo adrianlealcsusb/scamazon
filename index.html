@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Scamazon - Automate inventory deductions, generate packing slips, and manage storefronts efficiently with our panel.">
+    <meta name="description" content="Scamazon - Automate inventory, generate invoices, and manage storefronts efficiently with our panel.">
     <title>Home | Scamazon</title>
     <link rel="icon" type="image/jpg" href="/img/scamazon.jpg">
     
@@ -17,6 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: 
             {
                 extend: 
@@ -36,7 +37,7 @@
                         'infinite-scroll': 
                         {
                             from: { transform: 'translateX(0)' },
-                            to: { transform: 'translateX(-25%)' },
+                            to: { transform: 'translateX(-50%)' },
                         },
                         'gradient-shift': 
                         {
@@ -53,34 +54,61 @@
             }
         }
     </script>
+    <script>
+        // load theme
+        try 
+        {
+            const savedTheme = localStorage.getItem('scamazon_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) 
+            {
+                document.documentElement.classList.add('dark');
+            } 
+            else 
+            {
+                document.documentElement.classList.remove('dark');
+            }
+        } 
+        catch (err) 
+        {
+            console.error('Theme loader error:', err);
+        }
+    </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-slate-900 selection:text-white">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white transition-colors duration-300">
 
     <!-- Navigation -->
-    <header class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+    <header class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-xs transition-colors">
         <nav class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center" aria-label="Main Navigation">
             <!-- logo -->
-            <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
-                Scamazon<span class="text-indigo-600">.</span>
+            <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-sm">
+                Scamazon<span class="text-indigo-600 dark:text-indigo-400">.</span>
             </a>
 
             <!-- right side nav -->
-            <div id="navbar" class="flex items-center space-x-8">
-                <a href="index.html" class="tracking-tight text-indigo-600 font-semibold hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
+            <div id="navbar" class="flex items-center space-x-6 sm:space-x-8">
+                <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
                     Home
                 </a>
-                <a href="plans.html" class="tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
+                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
                     Pricing
                 </a>
-                <a href="#" class="tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
+                <a href="#" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
                     Meet the Team
                 </a>
-                <a href="login.html" class="tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
+                <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
                     Log In
                 </a>
-                <a href="login.html?mode=signup" class="inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 rounded-lg hover:bg-slate-800 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-200">
+                <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
                     Sign Up
                 </a>
+                
+                <!-- dark mode toggle button -->
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
+                    <!-- sun icon -->
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <!-- moon icon -->
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
             </div>
         </nav>
     </header>
@@ -91,60 +119,60 @@
         <!-- Hero Section -->
         <section class="relative px-6 py-16 flex-grow flex flex-col items-center justify-center text-center overflow-hidden" aria-label="Hero">
             <!-- background -->
-            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/70 via-slate-50 to-slate-100"></div>
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/70 via-slate-50 to-slate-100 dark:from-indigo-950/30 dark:via-slate-950 dark:to-slate-900 transition-colors"></div>
             
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="text-center lg:text-left space-y-6">
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
                         Industry Leading<br class="hidden sm:block" /> 
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-600 to-indigo-800 bg-[length:200%_auto] animate-gradient-shift">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-600 to-indigo-800 dark:from-white dark:via-indigo-400 dark:to-indigo-200 bg-[length:200%_auto] animate-gradient-shift">
                             Warehouse Management
                         </span>
                     </h1>
                     
-                    <p class="text-lg text-slate-600 max-w-xl leading-relaxed">
-                        Automate inventory deductions, generate lightning-fast packing slips, and manage multi-region storefronts effortlessly from a unified control panel.
+                    <p class="text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
+                        Automate inventory, generate invoices, and manage storefronts effortlessly from a unified control panel.
                     </p>
                     
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                        <a href="login.html" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-800 hover:-translate-y-0.5 shadow-lg shadow-slate-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-200">
+                        <a href="login.html" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-slate-900 dark:bg-indigo-600 rounded-xl hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-lg shadow-slate-900/20 dark:shadow-indigo-950/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
                             Get Started
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                         </a>
-                        <a href="plans.html" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all duration-200">
-                            Explore Pricing
+                        <a href="plans.html" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200">
+                            View Pricing
                         </a>
                     </div>
                 </div>
 
                 <!-- interactive preview -->
                 <div class="perspective-1000 group max-w-xl mx-auto">
-                    <div class="relative rounded-2xl bg-gradient-to-tr from-indigo-500/10 via-slate-200/50 to-transparent p-2">
-                        <img src="https://wtcqblyyprofjocksdij.supabase.co/storage/v1/object/public/assets/listings.png" alt="The listings page of the owner panel." class="rounded-xl border border-slate-200/80 shadow-2xl shadow-slate-900/10 transition-transform duration-500 ease-out group-hover:scale-[1.02] animate-float"/>
+                    <div class="relative rounded-2xl bg-gradient-to-tr from-indigo-500/10 via-slate-200/50 dark:via-slate-800/50 to-transparent p-2">
+                        <img src="https://wtcqblyyprofjocksdij.supabase.co/storage/v1/object/public/assets/listings.png" alt="The listings page of the owner panel." class="rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-2xl shadow-slate-900/10 dark:shadow-black/50 transition-transform duration-500 ease-out group-hover:scale-[1.02] animate-float"/>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- live stats -->
-        <section class="border-y border-slate-200/80 bg-white/60 backdrop-blur-sm py-8 px-6">
+        <section class="border-y border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm py-8 px-6 transition-colors">
             <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition-colors">
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900">99.98%</p>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1">Inventory Accuracy</p>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">99.99999%</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Inventory Accuracy</p>
                 </div>
-                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition-colors">
-                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600">4.2x</p>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1">Faster Order Fulfillment</p>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">6.9x</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Faster Order Fulfillment</p>
                 </div>
-                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition-colors">
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900">10,000+</p>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1">Active SKUs Managed</p>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">10,000+</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Happy Customers</p>
                 </div>
-                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition-colors">
-                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600">24/7</p>
-                    <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1">AI Assistant Uptime</p>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">24/7</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">AI Assistant Uptime</p>
                 </div>
             </div>
         </section>
@@ -152,61 +180,54 @@
         <!-- Feature Section -->
         <section class="relative px-6 py-20 flex-grow flex flex-col items-center justify-center overflow-hidden" aria-label="Features">
             <!-- background -->
-            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-indigo-50/40"></div>
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-indigo-50/40 dark:from-slate-900 dark:via-slate-950 dark:to-indigo-950/20"></div>
 
             <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Features</h2>
-                <p class="text-base sm:text-lg text-slate-600">Everything you need to run an agile, modern warehouse operation smoothly.</p>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Features</h2>
+                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300">Everything you need to run a modern warehouse operation smoothly.</p>
             </div>
 
-            <!-- feature grid with enhanced cards -->
+            <!-- feature grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto w-full items-stretch">
                 
                 <!-- feature 1 -->
-                <div class="p-8 rounded-2xl bg-white border border-slate-200/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 flex flex-col justify-between group">
+                <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col justify-between group">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
-                                <path fill-rule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
-                            </svg>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" /><path fill-rule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" /></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Superior Management</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">Manage your listings, storefronts, warehouse workers, and orders in a unified dashboard.</p>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Superior Management</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Manage your listings, storefronts, warehouse workers, and orders in a unified dashboard.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600 group-hover:translate-x-1 transition-transform">
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
                         Explore module &rarr;
                     </div>
                 </div>
                 
                 <!-- feature 2 -->
-                <div class="p-8 rounded-2xl bg-white border border-slate-200/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 flex flex-col justify-between group">
+                <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col justify-between group">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                <path fill-rule="evenodd" d="M3.75 3.375c0-1.036.84-1.875 1.875-1.875H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375Zm10.5 1.875a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25ZM12 10.5a.75.75 0 0 1 .75.75v.028a9.727 9.727 0 0 1 1.687.28.75.75 0 1 1-.374 1.452 8.207 8.207 0 0 0-1.313-.226v1.68l.969.332c.67.23 1.281.85 1.281 1.704 0 .158-.007.314-.02.468-.083.931-.83 1.582-1.669 1.695a9.776 9.776 0 0 1-.561.059v.028a.75.75 0 0 1-1.5 0v-.029a9.724 9.724 0 0 1-1.687-.278.75.75 0 0 1 .374-1.453c.425.11.864.186 1.313.226v-1.68l-.968-.332C9.612 14.974 9 14.354 9 13.5c0-.158.007-.314.02-.468.083-.931.831-1.582 1.67-1.694.185-.025.372-.045.56-.06v-.028a.75.75 0 0 1 .75-.75Zm-1.11 2.324c.119-.016.239-.03.36-.04v1.166l-.482-.165c-.208-.072-.268-.211-.268-.285 0-.113.005-.225.015-.336.013-.146.14-.309.374-.34Zm1.86 4.392V16.05l.482.165c.208.072.268.211.268.285 0 .113-.005.225-.015.336-.012.146-.14.309-.374.34-.12.016-.24.03-.361.04Z" clip-rule="evenodd" />
-                            </svg>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M3.75 3.375c0-1.036.84-1.875 1.875-1.875H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375Zm10.5 1.875a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25ZM12 10.5a.75.75 0 0 1 .75.75v.028a9.727 9.727 0 0 1 1.687.28.75.75 0 1 1-.374 1.452 8.207 8.207 0 0 0-1.313-.226v1.68l.969.332c.67.23 1.281.85 1.281 1.704 0 .158-.007.314-.02.468-.083.931-.83 1.582-1.669 1.695a9.776 9.776 0 0 1-.561.059v.028a.75.75 0 0 1-1.5 0v-.029a9.724 9.724 0 0 1-1.687-.278.75.75 0 0 1 .374-1.453c.425.11.864.186 1.313.226v-1.68l-.968-.332C9.612 14.974 9 14.354 9 13.5c0-.158.007-.314.02-.468.083-.931.831-1.582 1.67-1.694.185-.025.372-.045.56-.06v-.028a.75.75 0 0 1 .75-.75Zm-1.11 2.324c.119-.016.239-.03.36-.04v1.166l-.482-.165c-.208-.072-.268-.211-.268-.285 0-.113.005-.225.015-.336.013-.146.14-.309.374-.34Zm1.86 4.392V16.05l.482.165c.208.072.268.211.268.285 0 .113-.005.225-.015.336-.012.146-.14.309-.374.34-.12.016-.24.03-.361.04Z" clip-rule="evenodd" /></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Robust Invoice Manager</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">Create, track, and dispatch professional invoices and packing slips automatically.</p>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Robust Invoice Manager</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Create, track, and dispatch professional invoices and packing slips automatically.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600 group-hover:translate-x-1 transition-transform">
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
                         Explore module &rarr;
                     </div>
                 </div>
                 
                 <!-- feature 3 -->
-                <div class="p-8 rounded-2xl bg-white border border-slate-200/80 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 flex flex-col justify-between group">
+                <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col justify-between group">
                     <div>
-                        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                <path fill-rule="evenodd" d="M12 2.25c-2.429 0-4.817.178-7.152.521C2.87 3.061 1.5 4.795 1.5 6.741v6.018c0 1.946 1.37 3.68 3.348 3.97.877.129 1.761.234 2.652.316V21a.75.75 0 0 0 1.28.53l4.184-4.183a.39.39 0 0 1 .266-.112c2.006-.05 3.982-.22 5.922-.506 1.978-.29 3.348-2.023 3.348-3.97V6.741c0-1.947-1.37-3.68-3.348-3.97A49.145 49.145 0 0 0 12 2.25ZM8.25 8.625a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Zm2.625 1.125a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875-1.125a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z" clip-rule="evenodd" />
-                            </svg>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M12 2.25c-2.429 0-4.817.178-7.152.521C2.87 3.061 1.5 4.795 1.5 6.741v6.018c0 1.946 1.37 3.68 3.348 3.97.877.129 1.761.234 2.652.316V21a.75.75 0 0 0 1.28.53l4.184-4.183a.39.39 0 0 1 .266-.112c2.006-.05 3.982-.22 5.922-.506 1.978-.29 3.348-2.023 3.348-3.97V6.741c0-1.947-1.37-3.68-3.348-3.97A49.145 49.145 0 0 0 12 2.25ZM8.25 8.625a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Zm2.625 1.125a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875-1.125a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z" clip-rule="evenodd" /></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">AI Customer Assistance</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">Scale client support instantly with our proprietary context-aware AI chatbot.</p>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">AI Customer Assistance</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Scale client support instantly with our proprietary context-aware AI chatbot.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center text-xs font-semibold text-indigo-600 group-hover:translate-x-1 transition-transform">
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
                         Explore module &rarr;
                     </div>
                 </div>
@@ -215,54 +236,54 @@
         </section>
 
         <!-- Testimonial Section -->
-        <section class="relative px-6 py-20 flex flex-col items-center justify-center text-center overflow-hidden border-t border-slate-200/80 bg-white" aria-label="Testimonials">
+        <section class="relative px-6 py-20 flex flex-col items-center justify-center text-center overflow-hidden border-t border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors" aria-label="Testimonials">
             
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
-                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Trusted by Industry Leaders</h2>
-                <p class="text-lg text-slate-600">Hear how our platform transforms everyday warehouse logistics.</p>
+                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Testimonials</h2>
+                <p class="text-lg text-slate-600 dark:text-slate-300">Hear how our platform provides smooth, efficient management for our customers.</p>
             </div>
 
             <div class="w-full p-4 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
                 <ul id="scroller-content" class="flex items-stretch justify-center md:justify-start [&_li]:mx-4 animate-infinite-scroll">
                     
                     <!-- testimonial 1 -->
-                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 p-6 shadow-xs border border-slate-200/80 shrink-0">
+                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800 shrink-0">
                         <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/52?img=1" alt="Jane Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100" />
+                            <img src="https://i.pravatar.cc/52?img=1" alt="Jane Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
                             <div class="text-left">
-                                <p class="font-semibold text-slate-900">Jane Doe</p>
-                                <p class="text-xs text-slate-500">Head of Dev, GummieBears</p>
+                                <p class="font-semibold text-slate-900 dark:text-white">Jane Doe</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Head of Dev, GummieBears</p>
                             </div>
                         </div>
-                        <p class="text-slate-600 text-sm leading-relaxed text-left">
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
                             "Scamazon made it remarkably easy to view which inventory products needed immediate restocking compared to clunkier software."
                         </p>
                     </li>
                     
                     <!-- testimonial 2 -->
-                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 p-6 shadow-xs border border-slate-200/80 shrink-0">
+                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800 shrink-0">
                         <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/52?img=2" alt="John Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100" />
+                            <img src="https://i.pravatar.cc/52?img=2" alt="John Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
                             <div class="text-left">
-                                <p class="font-semibold text-slate-900">John Doe</p>
-                                <p class="text-xs text-slate-500">Senior Manager, DoeNuts</p>
+                                <p class="font-semibold text-slate-900 dark:text-white">John Doe</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Senior Manager, DoeNuts</p>
                             </div>
                         </div>
-                        <p class="text-slate-600 text-sm leading-relaxed text-left">
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
                             "This software streamlined our entire invoicing workflow, saving our team dozens of hours every single week."
                         </p>
                     </li>
                     
                     <!-- testimonial 3 -->
-                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 p-6 shadow-xs border border-slate-200/80 shrink-0">
+                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800 shrink-0">
                         <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/52?img=3" alt="John Apple" class="w-12 h-12 rounded-full ring-2 ring-indigo-100" />
+                            <img src="https://i.pravatar.cc/52?img=3" alt="John Apple" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
                             <div class="text-left">
-                                <p class="font-semibold text-slate-900">John Apple</p>
-                                <p class="text-xs text-slate-500">Software Director, Apple Inc.</p>
+                                <p class="font-semibold text-slate-900 dark:text-white">John Apple</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Software Director, Apple Inc.</p>
                             </div>
                         </div>
-                        <p class="text-slate-600 text-sm leading-relaxed text-left">
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
                             "An absolute powerhouse of a management program. Perfect for orchestrating hundreds of different SKUs seamlessly."
                         </p>
                     </li>
@@ -272,33 +293,31 @@
         </section>
 
         <!-- CTA Section -->
-        <section class="relative px-6 py-12 flex-grow flex flex-col items-center justify-center text-center overflow-hidden" aria-label="CTA">
-            <!-- background -->
-            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/50 via-slate-200 to-slate-50"></div>
+        <section class="relative px-6 py-20 flex flex-col items-center justify-center text-center overflow-hidden bg-slate-900 dark:bg-slate-950 text-white border-t border-slate-800" aria-label="CTA">
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-900 to-slate-950"></div>
         
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl font-extrabold tracking-tight">Ready to work with us?</h2>
-                <p class="mt-4 text-lg text-slate-600">Join thousands of other companies in managing their warehouses with a scalable, modern software.</p>
-                <div class="mt-8 flex justify-center gap-4">
-                    <a href="login.html" class="rounded-lg px-6 py-3.5 text-sm font-semibold text-white bg-slate-900 rounded-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-200">
-                        Join Us Today
+            <div class="max-w-4xl mx-auto space-y-6">
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to scale your warehouse?</h2>
+                <p class="text-lg text-slate-300 max-w-2xl mx-auto">Join thousands of high-performing companies managing their inventory with our robust cloud platform.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                    <a href="login.html?mode=signup" class="rounded-xl px-8 py-3.5 text-sm font-semibold text-slate-900 bg-white hover:bg-slate-100 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-200">
+                        Get Started Free
                     </a>
-                    <a href="#" class="rounded-lg px-6 py-3.5 text-sm font-semibold text-white bg-slate-900 rounded-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-200">
-                        Schedule an Appointment
+                    <a href="plans.html" class="rounded-xl px-8 py-3.5 text-sm font-semibold text-white bg-slate-800 border border-slate-700 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 transition-all duration-200">
+                        View Pricing Plans
                     </a>
                 </div>
             </div>
-        
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="mt-auto border-t border-slate-200 bg-white py-8" aria-label="Site Footer">
-        <div class="max-w-7xl mx-auto px-6 text-sm text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 transition-colors" aria-label="Site Footer">
+        <div class="max-w-7xl mx-auto px-6 text-sm text-slate-500 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p>&copy; 2026 Scamazon WMS. All rights reserved.</p>
             <div class="flex space-x-6">
-                <a href="#" class="hover:text-slate-900 transition-colors focus:outline-none focus:underline">Privacy Policy</a>
-                <a href="#" class="hover:text-slate-900 transition-colors focus:outline-none focus:underline">Terms of Service</a>
+                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus:underline">Privacy Policy</a>
+                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus:underline">Terms of Service</a>
             </div>
         </div>
     </footer>
@@ -307,6 +326,58 @@
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Uncaught Async Error:', event.reason);
         });
+
+        function toggleDarkMode() 
+        {
+            try 
+            {
+                const htmlElement = document.documentElement;
+                if (htmlElement.classList.contains('dark')) 
+                {
+                    htmlElement.classList.remove('dark');
+                    localStorage.setItem('scamazon_theme', 'light');
+                } 
+                else 
+                {
+                    htmlElement.classList.add('dark');
+                    localStorage.setItem('scamazon_theme', 'dark');
+                }
+            } 
+            catch (toggleErr) 
+            {
+                console.error('Dark mode toggle failed:', toggleErr);
+            }
+        }
+
+        // load navbar via localStorage
+        (function () {
+            try
+            {
+                const navbar = document.getElementById('navbar');
+                if (!navbar) return;
+
+                const tokenKey = 'sb-wtcqblyyprofjocksdij-auth-token';
+                const cachedSession = localStorage.getItem(tokenKey);
+                const cachedRole = localStorage.getItem('scamazon_user_role');
+
+                if (cachedSession && cachedRole) 
+                {
+                    renderRoleNav(navbar, cachedRole);
+                } 
+                else if (cachedSession) 
+                {
+                    renderRoleNav(navbar, 'customer');
+                } 
+                else 
+                {
+                    renderGuestNav(navbar);
+                }
+            }
+            catch (instantErr)
+            {
+                console.error('Instant render error:', instantErr);
+            }
+        })();
 
         async function initialize()
         {
@@ -320,6 +391,7 @@
 
                 if (!session) 
                 {
+                    localStorage.removeItem('scamazon_user_role');
                     renderGuestNav(navbar);
                     return;
                 }
@@ -341,6 +413,7 @@
                         return;
                     }
 
+                    localStorage.setItem('scamazon_user_role', userRecord.role);
                     renderRoleNav(navbar, userRecord.role);
                 } 
                 catch (fetchErr)
@@ -373,21 +446,25 @@
         function renderGuestNav(navbar)
         {
             navbar.innerHTML = `
-                <a href="index.html" class="tracking-tight text-indigo-600 font-semibold hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
+                <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
                     Home
                 </a>
-                <a href="plans.html" class="tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
+                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
                     Pricing
                 </a>
-                <a href="#" class="tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
+                <a href="#" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
                     Meet the Team
                 </a>
-                <a href="login.html" class="tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
+                <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
                     Log In
                 </a>
-                <a href="login.html?mode=signup" class="inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 rounded-lg hover:bg-slate-800 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-200">
+                <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
                     Sign Up
                 </a>
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
             `;
         }
 
@@ -402,22 +479,26 @@
             const dashPage = dashboardMap[role] || 'storefront.html';
 
             navbar.innerHTML = `
-                <div class="hidden sm:flex items-center space-x-2 bg-slate-100/80 border border-slate-200 px-3 py-1 rounded-full">
+                <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 font-mono">${role}</span>
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
                 </div>
-                <a href="index.html" class="tracking-tight text-indigo-600 font-semibold hover:opacity-80 transition-opacity">
+                <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity">
                     Home
                 </a>
-                <a href="plans.html" class="tracking-tight text-slate-900 hover:opacity-80 transition-opacity">
+                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity">
                     Pricing
                 </a>
-                <a href="${dashPage}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 shadow-sm transition-all">
+                <a href="${dashPage}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm transition-all">
                     Dashboard
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </a>
-                <button id="logout-btn" class="inline-flex items-center justify-center p-2 text-slate-500 hover:text-rose-600 transition-colors rounded-lg hover:bg-rose-50" title="Sign Out">
+                <button id="logout-btn" class="inline-flex items-center justify-center p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Sign Out">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </button>
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                 </button>
             `;
         }
@@ -434,6 +515,7 @@
             {
                 logout.disabled = true;
                 const { client } = await import('./supaBase.js');
+                localStorage.removeItem('scamazon_user_role');
                 await client.auth.signOut();
                 window.location.reload();
             }
