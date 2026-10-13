@@ -15,6 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -24,36 +25,55 @@
             }
         }
     </script>
+    <script>
+        // load theme
+        try 
+        {
+            const savedTheme = localStorage.getItem('scamazon_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) 
+            {
+                document.documentElement.classList.add('dark');
+            } 
+            else 
+            {
+                document.documentElement.classList.remove('dark');
+            }
+        } 
+        catch (err) 
+        {
+            console.error('Theme loader error:', err);
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden selection:bg-slate-900 selection:text-white">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased flex h-screen overflow-hidden selection:bg-indigo-600 dark:selection:bg-indigo-500 selection:text-white transition-colors duration-300">
     
     <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0">
-        <div class="p-4 h-16 border-b border-slate-200 flex items-center justify-between">
-            <a href="index.html" class="text-lg font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity">
-                Scamazon<span class="text-indigo-600">.</span>
+    <aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 transition-colors">
+        <div class="p-4 h-16 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <a href="index.html" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity">
+                Scamazon<span class="text-indigo-600 dark:text-indigo-400">.</span>
             </a>
-            <span class="text-[11px] font-semibold uppercase tracking-wider bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md border border-slate-200 font-mono">owner</span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700 font-mono">owner</span>
         </div>
         <nav class="flex-1 p-3 space-y-1 text-sm font-medium overflow-y-auto" id="sidebar-nav">
-            <button onclick="switchTab('listings')" data-tab="listings" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between bg-slate-900 text-white shadow-sm shadow-slate-900/10 transition-all">
+            <button onclick="switchTab('listings')" data-tab="listings" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between bg-slate-900 dark:bg-indigo-600 text-white shadow-sm shadow-slate-900/10 transition-all">
                 Listings
-                <span id="badge-listings" class="text-xs bg-slate-800 text-slate-200 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-listings" class="text-xs bg-slate-800 dark:bg-indigo-700 text-slate-200 dark:text-indigo-100 px-2 py-0.5 rounded-md font-mono">0</span>
             </button>
-            <button onclick="switchTab('storefronts')" data-tab="storefronts" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">
+            <button onclick="switchTab('storefronts')" data-tab="storefronts" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
                 Storefronts
-                <span id="badge-storefronts" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-storefronts" class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
             </button>
-            <button onclick="switchTab('workers')" data-tab="workers" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">
+            <button onclick="switchTab('workers')" data-tab="workers" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
                 Workers
-                <span id="badge-workers" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-workers" class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
             </button>
-            <button onclick="switchTab('orders')" data-tab="orders" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">
+            <button onclick="switchTab('orders')" data-tab="orders" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
                 Orders
-                <span id="badge-orders" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-orders" class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
             </button>
-            <button onclick="switchTab('sales')" data-tab="sales" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">
+            <button onclick="switchTab('sales')" data-tab="sales" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
                 Sales & Analytics
             </button>
         </nav>
@@ -61,11 +81,17 @@
 
     <div class="flex-1 flex flex-col h-full overflow-hidden">
         <!-- Top Navigation / Header -->
-        <header class="bg-white/80 backdrop-blur-md px-6 h-16 border-b border-slate-200 flex justify-between items-center shrink-0">
-            <h1 id="page-heading" class="text-lg font-bold tracking-tight text-slate-900">Manage Listings</h1>
+        <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-6 h-16 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center shrink-0 transition-colors">
+            <h1 id="page-heading" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Manage Listings</h1>
             <div class="flex items-center space-x-4">
-                <span id="user-display" class="text-xs text-slate-500 font-mono"></span>
-                <button id="logout-btn" class="text-xs font-semibold text-rose-600 hover:text-rose-800 transition-colors">Log Out</button>
+                <span id="user-display" class="text-xs text-slate-500 dark:text-slate-400 font-mono"></span>
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
+                    <!-- sun icon -->
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <!-- moon icon -->
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+                <button id="logout-btn" class="text-xs font-semibold text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 transition-colors">Log Out</button>
             </div>
         </header>
 
@@ -74,62 +100,62 @@
             <!-- LISTINGS TAB -->
             <section id="pane-listings" class="tab-pane space-y-6">
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Listings</p>
-                        <p id="stat-total" class="text-2xl font-bold tracking-tight text-slate-900 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Listings</p>
+                        <p id="stat-total" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">0</p>
                     </div>
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Low Stock (&lt; 10)</p>
-                        <p id="stat-low" class="text-2xl font-bold tracking-tight text-amber-600 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Low Stock (&lt; 10)</p>
+                        <p id="stat-low" class="text-2xl font-bold tracking-tight text-amber-600 dark:text-amber-400 mt-1">0</p>
                     </div>
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Empty Stock</p>
-                        <p id="stat-empty" class="text-2xl font-bold tracking-tight text-red-600 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Empty Stock</p>
+                        <p id="stat-empty" class="text-2xl font-bold tracking-tight text-red-600 dark:text-red-400 mt-1">0</p>
                     </div>
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Units</p>
-                        <p id="stat-units" class="text-2xl font-bold tracking-tight text-slate-900 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Units</p>
+                        <p id="stat-units" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">0</p>
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
                     <div class="flex flex-1 flex-col sm:flex-row gap-2">
                         <input id="search-input" type="text" placeholder="Search title or SKU..." 
-                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all">
-                        <select id="filter-storefront" class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent bg-white transition-all">
+                            class="flex-1 border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent transition-all">
+                        <select id="filter-storefront" class="border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-slate-800 transition-all">
                             <option value="">All Storefronts</option>
                         </select>
                     </div>
-                    <button onclick="showModal('listing-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">
+                    <button onclick="showModal('listing-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150">
                         Add Listing
                     </button>
                 </div>
 
-                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
-                            <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs uppercase tracking-wider">
                                 <tr>
-                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700" data-sort="title">
-                                        Item <span class="sort-icon text-slate-300">↕</span>
+                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700 dark:hover:text-slate-200" data-sort="title">
+                                        Item <span class="sort-icon text-slate-300 dark:text-slate-600">↕</span>
                                     </th>
-                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700" data-sort="sku">
-                                        SKU <span class="sort-icon text-slate-300">↕</span>
+                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700 dark:hover:text-slate-200" data-sort="sku">
+                                        SKU <span class="sort-icon text-slate-300 dark:text-slate-600">↕</span>
                                     </th>
-                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700" data-sort="storefront">
-                                        Storefront <span class="sort-icon text-slate-300">↕</span>
+                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700 dark:hover:text-slate-200" data-sort="storefront">
+                                        Storefront <span class="sort-icon text-slate-300 dark:text-slate-600">↕</span>
                                     </th>
-                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700" data-sort="price">
-                                        Price <span class="sort-icon text-slate-300">↕</span>
+                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700 dark:hover:text-slate-200" data-sort="price">
+                                        Price <span class="sort-icon text-slate-300 dark:text-slate-600">↕</span>
                                     </th>
-                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700" data-sort="stock">
-                                        Stock <span class="sort-icon text-slate-300">↕</span>
+                                    <th class="py-3 px-4 cursor-pointer select-none hover:text-slate-700 dark:hover:text-slate-200" data-sort="stock">
+                                        Stock <span class="sort-icon text-slate-300 dark:text-slate-600">↕</span>
                                     </th>
                                     <th class="py-3 px-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="listings-tbody" class="divide-y divide-slate-200">
-                                <tr><td colspan="6" class="p-6 text-center text-slate-500">Loading...</td></tr>
+                            <tbody id="listings-tbody" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                <tr><td colspan="6" class="p-6 text-center text-slate-500 dark:text-slate-400">Loading...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -138,25 +164,25 @@
 
             <!-- STOREFRONTS TAB -->
             <section id="pane-storefronts" class="tab-pane hidden space-y-6" hidden>
-                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
                     <div class="flex flex-1 flex-col sm:flex-row gap-2">
                         <input id="sf-search-input" type="text" placeholder="Find location or address..." 
-                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all">
-                        <select id="sf-filter-status" class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent bg-white transition-all">
+                            class="flex-1 border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent transition-all">
+                        <select id="sf-filter-status" class="border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-slate-800 transition-all">
                             <option value="">All Statuses</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
                     </div>
-                    <button onclick="showModal('storefront-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">
+                    <button onclick="showModal('storefront-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150">
                         Add Storefront
                     </button>
                 </div>
 
-                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
-                            <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs uppercase tracking-wider">
                                 <tr>
                                     <th class="py-3 px-4">Location</th>
                                     <th class="py-3 px-4">Hours</th>
@@ -165,8 +191,8 @@
                                     <th class="py-3 px-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="storefronts-tbody" class="divide-y divide-slate-200">
-                                <tr><td colspan="5" class="p-6 text-center text-slate-500">Fetching storefronts...</td></tr>
+                            <tbody id="storefronts-tbody" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                <tr><td colspan="5" class="p-6 text-center text-slate-500 dark:text-slate-400">Fetching storefronts...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -175,23 +201,23 @@
 
             <!-- WORKERS TAB -->
             <section id="pane-workers" class="tab-pane hidden space-y-6" hidden>
-                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
                     <div class="flex flex-1 flex-col sm:flex-row gap-2">
                         <input id="worker-search-input" type="text" placeholder="Search name or email..." 
-                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all">
-                        <select id="worker-filter-storefront" class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent bg-white transition-all">
+                            class="flex-1 border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent transition-all">
+                        <select id="worker-filter-storefront" class="border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-slate-800 transition-all">
                             <option value="">All Storefronts</option>
                         </select>
                     </div>
-                    <button onclick="showModal('worker-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">
+                    <button onclick="showModal('worker-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150">
                         Add Worker
                     </button>
                 </div>
 
-                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
-                            <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs uppercase tracking-wider">
                                 <tr>
                                     <th class="py-3 px-4">Name</th>
                                     <th class="py-3 px-4">Storefront</th>
@@ -199,8 +225,8 @@
                                     <th class="py-3 px-4 text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="workers-tbody" class="divide-y divide-slate-200">
-                                <tr><td colspan="4" class="p-6 text-center text-slate-500">Loading workers...</td></tr>
+                            <tbody id="workers-tbody" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                <tr><td colspan="4" class="p-6 text-center text-slate-500 dark:text-slate-400">Loading workers...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -210,25 +236,25 @@
             <!-- ORDERS TAB -->
             <section id="pane-orders" class="tab-pane hidden space-y-6" hidden>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Orders</p>
-                        <p id="stat-ord-total" class="text-2xl font-bold tracking-tight text-slate-900 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Orders</p>
+                        <p id="stat-ord-total" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">0</p>
                     </div>
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Processing</p>
-                        <p id="stat-ord-processing" class="text-2xl font-bold tracking-tight text-indigo-600 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Processing</p>
+                        <p id="stat-ord-processing" class="text-2xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400 mt-1">0</p>
                     </div>
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Dispatched</p>
-                        <p id="stat-ord-ready" class="text-2xl font-bold tracking-tight text-emerald-600 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Dispatched</p>
+                        <p id="stat-ord-ready" class="text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 mt-1">0</p>
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
                     <div class="flex flex-1 flex-col sm:flex-row gap-2">
                         <input id="orders-search-input" type="text" placeholder="Search order # or items..." 
-                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all">
-                        <select id="orders-filter-status" class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent bg-white transition-all">
+                            class="flex-1 border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent transition-all">
+                        <select id="orders-filter-status" class="border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-slate-800 transition-all">
                             <option value="">All Statuses</option>
                             <option value="Processing">Processing</option>
                             <option value="Ready for Driver">Ready for Driver</option>
@@ -237,10 +263,10 @@
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
-                            <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs uppercase tracking-wider">
                                 <tr>
                                     <th class="py-3 px-4">Order ID</th>
                                     <th class="py-3 px-4">Storefront</th>
@@ -249,8 +275,8 @@
                                     <th class="py-3 px-4 text-right">Placed At</th>
                                 </tr>
                             </thead>
-                            <tbody id="global-orders-tbody" class="divide-y divide-slate-200">
-                                <tr><td colspan="5" class="p-6 text-center text-slate-500">Loading orders...</td></tr>
+                            <tbody id="global-orders-tbody" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                <tr><td colspan="5" class="p-6 text-center text-slate-500 dark:text-slate-400">Loading orders...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -260,27 +286,27 @@
             <!-- SALES TAB -->
             <section id="pane-sales" class="tab-pane hidden space-y-6" hidden>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Estimated Revenue</p>
-                        <p id="stat-sales-rev" class="text-2xl font-bold tracking-tight text-emerald-600 mt-1">$0.00</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Estimated Revenue</p>
+                        <p id="stat-sales-rev" class="text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 mt-1">$0.00</p>
                     </div>
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Orders</p>
-                        <p id="stat-sales-orders" class="text-2xl font-bold tracking-tight text-slate-900 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Orders</p>
+                        <p id="stat-sales-orders" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">0</p>
                     </div>
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Units Sold</p>
-                        <p id="stat-sales-units" class="text-2xl font-bold tracking-tight text-indigo-600 mt-1">0</p>
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Units Sold</p>
+                        <p id="stat-sales-units" class="text-2xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400 mt-1">0</p>
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
-                        <h2 class="text-sm font-bold text-slate-900">Revenue by Storefront</h2>
+                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-colors">
+                    <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/60">
+                        <h2 class="text-sm font-bold text-slate-900 dark:text-white">Revenue by Storefront</h2>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm">
-                            <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs uppercase tracking-wider">
                                 <tr>
                                     <th class="py-3 px-4">Storefront</th>
                                     <th class="py-3 px-4">Orders</th>
@@ -288,7 +314,7 @@
                                     <th class="py-3 px-4 text-right">Est. Sales</th>
                                 </tr>
                             </thead>
-                            <tbody id="sales-storefronts-tbody" class="divide-y divide-slate-200">
+                            <tbody id="sales-storefronts-tbody" class="divide-y divide-slate-200 dark:divide-slate-800">
                             </tbody>
                         </table>
                     </div>
@@ -298,166 +324,166 @@
     </div>
 
     <!-- Modals -->
-    <div id="listing-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
-                <h2 id="modal-title" class="text-base font-bold text-slate-900">Add Listing</h2>
-                <button onclick="hideModal('listing-modal')" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+    <div id="listing-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h2 id="modal-title" class="text-base font-bold text-slate-900 dark:text-white">Add Listing</h2>
+                <button onclick="hideModal('listing-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl leading-none">&times;</button>
             </div>
             <form id="listing-form" class="p-6 space-y-4">
                 <input type="hidden" id="modal-item-id">
-                <div id="listingError" class="hidden p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200"></div>
+                <div id="listingError" class="hidden p-3 bg-red-50 dark:bg-rose-950/40 text-red-700 dark:text-rose-400 text-xs rounded-lg border border-red-200 dark:border-rose-800"></div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Item Title</label>
-                    <input type="text" id="modal-title-input" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Item Title</label>
+                    <input type="text" id="modal-title-input" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">SKU</label>
-                        <input type="text" id="modal-sku" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">SKU</label>
+                        <input type="text" id="modal-sku" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Price ($)</label>
-                        <input type="number" step="0.01" id="modal-price" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Price ($)</label>
+                        <input type="number" step="0.01" id="modal-price" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Stock</label>
-                        <input type="number" id="modal-stock" required min="0" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Stock</label>
+                        <input type="number" id="modal-stock" required min="0" class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Storefront</label>
-                        <select id="modal-storefront" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none bg-white transition-all"></select>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Storefront</label>
+                        <select id="modal-storefront" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none bg-white dark:bg-slate-800 transition-all"></select>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Image URL (Optional)</label>
-                    <input type="url" id="modal-image" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Image URL (Optional)</label>
+                    <input type="url" id="modal-image" class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                 </div>
-                <div class="pt-3 flex justify-end gap-2 border-t border-slate-200">
-                    <button type="button" onclick="hideModal('listing-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Cancel</button>
-                    <button type="submit" id="modal-submit-btn" class="px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">Save</button>
+                <div class="pt-3 flex justify-end gap-2 border-t border-slate-200 dark:border-slate-800">
+                    <button type="button" onclick="hideModal('listing-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Cancel</button>
+                    <button type="submit" id="modal-submit-btn" class="px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150">Save</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="storefront-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
-                <h2 id="sf-modal-title" class="text-base font-bold text-slate-900">Add Storefront</h2>
-                <button onclick="hideModal('storefront-modal')" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+    <div id="storefront-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h2 id="sf-modal-title" class="text-base font-bold text-slate-900 dark:text-white">Add Storefront</h2>
+                <button onclick="hideModal('storefront-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl leading-none">&times;</button>
             </div>
             <form id="storefront-form" class="p-6 space-y-4">
                 <input type="hidden" id="sf-modal-id">
-                <div id="sfErrBox" class="hidden p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200"></div>
+                <div id="sfErrBox" class="hidden p-3 bg-red-50 dark:bg-rose-950/40 text-red-700 dark:text-rose-400 text-xs rounded-lg border border-red-200 dark:border-rose-800"></div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Storefront Name</label>
-                    <input type="text" id="sf-name" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Storefront Name</label>
+                    <input type="text" id="sf-name" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Address</label>
-                    <input type="text" id="sf-address" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Address</label>
+                    <input type="text" id="sf-address" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Hours</label>
-                        <input type="text" id="sf-hours" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Hours</label>
+                        <input type="text" id="sf-hours" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Status</label>
-                        <select id="sf-status" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none bg-white transition-all">
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Status</label>
+                        <select id="sf-status" class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none bg-white dark:bg-slate-800 transition-all">
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
                     </div>
                 </div>
-                <div class="pt-3 flex justify-end gap-2 border-t border-slate-200">
-                    <button type="button" onclick="hideModal('storefront-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Cancel</button>
-                    <button type="submit" id="sf-submit-btn" class="px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">Save</button>
+                <div class="pt-3 flex justify-end gap-2 border-t border-slate-200 dark:border-slate-800">
+                    <button type="button" onclick="hideModal('storefront-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Cancel</button>
+                    <button type="submit" id="sf-submit-btn" class="px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150">Save</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="worker-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
-                <h2 class="text-base font-bold text-slate-900">Add Worker</h2>
-                <button onclick="hideModal('worker-modal')" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+    <div id="worker-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h2 class="text-base font-bold text-slate-900 dark:text-white">Add Worker</h2>
+                <button onclick="hideModal('worker-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl leading-none">&times;</button>
             </div>
             <form id="worker-form" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Name</label>
-                    <input type="text" id="worker-name" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Name</label>
+                    <input type="text" id="worker-name" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Email</label>
-                    <input type="email" id="worker-email" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Email</label>
+                    <input type="email" id="worker-email" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Storefront</label>
-                        <select id="worker-storefront" required class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none bg-white transition-all"></select>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Storefront</label>
+                        <select id="worker-storefront" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none bg-white dark:bg-slate-800 transition-all"></select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Status</label>
-                        <select id="worker-status" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none bg-white transition-all">
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Status</label>
+                        <select id="worker-status" class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none bg-white dark:bg-slate-800 transition-all">
                             <option value="Active">Active</option>
                             <option value="Suspended">Suspended</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="pt-3 flex justify-end gap-2 border-t border-slate-200">
-                    <button type="button" onclick="hideModal('worker-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Cancel</button>
-                    <button type="submit" class="px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">Save</button>
+                <div class="pt-3 flex justify-end gap-2 border-t border-slate-200 dark:border-slate-800">
+                    <button type="button" onclick="hideModal('worker-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150">Save</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Confirm Email Modal (for worker creation flow) -->
-    <div id="confirm-email-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
-                <h2 class="text-base font-bold text-slate-900">Confirm Email</h2>
-                <button onclick="hideModal('confirm-email-modal')" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+    <div id="confirm-email-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h2 class="text-base font-bold text-slate-900 dark:text-white">Confirm Email</h2>
+                <button onclick="hideModal('confirm-email-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl leading-none">&times;</button>
             </div>
             <form id="confirm-email-form" class="p-6 space-y-4">
-                <p class="text-sm text-slate-600">
-                    Confirm worker email: <strong id="target-email-display" class="text-slate-900 font-mono"></strong>
+                <p class="text-sm text-slate-600 dark:text-slate-300">
+                    Confirm worker email: <strong id="target-email-display" class="text-slate-900 dark:text-white font-mono"></strong>
                 </p>
-                <div id="confirm-email-error" class="hidden p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200"></div>
+                <div id="confirm-email-error" class="hidden p-3 bg-red-50 dark:bg-rose-950/40 text-red-700 dark:text-rose-400 text-xs rounded-lg border border-red-200 dark:border-rose-800"></div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Retype Email</label>
-                    <input type="email" id="confirm-email-input" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1">Retype Email</label>
+                    <input type="email" id="confirm-email-input" required class="w-full border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                 </div>
 
-                <div class="pt-3 flex justify-end gap-2 border-t border-slate-200">
-                    <button type="submit" class="px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">Confirm</button>
+                <div class="pt-3 flex justify-end gap-2 border-t border-slate-200 dark:border-slate-800">
+                    <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150">Confirm</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div id="delete-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
-                <h2 id="delete-modal-title" class="text-base font-bold text-slate-900">Delete Item</h2>
-                <button onclick="hideModal('delete-modal')" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+    <div id="delete-modal" class="modal-root hidden fixed inset-0 bg-slate-900/40 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                <h2 id="delete-modal-title" class="text-base font-bold text-slate-900 dark:text-white">Delete Item</h2>
+                <button onclick="hideModal('delete-modal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl leading-none">&times;</button>
             </div>
             <div class="p-6 space-y-4">
-                <p id="delete-modal-message" class="text-sm text-slate-600">Delete this record?</p>
-                <div id="delete-modal-error" class="hidden p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200"></div>
+                <p id="delete-modal-message" class="text-sm text-slate-600 dark:text-slate-300">Delete this record?</p>
+                <div id="delete-modal-error" class="hidden p-3 bg-red-50 dark:bg-rose-950/40 text-red-700 dark:text-rose-400 text-xs rounded-lg border border-red-200 dark:border-rose-800"></div>
 
                 <div class="pt-2 flex justify-end gap-2">
-                    <button type="button" onclick="hideModal('delete-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Cancel</button>
+                    <button type="button" onclick="hideModal('delete-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">Cancel</button>
                     <button type="button" id="delete-modal-confirm-btn" class="px-4 py-2 bg-rose-600 text-white text-sm font-semibold rounded-lg hover:bg-rose-700 focus:ring-2 focus:ring-rose-600 transition-all">Delete</button>
                 </div>
             </div>
@@ -465,9 +491,9 @@
     </div>
 
     <!-- Order Receipt Modal -->
-    <div id="receipt-modal" class="modal-root hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white max-w-lg w-full rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="p-6 bg-slate-900 text-white flex justify-between items-start shrink-0">
+    <div id="receipt-modal" class="modal-root hidden fixed inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 max-w-lg w-full rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-6 bg-slate-900 dark:bg-slate-950 text-white flex justify-between items-start shrink-0">
                 <div>
                     <span class="text-xl font-black tracking-tight">Scamazon<span class="text-indigo-400">.</span></span>
                     <p id="receipt-order-id" class="text-sm font-mono text-slate-300 mt-1 font-semibold">Order #0000</p>
@@ -476,25 +502,25 @@
             </div>
 
             <div class="p-6 overflow-y-auto space-y-6 text-sm">
-                <div class="flex flex-wrap justify-between items-center gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="flex flex-wrap justify-between items-center gap-3 p-3.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl">
                     <div>
                         <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Storefront Branch</p>
-                        <p id="receipt-branch-name" class="font-bold text-slate-900 mt-0.5">-</p>
+                        <p id="receipt-branch-name" class="font-bold text-slate-900 dark:text-white mt-0.5">-</p>
                     </div>
                     <div class="text-right">
                         <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Status</p>
-                        <span id="receipt-status-badge" class="inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border bg-indigo-50 text-indigo-700 border-indigo-200">Processing</span>
+                        <span id="receipt-status-badge" class="inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800">Processing</span>
                     </div>
                 </div>
 
                 <div>
                     <p class="font-semibold text-slate-400 uppercase tracking-wider text-[10px]">Date & Time Placed</p>
-                    <p id="receipt-date-time" class="font-medium text-slate-800 mt-1">-</p>
+                    <p id="receipt-date-time" class="font-medium text-slate-800 dark:text-slate-200 mt-1">-</p>
                 </div>
 
-                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
                     <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-[10px]">
+                        <thead class="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
                             <tr>
                                 <th class="py-2.5 px-3">Item Description</th>
                                 <th class="py-2.5 px-3 text-center">Qty</th>
@@ -502,32 +528,32 @@
                                 <th class="py-2.5 px-3 text-right">Total</th>
                             </tr>
                         </thead>
-                        <tbody id="receipt-items-tbody" class="divide-y divide-slate-100 font-mono text-[11px]">
+                        <tbody id="receipt-items-tbody" class="divide-y divide-slate-100 dark:divide-slate-800 font-mono text-[11px]">
                         </tbody>
                     </table>
                 </div>
 
-                <div class="space-y-1.5 pt-2 text-xs border-t border-dashed border-slate-200">
-                    <div class="flex justify-between text-slate-600">
+                <div class="space-y-1.5 pt-2 text-xs border-t border-dashed border-slate-200 dark:border-slate-700">
+                    <div class="flex justify-between text-slate-600 dark:text-slate-400">
                         <span>Items Subtotal</span>
-                        <span id="receipt-subtotal" class="font-mono text-slate-900 font-medium">$0.00</span>
+                        <span id="receipt-subtotal" class="font-mono text-slate-900 dark:text-slate-200 font-medium">$0.00</span>
                     </div>
-                    <div class="flex justify-between text-slate-600">
+                    <div class="flex justify-between text-slate-600 dark:text-slate-400">
                         <span>Estimated State Tax (8.25%)</span>
-                        <span id="receipt-tax" class="font-mono text-slate-900 font-medium">$0.00</span>
+                        <span id="receipt-tax" class="font-mono text-slate-900 dark:text-slate-200 font-medium">$0.00</span>
                     </div>
-                    <div class="flex justify-between items-center text-sm font-bold text-slate-900 pt-2 border-t border-slate-200">
+                    <div class="flex justify-between items-center text-sm font-bold text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:border-slate-700">
                         <span class="text-base">Total Cost</span>
-                        <span id="receipt-total" class="text-base font-mono text-indigo-600">$0.00</span>
+                        <span id="receipt-total" class="text-base font-mono text-indigo-600 dark:text-indigo-400">$0.00</span>
                     </div>
                 </div>
             </div>
 
-            <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center shrink-0">
-                <button onclick="window.print()" class="text-xs font-semibold text-slate-600 hover:text-slate-900 underline transition-colors focus:outline-none">
+            <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center shrink-0">
+                <button onclick="window.print()" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white underline transition-colors focus:outline-none">
                     Print Receipt
                 </button>
-                <button onclick="hideModal('receipt-modal')" class="px-5 py-2 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 transition-all shadow-sm">
+                <button onclick="hideModal('receipt-modal')" class="px-5 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 transition-all shadow-sm">
                     Close
                 </button>
             </div>
@@ -538,6 +564,29 @@
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Uncaught Async Error:', event.reason);
         });
+
+        function toggleDarkMode() 
+        {
+            try 
+            {
+                const htmlElement = document.documentElement;
+                if (htmlElement.classList.contains('dark')) 
+                {
+                    htmlElement.classList.remove('dark');
+                    localStorage.setItem('scamazon_theme', 'light');
+                } 
+                else 
+                {
+                    htmlElement.classList.add('dark');
+                    localStorage.setItem('scamazon_theme', 'dark');
+                }
+            } 
+            catch (toggleErr) 
+            {
+                console.error('Dark mode toggle failed:', toggleErr);
+            }
+        }
+        window.toggleDarkMode = toggleDarkMode;
 
         const state = {
             listings: [],
@@ -613,11 +662,15 @@
                 const badge = btn.querySelector('span');
                 const isSelected = btn.dataset.tab === tab;
                 btn.className = `nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between text-sm font-medium transition-all ${
-                    isSelected ? 'bg-slate-900 text-white shadow-sm shadow-slate-900/10' : 'hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+                    isSelected 
+                        ? 'bg-slate-900 dark:bg-indigo-600 text-white shadow-sm shadow-slate-900/10' 
+                        : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`;
                 if (badge) {
                     badge.className = `text-xs px-2 py-0.5 rounded-md font-mono ${
-                        isSelected ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-600'
+                        isSelected 
+                            ? 'bg-slate-800 dark:bg-indigo-700 text-slate-200 dark:text-indigo-100' 
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                     }`;
                 }
             });
@@ -750,16 +803,16 @@
             if (statUnits) statUnits.textContent = totalSold;
 
             if (!summary.length) {
-                tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-slate-500">No sales records available.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-slate-500 dark:text-slate-400">No sales records available.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = summary.map(b => `
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-3 px-4 font-medium text-slate-900">${sanitizeHtml(b.name)}</td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${b.orders}</td>
-                    <td class="py-3 px-4 text-xs text-slate-600">${b.units}</td>
-                    <td class="py-3 px-4 text-right font-semibold text-slate-900">$${b.revenue.toFixed(2)}</td>
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td class="py-3 px-4 font-medium text-slate-900 dark:text-white">${sanitizeHtml(b.name)}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600 dark:text-slate-400">${b.orders}</td>
+                    <td class="py-3 px-4 text-xs text-slate-600 dark:text-slate-400">${b.units}</td>
+                    <td class="py-3 px-4 text-right font-semibold text-slate-900 dark:text-white">$${b.revenue.toFixed(2)}</td>
                 </tr>
             `).join('');
         }
@@ -804,14 +857,14 @@
                 if (th.dataset.sort === sortState.key)
                 {
                     icon.textContent = sortState.dir === 1 ? '↑' : '↓';
-                    icon.classList.remove('text-slate-300');
-                    icon.classList.add('text-slate-600');
+                    icon.classList.remove('text-slate-300', 'dark:text-slate-600');
+                    icon.classList.add('text-slate-600', 'dark:text-slate-300');
                 }
                 else
                 {
                     icon.textContent = '↕';
-                    icon.classList.remove('text-slate-600');
-                    icon.classList.add('text-slate-300');
+                    icon.classList.remove('text-slate-600', 'dark:text-slate-300');
+                    icon.classList.add('text-slate-300', 'dark:text-slate-600');
                 }
             });
         }
@@ -856,35 +909,35 @@
             document.getElementById('badge-listings').textContent = state.listings.length;
 
             if (!itemsList.length) {
-                tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-500">No listings found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-500 dark:text-slate-400">No listings found.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = itemsList.map(item => {
-                let badge = `<span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium rounded-md">${item.stock}</span>`;
-                if (item.stock === 0) badge = '<span class="px-2 py-0.5 bg-rose-50 text-rose-700 border border-rose-200 text-xs font-medium rounded-md">Out</span>';
-                else if (item.stock < 10) badge = `<span class="px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium rounded-md">Low (${item.stock})</span>`;
+                let badge = `<span class="px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-xs font-medium rounded-md">${item.stock}</span>`;
+                if (item.stock === 0) badge = '<span class="px-2 py-0.5 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-xs font-medium rounded-md">Out</span>';
+                else if (item.stock < 10) badge = `<span class="px-2 py-0.5 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800 text-xs font-medium rounded-md">Low (${item.stock})</span>`;
 
                 const img = item.image_url 
-                    ? `<img src="${sanitizeHtml(item.image_url)}" alt="${sanitizeHtml(item.title)}" class="w-8 h-8 object-cover rounded-md border border-slate-200">`
-                    : '<div class="w-8 h-8 bg-slate-100 rounded-md border border-slate-200 flex items-center justify-center text-slate-400 text-xs font-mono">-</div>';
+                    ? `<img src="${sanitizeHtml(item.image_url)}" alt="${sanitizeHtml(item.title)}" class="w-8 h-8 object-cover rounded-md border border-slate-200 dark:border-slate-700">`
+                    : '<div class="w-8 h-8 bg-slate-100 dark:bg-slate-800 rounded-md border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono">-</div>';
 
                 return `
-                    <tr class="hover:bg-slate-50 transition-colors">
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                         <td class="py-3 px-4 flex items-center gap-3">
                             ${img}
                             <div>
-                                <div class="font-medium text-slate-900">${sanitizeHtml(item.title)}</div>
-                                <div class="text-xs text-slate-500">${sanitizeHtml(item.storefront)}</div>
+                                <div class="font-medium text-slate-900 dark:text-white">${sanitizeHtml(item.title)}</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400">${sanitizeHtml(item.storefront)}</div>
                             </div>
                         </td>
-                        <td class="py-3 px-4 text-xs font-mono text-slate-600">${sanitizeHtml(item.sku)}</td>
-                        <td class="py-3 px-4 text-xs text-slate-600">${sanitizeHtml(item.storefront)}</td>
-                        <td class="py-3 px-4 text-sm font-semibold text-slate-900">$${(parseFloat(item.price) || 0).toFixed(2)}</td>
+                        <td class="py-3 px-4 text-xs font-mono text-slate-600 dark:text-slate-400">${sanitizeHtml(item.sku)}</td>
+                        <td class="py-3 px-4 text-xs text-slate-600 dark:text-slate-400">${sanitizeHtml(item.storefront)}</td>
+                        <td class="py-3 px-4 text-sm font-semibold text-slate-900 dark:text-white">$${(parseFloat(item.price) || 0).toFixed(2)}</td>
                         <td class="py-3 px-4">${badge}</td>
                         <td class="py-3 px-4 text-right space-x-2">
-                            <button onclick="editListing('${sanitizeHtml(item.id)}')" class="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition">Edit</button>
-                            <button onclick="removeListing('${sanitizeHtml(item.id)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 transition">Delete</button>
+                            <button onclick="editListing('${sanitizeHtml(item.id)}')" class="text-xs font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition">Edit</button>
+                            <button onclick="removeListing('${sanitizeHtml(item.id)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 dark:text-rose-400 dark:hover:text-rose-300 transition">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -974,24 +1027,26 @@
                     const sfListings = state.listings.filter(l => l.storefront === s.name);
                     const staffCount = state.workers.filter(w => w.storefront === s.name && w.status === 'Active').length;
                     
-                    const badgeClass = s.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-600 border border-slate-200';
+                    const badgeClass = s.status === 'Active' 
+                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800' 
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700';
 
                     output += `
-                        <tr class="hover:bg-slate-50 transition-colors">
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                             <td class="py-3 px-4">
-                                <div class="font-medium text-slate-900">${sanitizeHtml(s.name)}</div>
-                                <div class="text-xs text-slate-500">${sanitizeHtml(s.address)}</div>
+                                <div class="font-medium text-slate-900 dark:text-white">${sanitizeHtml(s.name)}</div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400">${sanitizeHtml(s.address)}</div>
                             </td>
-                            <td class="py-3 px-4 text-xs text-slate-600">${sanitizeHtml(s.hours) || '-'}</td>
-                            <td class="py-3 px-4 text-xs text-slate-600">
+                            <td class="py-3 px-4 text-xs text-slate-600 dark:text-slate-400">${sanitizeHtml(s.hours) || '-'}</td>
+                            <td class="py-3 px-4 text-xs text-slate-600 dark:text-slate-400">
                                 ${staffCount} Staff / ${sfListings.length} SKUs
                             </td>
                             <td class="py-3 px-4">
                                 <span class="px-2 py-0.5 ${badgeClass} text-xs font-medium rounded-md">${sanitizeHtml(s.status)}</span>
                             </td>
                             <td class="py-3 px-4 text-right space-x-2">
-                                <button onclick="editStorefront('${sanitizeHtml(s.id)}')" class="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition">Edit</button>
-                                <button onclick="removeStorefront('${sanitizeHtml(s.id)}', '${sanitizeHtml(s.name)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 transition">Delete</button>
+                                <button onclick="editStorefront('${sanitizeHtml(s.id)}')" class="text-xs font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition">Edit</button>
+                                <button onclick="removeStorefront('${sanitizeHtml(s.id)}', '${sanitizeHtml(s.name)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 dark:text-rose-400 dark:hover:text-rose-300 transition">Delete</button>
                             </td>
                         </tr>
                     `;
@@ -999,7 +1054,7 @@
             }
 
             if (!output) {
-                tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-500">No storefronts found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-500 dark:text-slate-400">No storefronts found.</td></tr>';
             } else {
                 tbody.innerHTML = output;
             }
@@ -1082,24 +1137,24 @@
                 
                 if ((name.includes(search) || email.includes(search)) && (!sf || w.storefront === sf)) {
                     htmlStr += `
-                        <tr class="hover:bg-slate-50 transition-colors">
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                             <td class="py-3 px-4">
-                                <div class="font-medium text-slate-900">${sanitizeHtml(w.name || 'Unnamed Worker')}</div>
-                                <div class="text-xs font-mono text-slate-500">${sanitizeHtml(w.email)}</div>
+                                <div class="font-medium text-slate-900 dark:text-white">${sanitizeHtml(w.name || 'Unnamed Worker')}</div>
+                                <div class="text-xs font-mono text-slate-500 dark:text-slate-400">${sanitizeHtml(w.email)}</div>
                             </td>
-                            <td class="py-3 px-4 text-sm text-slate-600">${sanitizeHtml(w.storefront) || 'Unassigned'}</td>
+                            <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400">${sanitizeHtml(w.storefront) || 'Unassigned'}</td>
                             <td class="py-3 px-4">
-                                <span class="px-2 py-0.5 ${w.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200'} text-xs font-medium rounded-md">${sanitizeHtml(w.status)}</span>
+                                <span class="px-2 py-0.5 ${w.status === 'Active' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800' : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800'} text-xs font-medium rounded-md">${sanitizeHtml(w.status)}</span>
                             </td>
                             <td class="py-3 px-4 text-right space-x-2">
-                                <button onclick="removeWorker('${sanitizeHtml(w.id)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 transition">Revoke Access</button>
+                                <button onclick="removeWorker('${sanitizeHtml(w.id)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 dark:text-rose-400 dark:hover:text-rose-300 transition">Revoke Access</button>
                             </td>
                         </tr>
                     `;
                 }
             });
 
-            tbody.innerHTML = htmlStr || '<tr><td colspan="4" class="p-6 text-center text-slate-500">No workers found.</td></tr>';
+            tbody.innerHTML = htmlStr || '<tr><td colspan="4" class="p-6 text-center text-slate-500 dark:text-slate-400">No workers found.</td></tr>';
         }
 
         function removeWorker(id) {
@@ -1185,39 +1240,39 @@
             tbody.innerHTML = '';
 
             if (!rows.length) {
-                tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-500">No orders found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-500 dark:text-slate-400">No orders found.</td></tr>';
                 return;
             }
 
             const getStatusBadge = (statusStr) => {
                 switch(statusStr) {
                     case 'Processing': 
-                        return '<span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 text-[10px] font-bold uppercase tracking-wider rounded-md border border-indigo-200">Processing</span>';
+                        return '<span class="px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 text-[10px] font-bold uppercase tracking-wider rounded-md border border-indigo-200 dark:border-indigo-800">Processing</span>';
                     case 'Ready for Driver': 
-                        return '<span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider rounded-md border border-emerald-200">Ready</span>';
+                        return '<span class="px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wider rounded-md border border-emerald-200 dark:border-emerald-800">Ready</span>';
                     case 'Out for Delivery': 
-                        return '<span class="px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] font-bold uppercase tracking-wider rounded-md border border-purple-200">Dispatched</span>';
+                        return '<span class="px-2 py-0.5 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400 text-[10px] font-bold uppercase tracking-wider rounded-md border border-purple-200 dark:border-purple-800">Dispatched</span>';
                     default: 
-                        return `<span class="px-2 py-0.5 bg-slate-100 text-slate-700 text-[10px] font-bold uppercase tracking-wider rounded-md border border-slate-200">${sanitizeHtml(statusStr)}</span>`;
+                        return `<span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] font-bold uppercase tracking-wider rounded-md border border-slate-200 dark:border-slate-700">${sanitizeHtml(statusStr)}</span>`;
                 }
             };
 
             rows.forEach(o => {
                 const tr = document.createElement('tr');
-                tr.className = 'border-b border-slate-100 last:border-0 hover:bg-slate-50/80 transition-colors';
+                tr.className = 'border-b border-slate-100 dark:border-slate-800/80 last:border-0 hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors';
                 
                 const formattedDate = o.created_at ? new Date(o.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '-';
                 
                 tr.innerHTML = `
                     <td class="py-3 px-4">
-                        <button onclick="viewOrderReceipt('${sanitizeHtml(o.id)}')" class="font-mono font-semibold text-sm text-indigo-600 hover:text-indigo-800 hover:underline transition-colors focus:outline-none">
+                        <button onclick="viewOrderReceipt('${sanitizeHtml(o.id)}')" class="font-mono font-semibold text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:underline transition-colors focus:outline-none">
                             ${sanitizeHtml(o.order_number)}
                         </button>
                     </td>
-                    <td class="py-3 px-4 text-sm text-slate-600">${sanitizeHtml(o.storefront)}</td>
-                    <td class="py-3 px-4 text-sm text-slate-700">${sanitizeHtml(o.items)}</td>
+                    <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400">${sanitizeHtml(o.storefront)}</td>
+                    <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300">${sanitizeHtml(o.items)}</td>
                     <td class="py-3 px-4">${getStatusBadge(o.status)}</td>
-                    <td class="py-3 px-4 text-right text-sm text-slate-400">${formattedDate}</td>
+                    <td class="py-3 px-4 text-right text-sm text-slate-400 dark:text-slate-500">${formattedDate}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1239,10 +1294,10 @@
             if (badge) {
                 badge.textContent = order.status || 'Processing';
                 badge.className = 'inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border ' + 
-                    (order.status === 'Ready for Driver' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                     order.status === 'Out for Delivery' ? 'bg-purple-50 text-purple-700 border-purple-200' :
-                     order.status === 'Pick' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                     'bg-indigo-50 text-indigo-700 border-indigo-200');
+                    (order.status === 'Ready for Driver' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' :
+                     order.status === 'Out for Delivery' ? 'bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800' :
+                     order.status === 'Pick' ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800' :
+                     'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800');
             }
 
             const tbody = document.getElementById('receipt-items-tbody');
@@ -1267,18 +1322,18 @@
                     subtotal += lineTotal;
 
                     itemRows += `
-                        <tr class="hover:bg-slate-50/50">
-                            <td class="py-2.5 px-3 text-slate-800 font-sans font-medium">${sanitizeHtml(titleStr)}</td>
-                            <td class="py-2.5 px-3 text-center text-slate-600">${qty}</td>
-                            <td class="py-2.5 px-3 text-right text-slate-600">$${unitPrice.toFixed(2)}</td>
-                            <td class="py-2.5 px-3 text-right font-semibold text-slate-900">$${lineTotal.toFixed(2)}</td>
+                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                            <td class="py-2.5 px-3 text-slate-800 dark:text-slate-200 font-sans font-medium">${sanitizeHtml(titleStr)}</td>
+                            <td class="py-2.5 px-3 text-center text-slate-600 dark:text-slate-400">${qty}</td>
+                            <td class="py-2.5 px-3 text-right text-slate-600 dark:text-slate-400">$${unitPrice.toFixed(2)}</td>
+                            <td class="py-2.5 px-3 text-right font-semibold text-slate-900 dark:text-white">$${lineTotal.toFixed(2)}</td>
                         </tr>
                     `;
                 });
             }
 
             if (!itemRows) {
-                itemRows = `<tr><td colspan="4" class="p-3 text-center text-slate-400">No item details recorded.</td></tr>`;
+                itemRows = `<tr><td colspan="4" class="p-3 text-center text-slate-400 dark:text-slate-500">No item details recorded.</td></tr>`;
             }
             tbody.innerHTML = itemRows;
 
