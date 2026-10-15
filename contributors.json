@@ -14,31 +14,52 @@
     },
     {
       "login": "Laura-pez",
-      "displayName": "Laura Pez",
+      "displayName": "Laura Perez",
       "avatar_url": "https://avatars.githubusercontent.com/u/157765528?v=4",
       "html_url": "https://github.com/Laura-pez",
       "role": "Assistant Project Manager"
     },
     {
       "login": "enzoCayetano",
-      "displayName": "Enzo Cayetano",
+      "displayName": "Enzo Angelo Cayetano",
       "avatar_url": "https://avatars.githubusercontent.com/u/74115127?s=400&u=06be05654ee26b1b87e7af6de7d9fe6cef8ee787&v=4",
       "html_url": "https://github.com/enzoCayetano",
       "role": "Frontend Developer"
     },
     {
       "login": "whileLost",
-      "displayName": "whileLost",
+      "displayName": "John Aaron Salcedo",
       "avatar_url": "https://avatars.githubusercontent.com/u/51839454?v=4",
       "html_url": "https://github.com/whileLost",
       "role": "Full Stack Developer"
     },
     {
       "login": "Equezada-4",
-      "displayName": "Equezada-4",
+      "displayName": "Eduardo Quezeda",
       "avatar_url": "https://avatars.githubusercontent.com/u/134967881?v=4",
       "html_url": "https://github.com/Equezada-4",
       "role": "Backend Developer"
+    },
+    {
+      "login": null,
+      "displayName": "Gabriel Felix",
+      "avatar_url": null,
+      "html_url": null,
+      "role": "AI Engineer"
+    },
+    {
+      "login": null,
+      "displayName": "Adrian Leal",
+      "avatar_url": null,
+      "html_url": null,
+      "role": "Software Engineer"
+    },
+    {
+      "login": null,
+      "displayName": "Ali Mohamed",
+      "avatar_url": null,
+      "html_url": null,
+      "role": "QA Tester"
     }
   ]
 }
