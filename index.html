@@ -281,22 +281,25 @@
             </a>
 
             <!-- right side nav -->
-            <div id="navbar" class="flex items-center space-x-6 sm:space-x-8">
-                <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
-                    Home
-                </a>
-                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
-                    Pricing
-                </a>
-                <a href="aboutus.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
-                    Meet the Team
-                </a>
-                <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
-                    Log In
-                </a>
-                <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
-                    Sign Up
-                </a>
+            <div class="flex items-center space-x-6 sm:space-x-8">
+                <!-- desktop links -->
+                <div id="navbar" class="hidden sm:flex items-center space-x-6 sm:space-x-8">
+                    <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm" aria-current="page">
+                        Home
+                    </a>
+                    <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                        Pricing
+                    </a>
+                    <a href="aboutus.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                        Meet the Team
+                    </a>
+                    <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                        Log In
+                    </a>
+                    <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
+                        Sign Up
+                    </a>
+                </div>
 
                 <!-- dark mode toggle button -->
                 <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
@@ -305,6 +308,35 @@
                     <!-- moon icon -->
                     <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                 </button>
+
+                <!-- mobile menu toggle button -->
+                <button id="nav-toggle" type="button" class="sm:hidden inline-flex items-center justify-center p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="Open main menu" aria-controls="mobile-menu" aria-expanded="false">
+                    <!-- hamburger icon -->
+                    <svg id="nav-toggle-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <!-- close icon -->
+                    <svg id="nav-toggle-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- mobile menu panel -->
+            <div id="mobile-menu" class="sm:hidden absolute left-0 right-0 top-full overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-lg transition-all duration-300 ease-out max-h-0 opacity-0 pointer-events-none">
+                <div id="mobile-menu-list" class="px-6 py-4 flex flex-col space-y-1">
+                    <a href="index.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold bg-indigo-50 dark:bg-indigo-950/40 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-current="page">
+                        Home
+                    </a>
+                    <a href="plans.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        Pricing
+                    </a>
+                    <a href="aboutus.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        Meet the Team
+                    </a>
+                    <a href="login.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        Log In
+                    </a>
+                    <a href="login.html?mode=signup" class="mt-2 flex w-full items-center justify-center px-5 py-2.5 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm transition-all duration-200">
+                        Sign Up
+                    </a>
+                </div>
             </div>
         </nav>
     </header>
@@ -595,6 +627,138 @@
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Uncaught Async Error:', event.reason);
         });
+
+        /* ---------- responsive navigation ---------- */
+
+        // page-specific active link, shared by the desktop and mobile navbar renders below
+        const NAV_ACTIVE_PAGE = 'index.html';
+
+        const DESKTOP_LINK_BASE = 'tracking-tight hover:opacity-80 transition-opacity focus:outline-none rounded-sm';
+        const DESKTOP_LINK_ACTIVE = 'text-indigo-600 dark:text-indigo-400 font-semibold';
+        const DESKTOP_LINK_IDLE = 'text-slate-900 dark:text-slate-300';
+
+        const MOBILE_LINK_BASE = 'block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500';
+        const MOBILE_LINK_ACTIVE = 'text-indigo-600 dark:text-indigo-400 font-semibold bg-indigo-50 dark:bg-indigo-950/40';
+        const MOBILE_LINK_IDLE = 'text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800';
+
+        function isActiveNavPage(href)
+        {
+            return href === NAV_ACTIVE_PAGE;
+        }
+
+        function desktopNavLink(item)
+        {
+            const active = isActiveNavPage(item.href);
+            const tone = active ? DESKTOP_LINK_ACTIVE : DESKTOP_LINK_IDLE;
+            const current = active ? ' aria-current="page"' : '';
+            return `<a href="${item.href}" class="${DESKTOP_LINK_BASE} ${tone}"${current}>${item.label}</a>`;
+        }
+
+        function mobileNavLink(item)
+        {
+            const active = isActiveNavPage(item.href);
+            const tone = active ? MOBILE_LINK_ACTIVE : MOBILE_LINK_IDLE;
+            const current = active ? ' aria-current="page"' : '';
+            return `<a href="${item.href}" class="${MOBILE_LINK_BASE} ${tone}"${current}>${item.label}</a>`;
+        }
+
+        function guestNavItems()
+        {
+            return [
+                { href: 'index.html', label: 'Home' },
+                { href: 'plans.html', label: 'Pricing' },
+                { href: 'aboutus.html', label: 'Meet the Team' },
+                { href: 'login.html', label: 'Log In' },
+            ];
+        }
+
+        function roleNavItems()
+        {
+            return [
+                { href: 'index.html', label: 'Home' },
+                { href: 'plans.html', label: 'Pricing' },
+                { href: 'aboutus.html', label: 'Meet the Team' },
+            ];
+        }
+
+        // wires the hamburger button, its icon swap, and the mobile menu panel
+        function initResponsiveNav()
+        {
+            try
+            {
+                const toggle = document.getElementById('nav-toggle');
+                const menu = document.getElementById('mobile-menu');
+                if (!toggle || !menu) return;
+
+                const iconOpen = document.getElementById('nav-toggle-open');
+                const iconClose = document.getElementById('nav-toggle-close');
+                const desktopQuery = window.matchMedia('(min-width: 640px)');
+
+                const hiddenMenuClasses = ['max-h-0', 'opacity-0', 'pointer-events-none'];
+                const shownMenuClasses = ['max-h-[480px]', 'opacity-100'];
+
+                function setExpanded(expanded)
+                {
+                    toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                    toggle.setAttribute('aria-label', expanded ? 'Close main menu' : 'Open main menu');
+                    if (iconOpen) iconOpen.classList.toggle('hidden', expanded);
+                    if (iconClose) iconClose.classList.toggle('hidden', !expanded);
+
+                    hiddenMenuClasses.forEach((className) => menu.classList.toggle(className, !expanded));
+                    shownMenuClasses.forEach((className) => menu.classList.toggle(className, expanded));
+
+                    menu.inert = !expanded;
+                }
+
+                function collapseOnDesktop(event)
+                {
+                    if (event.matches) setExpanded(false);
+                }
+
+                toggle.addEventListener('click', function ()
+                {
+                    setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+                });
+
+                // close after following any link inside the panel
+                menu.addEventListener('click', function (event)
+                {
+                    if (event.target.closest('a')) setExpanded(false);
+                });
+
+                // close when clicking outside the panel
+                document.addEventListener('click', function (event)
+                {
+                    if (toggle.getAttribute('aria-expanded') !== 'true') return;
+                    if (menu.contains(event.target) || toggle.contains(event.target)) return;
+                    setExpanded(false);
+                });
+
+                // close on Escape and return focus to the toggle
+                document.addEventListener('keydown', function (event)
+                {
+                    if (event.key !== 'Escape') return;
+                    if (toggle.getAttribute('aria-expanded') !== 'true') return;
+                    setExpanded(false);
+                    toggle.focus();
+                });
+
+                if (typeof desktopQuery.addEventListener === 'function')
+                {
+                    desktopQuery.addEventListener('change', collapseOnDesktop);
+                }
+                else if (typeof desktopQuery.addListener === 'function')
+                {
+                    desktopQuery.addListener(collapseOnDesktop);
+                }
+
+                setExpanded(false);
+            }
+            catch (navError)
+            {
+                console.error('Responsive navigation failed to start:', navError);
+            }
+        }
 
         function toggleDarkMode()
         {
@@ -1444,29 +1608,26 @@
 
         function renderGuestNav(navbar)
         {
-            if (!navbar) return;
+            const mobileList = document.getElementById('mobile-menu-list');
+            const items = guestNavItems();
 
-            navbar.innerHTML = `
-                <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm" aria-current="page">
-                    Home
-                </a>
-                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
-                    Pricing
-                </a>
-                <a href="aboutus.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
-                    Meet the Team
-                </a>
-                <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
-                    Log In
-                </a>
-                <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
-                    Sign Up
-                </a>
-                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
-                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                </button>
-            `;
+            if (navbar)
+            {
+                navbar.innerHTML = items.map(desktopNavLink).join('') + `
+                    <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
+                        Sign Up
+                    </a>
+                `;
+            }
+
+            if (mobileList)
+            {
+                mobileList.innerHTML = items.map(mobileNavLink).join('') + `
+                    <a href="login.html?mode=signup" class="mt-2 flex w-full items-center justify-center px-5 py-2.5 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm transition-all duration-200">
+                        Sign Up
+                    </a>
+                `;
+            }
         }
 
         function renderRoleNav(navbar, role)
@@ -1478,38 +1639,63 @@
                 worker: 'worker.html'
             };
             const dashPage = dashboardMap[role] || 'storefront.html';
+            const mobileList = document.getElementById('mobile-menu-list');
+            const items = roleNavItems();
 
-            navbar.innerHTML = `
+            const roleBadge = `
                 <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
                 </div>
-                <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity">
-                    Home
-                </a>
-                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity">
-                    Pricing
-                </a>
-                <a href="aboutus.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity">
-                    Meet the Team
-                </a>
+            `;
+
+            const desktopDashboard = `
                 <a href="${dashPage}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm transition-all">
                     Dashboard
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </a>
-                <button id="logout-btn" class="inline-flex items-center justify-center p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Sign Out">
+            `;
+
+            const desktopLogout = `
+                <button type="button" data-logout class="inline-flex items-center justify-center p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Sign Out" aria-label="Sign Out">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 </button>
-                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
-                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            `;
+
+            const mobileRoleBadge = `
+                <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full w-fit mb-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
+                </div>
+            `;
+
+            const mobileDashboard = `
+                <a href="${dashPage}" class="mt-2 flex w-full items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm transition-all">
+                    Dashboard
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+            `;
+
+            const mobileLogout = `
+                <button type="button" data-logout class="mt-2 flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 dark:hover:text-rose-400 transition-colors">
+                    Sign Out
                 </button>
             `;
+
+            if (navbar)
+            {
+                navbar.innerHTML = roleBadge + items.map(desktopNavLink).join('') + desktopDashboard + desktopLogout;
+            }
+
+            if (mobileList)
+            {
+                mobileList.innerHTML = mobileRoleBadge + items.map(mobileNavLink).join('') + mobileDashboard + mobileLogout;
+            }
         }
 
         document.addEventListener('click', async (event) =>
         {
-            const logout = event.target.closest("#logout-btn");
+            const logout = event.target.closest("[data-logout]");
             if (!logout)
             {
                 return;
@@ -1531,6 +1717,7 @@
         });
 
         initialize();
+        initResponsiveNav();
     </script>
 </body>
 </html>
