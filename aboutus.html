@@ -417,12 +417,6 @@
             `;
         }
 
-        // ---------------------------------------------------------------------
-        // Contributor snapshot rendering
-        // Cards are assembled as DOM nodes and every field is written through
-        // textContent, src or href, so snapshot strings are never parsed as HTML.
-        // ---------------------------------------------------------------------
-
         const CONTRIBUTORS_ENDPOINT = './contributors.json';
         const FETCH_TIMEOUT_MS = 8000;
         const SKELETON_COUNT = 6;
@@ -439,13 +433,13 @@
             return element;
         }
 
-        // only ever load avatars from GitHub's own avatar host
+        // only load avatars from GitHub's own avatar host
         function isAllowedAvatarUrl(url)
         {
             return typeof url === 'string' && url.startsWith(AVATAR_HOST_PREFIX);
         }
 
-        // only ever link out to GitHub profile URLs over HTTPS
+        // only link out to GitHub profile URLs over HTTPS
         function isAllowedProfileUrl(url)
         {
             return typeof url === 'string' && PROFILE_URL_PATTERN.test(url);
@@ -459,7 +453,6 @@
             return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
         }
 
-        // an entry is renderable as long as it exposes an identity: a login or a display name
         function isRenderableContributor(entry)
         {
             if (!entry || typeof entry !== 'object') return false;
@@ -524,7 +517,6 @@
 
             const card = makeElement('article', 'p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col items-center text-center group');
 
-            // the initials disc always renders, and an approved avatar is layered on top of it
             const avatarWrapper = makeElement('div', 'relative w-20 h-20');
             avatarWrapper.appendChild(makeElement('div', 'absolute inset-0 rounded-full flex items-center justify-center text-xl font-bold bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 ring-4 ring-indigo-50 dark:ring-indigo-950/60', initialsFor(displayName)));
 
