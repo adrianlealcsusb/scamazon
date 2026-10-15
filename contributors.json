@@ -6,6 +6,13 @@
   "commitsThisMonth": 35,
   "contributors": [
     {
+      "login": null,
+      "displayName": "Michael Kolta",
+      "avatar_url": null,
+      "html_url": null,
+      "role": "Project Manager"
+    },
+    {
       "login": "Laura-pez",
       "displayName": "Laura Pez",
       "avatar_url": "https://avatars.githubusercontent.com/u/157765528?v=4",
