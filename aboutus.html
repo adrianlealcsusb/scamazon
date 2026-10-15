@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Meet the Scamazon team - the students behind the warehouse management platform, with contributor profiles read from the committed project snapshot.">
+    <title>Meet the Team | Scamazon</title>
+    <link rel="icon" type="image/jpg" href="/img/scamazon.jpg">
+
+    <!-- Preconnect to Google Fonts for performance optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme:
+            {
+                extend:
+                {
+                    fontFamily:
+                    {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation:
+                    {
+                        'infinite-scroll': 'infinite-scroll 30s linear infinite',
+                        'gradient-shift': 'gradient-shift 8s ease infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes:
+                    {
+                        'infinite-scroll':
+                        {
+                            from: { transform: 'translateX(0)' },
+                            to: { transform: 'translateX(-50%)' },
+                        },
+                        'gradient-shift':
+                        {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        },
+                        'float':
+                        {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    },
+                }
+            }
+        }
+    </script>
+    <script>
+        // load theme
+        try
+        {
+            const savedTheme = localStorage.getItem('scamazon_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches))
+            {
+                document.documentElement.classList.add('dark');
+            }
+            else
+            {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        catch (err)
+        {
+            console.error('Theme loader error:', err);
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white transition-colors duration-300">
+
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-xs transition-colors">
+        <nav class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center" aria-label="Main Navigation">
+            <!-- logo -->
+            <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-sm">
+                Scamazon<span class="text-indigo-600 dark:text-indigo-400">.</span>
+            </a>
+
+            <!-- right side nav -->
+            <div id="navbar" class="flex items-center space-x-6 sm:space-x-8">
+                <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    Home
+                </a>
+                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    Pricing
+                </a>
+                <a href="aboutus.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm" aria-current="page">
+                    Meet the Team
+                </a>
+                <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    Log In
+                </a>
+                <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
+                    Sign Up
+                </a>
+
+                <!-- dark mode toggle button -->
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
+                    <!-- sun icon -->
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <!-- moon icon -->
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col">
+
+        <!-- Hero Section -->
+        <section class="relative px-6 py-16 lg:py-20 flex-grow flex flex-col items-center justify-center text-center overflow-hidden" aria-label="Meet the team">
+            <!-- background -->
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/70 via-slate-50 to-slate-100 dark:from-indigo-950/30 dark:via-slate-950 dark:to-slate-900 transition-colors"></div>
+
+            <div class="max-w-3xl mx-auto space-y-6">
+                <span class="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 font-mono">
+                    CSE 4550 Team Project
+                </span>
+
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                    Meet the
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-600 to-indigo-800 dark:from-white dark:via-indigo-400 dark:to-indigo-200 bg-[length:200%_auto] animate-gradient-shift">
+                        Team
+                    </span>
+                </h1>
+
+                <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Scamazon is built by a small student team for our software engineering course.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                    <a href="https://github.com/Laura-pez/team-project" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-slate-900 dark:bg-indigo-600 rounded-xl hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-lg shadow-slate-900/20 dark:shadow-indigo-950/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
+                        View Repository
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                    <a href="index.html" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- stats -->
+        <section class="border-y border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm py-8 px-6 transition-colors" aria-label="Snapshot statistics">
+            <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
+                    <p id="stat-contributors" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">&mdash;</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Contributors</p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
+                    <p id="stat-month-commits" class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">&mdash;</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Commits This Month</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contributors Section -->
+        <section class="relative px-6 py-20 flex-grow flex flex-col items-center justify-center overflow-hidden" aria-label="Contributors">
+            <!-- background -->
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-indigo-50/40 dark:from-slate-900 dark:via-slate-950 dark:to-indigo-950/20 transition-colors"></div>
+
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Contributors</h2>
+                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300">Each team member did their due diligence in this project.</p>
+            </div>
+
+            <div class="w-full max-w-6xl mx-auto">
+
+                <!-- if failed to load -->
+                <div id="status-banner" class="hidden mb-10" role="status" aria-live="polite"></div>
+
+                <noscript>
+                    <p class="mb-10 text-center text-sm font-medium text-amber-800 dark:text-amber-300">JavaScript is required to load the contributor snapshot.</p>
+                </noscript>
+
+                <div id="contributors-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full items-stretch" aria-busy="true" aria-label="Contributor list"></div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="relative px-6 py-20 flex flex-col items-center justify-center text-center overflow-hidden bg-slate-900 dark:bg-slate-950 text-white border-t border-slate-800" aria-label="CTA">
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-900 to-slate-950"></div>
+
+            <div class="max-w-4xl mx-auto space-y-6">
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Want to see what we built?</h2>
+                <p class="text-lg text-slate-300 max-w-2xl mx-auto">Explore the warehouse management platform our team designed, or view our pricing plans per tier.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                    <a href="index.html" class="rounded-xl px-8 py-3.5 text-sm font-semibold text-slate-900 bg-white hover:bg-slate-100 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-200">
+                        Back to Home
+                    </a>
+                    <a href="plans.html" class="rounded-xl px-8 py-3.5 text-sm font-semibold text-white bg-slate-800 border border-slate-700 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 transition-all duration-200">
+                        View Pricing Plans
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 transition-colors" aria-label="Site Footer">
+        <div class="max-w-7xl mx-auto px-6 text-sm text-slate-500 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 Scamazon WMS. All rights reserved.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus:underline">Privacy Policy</a>
+                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus:underline">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Uncaught Async Error:', event.reason);
+        });
+
+        function toggleDarkMode()
+        {
+            try
+            {
+                const htmlElement = document.documentElement;
+                if (htmlElement.classList.contains('dark'))
+                {
+                    htmlElement.classList.remove('dark');
+                    localStorage.setItem('scamazon_theme', 'light');
+                }
+                else
+                {
+                    htmlElement.classList.add('dark');
+                    localStorage.setItem('scamazon_theme', 'dark');
+                }
+            }
+            catch (toggleErr)
+            {
+                console.error('Dark mode toggle failed:', toggleErr);
+            }
+        }
+
+        function readCookie(name)
+        {
+            try
+            {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2)
+                {
+                    return parts.pop().split(';').shift();
+                }
+                return null;
+            }
+            catch (cookieErr)
+            {
+                console.error('Cookie read failed:', cookieErr);
+                return null;
+            }
+        }
+
+        function readSessionCookie()
+        {
+            const baseKey = 'sb-wtcqblyyprofjocksdij-auth-token';
+            return readCookie(baseKey) || readCookie(`${baseKey}.0`);
+        }
+
+        // load navbar from the cookie session so the first paint is already the correct nav
+        (function ()
+        {
+            try
+            {
+                const navbar = document.getElementById('navbar');
+                if (!navbar) return;
+
+                const sessionCookie = readSessionCookie();
+                const cachedRole = localStorage.getItem('scamazon_user_role');
+
+                if (sessionCookie && cachedRole)
+                {
+                    renderRoleNav(navbar, cachedRole);
+                }
+                else if (sessionCookie)
+                {
+                    renderRoleNav(navbar, 'customer');
+                }
+                else
+                {
+                    renderGuestNav(navbar);
+                }
+            }
+            catch (instantErr)
+            {
+                console.error('Instant render error:', instantErr);
+            }
+        })();
+
+        async function initialize()
+        {
+            try
+            {
+                const { client } = await import('./supaBase.js');
+                const navbar = document.getElementById('navbar');
+                if (!navbar) return;
+
+                const { data: { session }, error } = await client.auth.getSession();
+
+                if (error) throw error;
+
+                if (!session)
+                {
+                    localStorage.removeItem('scamazon_user_role');
+                    renderGuestNav(navbar);
+                    return;
+                }
+
+                const email = session.user.email;
+
+                try
+                {
+                    const { data: userRecord, error: userErr } = await client
+                        .from('users')
+                        .select('role')
+                        .eq('email', email)
+                        .single();
+
+                    if (userErr || !userRecord)
+                    {
+                        console.error('Error fetching role:', userErr);
+                        renderGuestNav(navbar);
+                        return;
+                    }
+
+                    localStorage.setItem('scamazon_user_role', userRecord.role);
+                    renderRoleNav(navbar, userRecord.role);
+                }
+                catch (fetchErr)
+                {
+                    console.error('Failed to load user state:', fetchErr);
+                    renderGuestNav(navbar);
+                }
+
+            }
+            catch (authError)
+            {
+                console.error('Authentication failed: ', authError.message || authError);
+            }
+        }
+
+        function renderGuestNav(navbar)
+        {
+            if (!navbar) return;
+
+            navbar.innerHTML = `
+                <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    Home
+                </a>
+                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    Pricing
+                </a>
+                <a href="aboutus.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm" aria-current="page">
+                    Meet the Team
+                </a>
+                <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    Log In
+                </a>
+                <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
+                    Sign Up
+                </a>
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+            `;
+        }
+
+        function renderRoleNav(navbar, role)
+        {
+            if (!navbar) return;
+
+            const dashboardMap =
+            {
+                owner: 'owner.html',
+                customer: 'customer.html',
+                worker: 'worker.html'
+            };
+            const dashPage = dashboardMap[role] || 'storefront.html';
+
+            navbar.innerHTML = `
+                <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
+                </div>
+                <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity">
+                    Home
+                </a>
+                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity">
+                    Pricing
+                </a>
+                <a href="aboutus.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity" aria-current="page">
+                    Meet the Team
+                </a>
+                <a href="${dashPage}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm transition-all">
+                    Dashboard
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+                <button id="logout-btn" class="inline-flex items-center justify-center p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Sign Out">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </button>
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+            `;
+        }
+
+        // ---------------------------------------------------------------------
+        // Contributor snapshot rendering
+        // Cards are assembled as DOM nodes and every field is written through
+        // textContent, src or href, so snapshot strings are never parsed as HTML.
+        // ---------------------------------------------------------------------
+
+        const CONTRIBUTORS_ENDPOINT = './contributors.json';
+        const FETCH_TIMEOUT_MS = 8000;
+        const SKELETON_COUNT = 6;
+        const EMPTY_STAT = '\u2014';
+        const AVATAR_HOST_PREFIX = 'https://avatars.githubusercontent.com/';
+        const PROFILE_URL_PATTERN = /^https:\/\/github\.com\/[A-Za-z0-9._-]+$/;
+        const REPO_URL_FALLBACK = 'https://github.com/Laura-pez/team-project';
+
+        function makeElement(tagName, className, text)
+        {
+            const element = document.createElement(tagName);
+            if (className) element.className = className;
+            if (typeof text === 'string') element.textContent = text;
+            return element;
+        }
+
+        // only ever load avatars from GitHub's own avatar host
+        function isAllowedAvatarUrl(url)
+        {
+            return typeof url === 'string' && url.startsWith(AVATAR_HOST_PREFIX);
+        }
+
+        // only ever link out to GitHub profile URLs over HTTPS
+        function isAllowedProfileUrl(url)
+        {
+            return typeof url === 'string' && PROFILE_URL_PATTERN.test(url);
+        }
+
+        function initialsFor(name)
+        {
+            const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+            if (parts.length === 0) return '?';
+            if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+            return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        }
+
+        // an entry is renderable as long as it exposes an identity: a login or a display name
+        function isRenderableContributor(entry)
+        {
+            if (!entry || typeof entry !== 'object') return false;
+            const hasLogin = typeof entry.login === 'string' && entry.login.trim().length > 0;
+            const hasDisplayName = typeof entry.displayName === 'string' && entry.displayName.trim().length > 0;
+            return hasLogin || hasDisplayName;
+        }
+
+        function normalizeSnapshot(payload)
+        {
+            if (!payload || typeof payload !== 'object' || !Array.isArray(payload.contributors))
+            {
+                throw new Error('The snapshot does not match the expected format.');
+            }
+
+            const list = payload.contributors
+                .filter(isRenderableContributor)
+                .map((entry) =>
+                {
+                    const login = typeof entry.login === 'string' && entry.login.trim() ? entry.login.trim() : null;
+                    const displayName = typeof entry.displayName === 'string' && entry.displayName.trim()
+                        ? entry.displayName.trim()
+                        : (login || 'Team member');
+                    const role = typeof entry.role === 'string' && entry.role.trim() ? entry.role.trim() : null;
+
+                    return {
+                        login,
+                        displayName,
+                        avatarUrl: isAllowedAvatarUrl(entry.avatar_url) ? entry.avatar_url : null,
+                        profileUrl: isAllowedProfileUrl(entry.html_url) ? entry.html_url : null,
+                        role,
+                        key: login || displayName,
+                    };
+                });
+
+            return {
+                list,
+                profiles: (payload.profiles && typeof payload.profiles === 'object') ? payload.profiles : {},
+                generatedAt: typeof payload.generatedAt === 'string' ? payload.generatedAt : null,
+                commitsThisMonth: (payload.commitsThisMonth === null || payload.commitsThisMonth === undefined)
+                    ? null
+                    : (Number.isFinite(Number(payload.commitsThisMonth)) ? Math.max(0, Math.round(Number(payload.commitsThisMonth))) : null),
+                repoUrl: isAllowedProfileUrl(payload.repoUrl) ? payload.repoUrl : REPO_URL_FALLBACK,
+            };
+        }
+
+        function buildCard(entry, profiles)
+        {
+            const override = (entry.key && profiles[entry.key] && typeof profiles[entry.key] === 'object')
+                ? profiles[entry.key]
+                : null;
+
+            const displayName = (override && typeof override.displayName === 'string' && override.displayName.trim())
+                ? override.displayName.trim()
+                : entry.displayName;
+
+            const loginText = entry.login ? '@' + entry.login : '';
+
+            const roleText = (override && typeof override.role === 'string' && override.role.trim())
+                ? override.role.trim()
+                : (entry.role || '');
+
+            const card = makeElement('article', 'p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col items-center text-center group');
+
+            // the initials disc always renders, and an approved avatar is layered on top of it
+            const avatarWrapper = makeElement('div', 'relative w-20 h-20');
+            avatarWrapper.appendChild(makeElement('div', 'absolute inset-0 rounded-full flex items-center justify-center text-xl font-bold bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 ring-4 ring-indigo-50 dark:ring-indigo-950/60', initialsFor(displayName)));
+
+            if (entry.avatarUrl)
+            {
+                const avatar = makeElement('img', 'absolute inset-0 w-20 h-20 rounded-full object-cover ring-4 ring-indigo-50 dark:ring-indigo-950/60');
+                avatar.src = entry.avatarUrl;
+                avatar.alt = '';
+                avatar.loading = 'lazy';
+                avatar.decoding = 'async';
+                avatar.addEventListener('error', () => avatar.classList.add('hidden'));
+                avatarWrapper.appendChild(avatar);
+            }
+
+            card.appendChild(avatarWrapper);
+            card.appendChild(makeElement('h3', 'mt-5 text-lg font-bold text-slate-900 dark:text-white tracking-tight', displayName));
+
+            if (loginText)
+            {
+                card.appendChild(makeElement('p', 'mt-1 text-xs font-medium text-slate-500 dark:text-slate-400', loginText));
+            }
+
+            if (roleText)
+            {
+                card.appendChild(makeElement('p', 'mt-1 text-xs text-slate-500 dark:text-slate-400', roleText));
+            }
+
+            if (entry.profileUrl)
+            {
+                const profileLink = makeElement('a', 'mt-6 inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:opacity-80 transition-opacity', 'View profile');
+                profileLink.href = entry.profileUrl;
+                profileLink.target = '_blank';
+                profileLink.rel = 'noopener noreferrer';
+                card.appendChild(profileLink);
+            }
+            else
+            {
+                card.appendChild(makeElement('span', 'mt-6 text-xs font-medium text-slate-400 dark:text-slate-500', 'Private repo member'));
+            }
+
+            return card;
+        }
+
+        function renderCards(grid, list, profiles)
+        {
+            const fragment = document.createDocumentFragment();
+            list.forEach((entry) => fragment.appendChild(buildCard(entry, profiles)));
+            grid.replaceChildren(fragment);
+        }
+
+        function renderSkeletons(grid)
+        {
+            const skeletonCard = `
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col items-center animate-pulse" aria-hidden="true">
+                    <div class="w-20 h-20 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+                    <div class="mt-5 h-4 w-32 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+                    <div class="mt-2.5 h-3 w-20 rounded-full bg-slate-100 dark:bg-slate-800/70"></div>
+                </div>
+            `;
+            grid.innerHTML = skeletonCard.repeat(SKELETON_COUNT);
+        }
+
+        function renderEmptyState(grid)
+        {
+            const panel = makeElement('div', 'sm:col-span-2 lg:col-span-3 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/60 dark:bg-slate-900/60 p-10 text-center');
+            panel.appendChild(makeElement('p', 'text-sm font-semibold text-slate-700 dark:text-slate-200', 'No contributors recorded yet'));
+            panel.appendChild(makeElement('p', 'mt-1 text-xs text-slate-500 dark:text-slate-400', 'Add entries to contributors.json, then reload this page.'));
+            grid.replaceChildren(panel);
+        }
+
+        function setStats(contributorCount, commitsThisMonth)
+        {
+            const contributorsEl = document.getElementById('stat-contributors');
+            const monthEl = document.getElementById('stat-month-commits');
+
+            if (contributorsEl) contributorsEl.textContent = Number.isFinite(contributorCount) ? contributorCount.toLocaleString() : EMPTY_STAT;
+            if (monthEl) monthEl.textContent = Number.isFinite(commitsThisMonth) ? commitsThisMonth.toLocaleString() : EMPTY_STAT;
+        }
+
+        function hideStatus()
+        {
+            const banner = document.getElementById('status-banner');
+            if (!banner) return;
+            banner.classList.add('hidden');
+            banner.replaceChildren();
+        }
+
+        function showStatus(kind, message)
+        {
+            const banner = document.getElementById('status-banner');
+            if (!banner) return;
+
+            const isError = kind === 'error';
+            const containerTone = isError
+                ? 'border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/30 text-rose-800 dark:text-rose-200'
+                : 'border-indigo-200 dark:border-indigo-900/60 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-800 dark:text-indigo-200';
+            const badgeTone = isError ? 'bg-rose-600' : 'bg-indigo-600';
+            const buttonTone = isError
+                ? 'border-rose-300 dark:border-rose-800 hover:bg-rose-100 dark:hover:bg-rose-900/40'
+                : 'border-indigo-300 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/40';
+
+            banner.className = 'mb-10 rounded-2xl border p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between ' + containerTone;
+
+            const messageRow = makeElement('div', 'flex items-start gap-3');
+            messageRow.appendChild(makeElement('span', 'mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-white text-xs font-bold ' + badgeTone, '!'));
+            messageRow.appendChild(makeElement('p', 'text-sm leading-relaxed', message));
+
+            const actionRow = makeElement('div', 'flex items-center gap-3 shrink-0');
+            const retryButton = makeElement('button', 'px-4 py-2 text-sm font-semibold rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 ' + buttonTone, 'Try again');
+            retryButton.id = 'retry-btn';
+            retryButton.type = 'button';
+
+            const repoLink = makeElement('a', 'text-sm font-semibold underline underline-offset-4 hover:opacity-80 transition-opacity', 'View on GitHub');
+            repoLink.href = REPO_URL_FALLBACK;
+            repoLink.target = '_blank';
+            repoLink.rel = 'noopener noreferrer';
+
+            actionRow.append(retryButton, repoLink);
+            banner.replaceChildren(messageRow, actionRow);
+        }
+
+        async function loadContributors(options)
+        {
+            const force = Boolean(options && options.force);
+            const grid = document.getElementById('contributors-grid');
+            if (!grid) return;
+
+            hideStatus();
+            grid.setAttribute('aria-busy', 'true');
+            renderSkeletons(grid);
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+            try
+            {
+                const response = await fetch(CONTRIBUTORS_ENDPOINT, {
+                    cache: force ? 'reload' : 'no-cache',
+                    headers: { Accept: 'application/json' },
+                    signal: controller.signal,
+                });
+
+                if (!response.ok)
+                {
+                    throw new Error('The browser received HTTP ' + response.status + ' for the snapshot file.');
+                }
+
+                let payload;
+                try
+                {
+                    payload = await response.json();
+                }
+                catch (parseError)
+                {
+                    throw new Error('The snapshot file could not be parsed as JSON.');
+                }
+
+                const snapshot = normalizeSnapshot(payload);
+                setStats(snapshot.list.length, snapshot.commitsThisMonth);
+
+                if (snapshot.list.length === 0)
+                {
+                    renderEmptyState(grid);
+                    showStatus('info', 'The snapshot loaded successfully, but it does not list any contributors yet.');
+                    return;
+                }
+
+                renderCards(grid, snapshot.list, snapshot.profiles);
+                console.info('Rendered ' + snapshot.list.length + ' contributor(s) from the snapshot dated ' + (snapshot.generatedAt || 'unknown') + '.');
+            }
+            catch (error)
+            {
+                const timedOut = error && error.name === 'AbortError';
+                console.error('Contributor snapshot failed:', error);
+
+                grid.replaceChildren();
+                setStats(null, null);
+
+                if (timedOut)
+                {
+                    showStatus('error', 'Loading the contributor snapshot took too long to respond.');
+                }
+                else
+                {
+                    showStatus('error', 'Could not load the contributor snapshot. ' + (error && error.message ? error.message : ''));
+                }
+            }
+            finally
+            {
+                clearTimeout(timeoutId);
+                grid.setAttribute('aria-busy', 'false');
+            }
+        }
+
+        document.addEventListener('click', async (event) =>
+        {
+            const retryButton = event.target.closest('#retry-btn');
+            if (retryButton)
+            {
+                retryButton.disabled = true;
+                await loadContributors({ force: true });
+                return;
+            }
+
+            const logout = event.target.closest('#logout-btn');
+            if (!logout)
+            {
+                return;
+            }
+
+            try
+            {
+                logout.disabled = true;
+                const { client } = await import('./supaBase.js');
+                localStorage.removeItem('scamazon_user_role');
+                await client.auth.signOut();
+                window.location.reload();
+            }
+            catch (err)
+            {
+                console.error('Logout failed:', err);
+                logout.disabled = false;
+            }
+        });
+
+        (function boot()
+        {
+            const grid = document.getElementById('contributors-grid');
+
+            if (window.location.protocol === 'file:')
+            {
+                const fileBanner = document.getElementById('file-banner');
+                if (fileBanner) fileBanner.classList.remove('hidden');
+                if (grid)
+                {
+                    grid.replaceChildren();
+                    grid.setAttribute('aria-busy', 'false');
+                }
+                setStats(null, null);
+                console.warn('aboutus.html was opened over file://, so the contributor snapshot cannot be fetched.');
+            }
+            else
+            {
+                loadContributors();
+            }
+
+            initialize();
+        })();
+    </script>
+</body>
+</html>
