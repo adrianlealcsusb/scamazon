@@ -14,6 +14,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -23,24 +24,43 @@
             }
         }
     </script>
+    <script>
+        // load theme
+        try 
+        {
+            const savedTheme = localStorage.getItem('scamazon_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) 
+            {
+                document.documentElement.classList.add('dark');
+            } 
+            else 
+            {
+                document.documentElement.classList.remove('dark');
+            }
+        } 
+        catch (err) 
+        {
+            console.error('Theme loader error:', err);
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden selection:bg-slate-900 selection:text-white">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex h-screen overflow-hidden selection:bg-slate-900 selection:text-white dark:selection:bg-indigo-600">
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0">
-        <div class="p-4 h-16 border-b border-slate-200 flex items-center justify-between">
-            <a href="index.html" class="text-lg font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity">
+    <aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 transition-colors">
+        <div class="p-4 h-16 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <a href="index.html" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity">
                 Scamazon<span class="text-indigo-600">.</span>
             </a>
-            <span class="text-[11px] font-semibold uppercase tracking-wider bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md border border-slate-200 font-mono">Customer</span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700 font-mono">Customer</span>
         </div>
         <nav class="flex-1 p-3 space-y-1 text-sm font-medium overflow-y-auto">
-            <button onclick="switchTab('catalog')" id="nav-catalog" class="w-full text-left px-3 py-2 rounded-lg transition-all flex items-center justify-between bg-slate-900 text-white shadow-sm shadow-slate-900/10">
+            <button onclick="switchTab('catalog')" id="nav-catalog" class="w-full text-left px-3 py-2 rounded-lg transition-all flex items-center justify-between bg-slate-900 dark:bg-indigo-600 text-white shadow-sm shadow-slate-900/10 dark:shadow-indigo-950/20">
                 Listings
-                <span id="badge-listings" class="text-xs bg-slate-800 text-slate-200 px-2 py-0.5 rounded-md font-mono transition-all duration-200 inline-block">0</span>
+                <span id="badge-listings" class="text-xs bg-slate-800 dark:bg-indigo-700 text-slate-200 dark:text-white px-2 py-0.5 rounded-md font-mono transition-all duration-200 inline-block">0</span>
             </button>
-            <button onclick="switchTab('tracking')" id="nav-tracking" class="w-full text-left px-3 py-2 rounded-lg transition-all flex items-center justify-between hover:bg-slate-100 text-slate-600 hover:text-slate-900">
+            <button onclick="switchTab('tracking')" id="nav-tracking" class="w-full text-left px-3 py-2 rounded-lg transition-all flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
                 Tracking & Invoices
             </button>
         </nav>
@@ -48,11 +68,15 @@
 
     <!-- Main Workspace -->
     <div class="flex-1 flex flex-col h-full overflow-hidden">
-        <header class="bg-white/80 backdrop-blur-md px-6 h-16 border-b border-slate-200 flex justify-between items-center shrink-0">
-            <h1 id="page-heading" class="text-lg font-bold tracking-tight text-slate-900">Listings</h1>
+        <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-6 h-16 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center shrink-0 transition-colors">
+            <h1 id="page-heading" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Listings</h1>
             <div class="flex items-center space-x-4">
-                <span id="user-display" class="text-xs text-slate-500 font-mono"></span>
-                <button id="logout-btn" class="text-xs font-semibold text-rose-600 hover:text-rose-800 transition-colors">Log Out</button>
+                <span id="user-display" class="text-xs text-slate-500 dark:text-slate-400 font-mono"></span>
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+                <button id="logout-btn" class="text-xs font-semibold text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 transition-colors">Log Out</button>
             </div>
         </header>
 
@@ -60,89 +84,89 @@
 
             <!-- ================= TAB 1: LISTINGS ================= -->
             <section id="tab-catalog" class="tab-pane space-y-6">
-                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
                     <div class="flex flex-1 flex-col sm:flex-row gap-2">
-                        <select id="catalog-storefront" class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent bg-white transition-all font-medium">
+                        <select id="catalog-storefront" class="border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-slate-800 transition-all font-medium">
                             <option value="">All Storefronts</option>
                         </select>
                         <div class="relative flex-1">
                             <input id="catalog-search" type="text" placeholder="Search catalog by title or SKU..." 
-                                class="w-full border border-slate-300 rounded-lg pl-9 pr-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all">
-                            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                                class="w-full border border-slate-300 dark:border-slate-700 rounded-lg pl-9 pr-3.5 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-slate-800 transition-all">
+                            <svg class="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         </div>
                     </div>
-                    <button onclick="toggleCartDrawer(true)" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150 shrink-0 gap-2">
+                    <button onclick="toggleCartDrawer(true)" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 dark:shadow-indigo-950/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150 shrink-0 gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                         View Cart (<span id="cart-counter" class="transition-all duration-200 inline-block font-mono">0</span>)
                     </button>
                 </div>
 
                 <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <p class="text-sm text-slate-400 col-span-full py-12 text-center">Loading storefront inventory...</p>
+                    <p class="text-sm text-slate-400 dark:text-slate-500 col-span-full py-12 text-center">Loading storefront inventory...</p>
                 </div>
             </section>
 
             <!-- ================= TAB 2: ORDER TRACKING & INVOICES ================= -->
             <section id="tab-tracking" class="tab-pane hidden space-y-6" hidden>
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm max-w-xl">
-                    <h2 class="text-base font-bold text-slate-900 mb-1">Track Your Order</h2>
-                    <p class="text-xs text-slate-500 mb-4">Enter your order confirmation number to view fulfillment progression.</p>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm max-w-xl transition-colors">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white mb-1">Track Your Order</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Enter your order confirmation number to view fulfillment progression.</p>
                     <div class="flex gap-2">
-                        <input id="tracking-input" type="text" placeholder="e.g. Order #1042" class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all font-mono">
-                        <button onclick="trackOrder()" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">Track</button>
+                        <input id="tracking-input" type="text" placeholder="e.g. Order #1042" class="flex-1 border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-slate-800 transition-all font-mono">
+                        <button onclick="trackOrder()" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 dark:shadow-indigo-950/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150">Track</button>
                     </div>
                 </div>
 
-                <div id="tracking-card" class="hidden bg-white p-6 rounded-xl border border-slate-200 shadow-sm max-w-2xl space-y-6">
-                    <div class="flex justify-between items-start border-b border-slate-200 pb-4">
+                <div id="tracking-card" class="hidden bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm max-w-2xl space-y-6 transition-colors">
+                    <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-4">
                         <div>
-                            <h3 id="track-order-id" class="text-lg font-bold text-slate-900 font-mono">Order #1042</h3>
-                            <p id="track-storefront" class="text-xs text-slate-500 mt-0.5">Downtown Auto Storefront</p>
+                            <h3 id="track-order-id" class="text-lg font-bold text-slate-900 dark:text-white font-mono">Order #1042</h3>
+                            <p id="track-storefront" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Downtown Auto Storefront</p>
                         </div>
-                        <button onclick="openReceiptModal()" class="px-3 py-1.5 border border-slate-300 text-xs font-semibold text-slate-700 rounded-lg hover:border-slate-900 hover:text-slate-900 transition-colors">
+                        <button onclick="openReceiptModal()" class="px-3 py-1.5 border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 rounded-lg hover:border-slate-900 dark:hover:border-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                             Download Receipt
                         </button>
                     </div>
 
                     <!-- Visual Timeline -->
                     <div>
-                        <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Fulfillment Timeline</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Fulfillment Timeline</p>
                         <div class="relative flex items-center justify-between w-full">
-                            <div class="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 w-full bg-slate-200 -z-0"></div>
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 w-full bg-slate-200 dark:bg-slate-700 -z-0"></div>
                             
                             <!-- Step 1: Submitted -->
                             <div class="relative z-10 flex flex-col items-center">
-                                <div id="step-submitted-dot" class="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm">1</div>
-                                <p class="text-xs font-semibold text-slate-900 mt-2">Submitted</p>
-                                <span id="time-submitted" class="text-[10px] text-slate-400 font-mono">Order Placed</span>
+                                <div id="step-submitted-dot" class="w-8 h-8 rounded-full bg-slate-900 dark:bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">1</div>
+                                <p class="text-xs font-semibold text-slate-900 dark:text-white mt-2">Submitted</p>
+                                <span id="time-submitted" class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Order Placed</span>
                             </div>
 
                             <!-- Step 2: Picking -->
                             <div class="relative z-10 flex flex-col items-center">
-                                <div id="step-picking-dot" class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center text-xs font-bold">2</div>
-                                <p class="text-xs font-semibold text-slate-500 mt-2">Picking</p>
-                                <span id="time-picking" class="text-[10px] text-slate-400 font-mono">Floor Queue</span>
+                                <div id="step-picking-dot" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500 flex items-center justify-center text-xs font-bold">2</div>
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-2">Picking</p>
+                                <span id="time-picking" class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Floor Queue</span>
                             </div>
 
                             <!-- Step 3: Packed -->
                             <div class="relative z-10 flex flex-col items-center">
-                                <div id="step-packed-dot" class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center text-xs font-bold">3</div>
-                                <p class="text-xs font-semibold text-slate-500 mt-2">Packed</p>
-                                <span id="time-packed" class="text-[10px] text-slate-400 font-mono">In Progress</span>
+                                <div id="step-packed-dot" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500 flex items-center justify-center text-xs font-bold">3</div>
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-2">Packed</p>
+                                <span id="time-packed" class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">In Progress</span>
                             </div>
 
                             <!-- Step 4: Dispatch -->
                             <div class="relative z-10 flex flex-col items-center">
-                                <div id="step-ready-dot" class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center text-xs font-bold">4</div>
-                                <p class="text-xs font-semibold text-slate-500 mt-2">Ready / Courier</p>
-                                <span id="time-ready" class="text-[10px] text-slate-400 font-mono">Pending</span>
+                                <div id="step-ready-dot" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500 flex items-center justify-center text-xs font-bold">4</div>
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-2">Ready / Courier</p>
+                                <span id="time-ready" class="text-[10px] text-slate-400 dark:text-slate-500 font-mono">Pending</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs text-slate-600">
-                        <p><span class="font-semibold text-slate-900">Order Items:</span> <span id="track-items">2x Brake Pads (SKU-102)</span></p>
-                        <p class="mt-1"><span class="font-semibold text-slate-900">Status Update:</span> <span id="track-status-text" class="font-mono text-slate-800">Pick</span></p>
+                    <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-lg border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300">
+                        <p><span class="font-semibold text-slate-900 dark:text-white">Order Items:</span> <span id="track-items">2x Brake Pads (SKU-102)</span></p>
+                        <p class="mt-1"><span class="font-semibold text-slate-900 dark:text-white">Status Update:</span> <span id="track-status-text" class="font-mono text-slate-800 dark:text-slate-200">Pick</span></p>
                     </div>
                 </div>
             </section>
@@ -166,35 +190,35 @@
     <!-- ================= CART DRAWER (Smooth Slide & Fade) ================= -->
     <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden pointer-events-none">
         <!-- Backdrop: Fades In / Out -->
-        <div id="cart-backdrop" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 ease-out" onclick="toggleCartDrawer(false)"></div>
+        <div id="cart-backdrop" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 ease-out" onclick="toggleCartDrawer(false)"></div>
         
         <!-- Drawer Panel: Slides In / Out from Right Edge -->
-        <div id="cart-panel" class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col p-6 border-l border-slate-200 transform translate-x-full transition-transform duration-300 ease-out pointer-events-auto">
-            <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+        <div id="cart-panel" class="fixed inset-y-0 right-0 max-w-md w-full bg-white dark:bg-slate-900 shadow-2xl flex flex-col p-6 border-l border-slate-200 dark:border-slate-800 transform translate-x-full transition-transform duration-300 ease-out pointer-events-auto">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-900">Your Cart</h3>
-                    <p class="text-xs text-slate-500">Review and adjust items before ordering</p>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Your Cart</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Review and adjust items before ordering</p>
                 </div>
-                <button onclick="toggleCartDrawer(false)" class="text-slate-400 hover:text-slate-600 text-xl leading-none p-1 rounded-lg hover:bg-slate-100 transition-colors">
+                <button onclick="toggleCartDrawer(false)" class="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 text-xl leading-none p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
 
             <div id="cart-items-container" class="flex-1 overflow-y-auto py-4 space-y-3">
-                <p class="text-xs text-slate-400 text-center py-10">Cart is empty.</p>
+                <p class="text-xs text-slate-400 dark:text-slate-500 text-center py-10">Cart is empty.</p>
             </div>
 
-            <div class="border-t border-slate-200 pt-4 space-y-3">
+            <div class="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-3">
                 <div class="flex justify-between text-sm">
-                    <span class="text-slate-500">Pickup Storefront</span>
-                    <span id="cart-storefront-name" class="font-semibold text-slate-900">All Storefronts</span>
+                    <span class="text-slate-500 dark:text-slate-400">Pickup Storefront</span>
+                    <span id="cart-storefront-name" class="font-semibold text-slate-900 dark:text-white">All Storefronts</span>
                 </div>
-                <div class="flex justify-between text-base font-bold text-slate-900">
+                <div class="flex justify-between text-base font-bold text-slate-900 dark:text-white">
                     <span>Total</span>
                     <span id="cart-total-price">$0.00</span>
                 </div>
-                <p class="text-[11px] text-slate-400">Items are held for 48 hours upon order placement.</p>
-                <button id="order-btn" onclick="placeOrder()" disabled class="w-full py-2.5 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
+                <p class="text-[11px] text-slate-400 dark:text-slate-500">Items are held for 48 hours upon order placement.</p>
+                <button id="order-btn" onclick="placeOrder()" disabled class="w-full py-2.5 bg-slate-900 dark:bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 dark:shadow-indigo-950/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
                     Place Order
                 </button>
             </div>
@@ -202,59 +226,82 @@
     </div>
 
     <!-- ================= CONFIRMATION MODAL ================= -->
-    <div id="confirmation-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white max-w-sm w-full rounded-xl shadow-2xl p-6 text-center space-y-4 border border-slate-200">
-            <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto text-xl font-bold">&check;</div>
-            <h3 class="text-lg font-bold text-slate-900">Order Confirmed</h3>
-            <p id="confirmation-message" class="text-xs text-slate-600">Order confirmed. Held for 48 hours.</p>
-            <button onclick="closeConfirmationModal()" class="w-full py-2 px-4 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 transition-all">
+    <div id="confirmation-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 max-w-sm w-full rounded-xl shadow-2xl p-6 text-center space-y-4 border border-slate-200 dark:border-slate-800">
+            <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center mx-auto text-xl font-bold">&check;</div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Order Confirmed</h3>
+            <p id="confirmation-message" class="text-xs text-slate-600 dark:text-slate-300">Order confirmed. Held for 48 hours.</p>
+            <button onclick="closeConfirmationModal()" class="w-full py-2 px-4 bg-slate-900 dark:bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 dark:shadow-indigo-950/20 transition-all">
                 Close
             </button>
         </div>
     </div>
 
     <!-- ================= INVOICE / RECEIPT MODAL ================= -->
-    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white max-w-lg w-full rounded-xl shadow-2xl p-8 space-y-6 border border-slate-200 font-sans">
-            <div class="flex justify-between items-start border-b border-slate-200 pb-4">
+    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 max-w-lg w-full rounded-xl shadow-2xl p-8 space-y-6 border border-slate-200 dark:border-slate-800 font-sans">
+            <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
-                    <h2 class="text-xl font-bold tracking-tight text-slate-900">Pickup Invoice</h2>
-                    <p id="receipt-order-id" class="text-xs font-mono text-slate-500 mt-1">Order #1042</p>
+                    <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Pickup Invoice</h2>
+                    <p id="receipt-order-id" class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">Order #1042</p>
                 </div>
                 <div class="text-right">
-                    <span class="text-xs font-semibold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-md">Confirmed</span>
+                    <span class="text-xs font-semibold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 px-2.5 py-1 rounded-md">Confirmed</span>
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4 text-xs">
                 <div>
-                    <p class="font-semibold text-slate-400 uppercase tracking-wider text-[11px]">Pickup Location</p>
-                    <p id="receipt-branch-name" class="font-semibold text-slate-900 mt-1">Downtown Auto Storefront</p>
-                    <p id="receipt-branch-address" class="text-slate-500">100 Main St, Downtown</p>
+                    <p class="font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider text-[11px]">Pickup Location</p>
+                    <p id="receipt-branch-name" class="font-semibold text-slate-900 dark:text-white mt-1">Downtown Auto Storefront</p>
+                    <p id="receipt-branch-address" class="text-slate-500 dark:text-slate-400">100 Main St, Downtown</p>
                 </div>
                 <div>
-                    <p class="font-semibold text-slate-400 uppercase tracking-wider text-[11px]">Pickup Window</p>
-                    <p class="font-semibold text-slate-900 mt-1">48 Hours</p>
-                    <p id="receipt-date" class="text-slate-500">Date Placed</p>
+                    <p class="font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider text-[11px]">Pickup Window</p>
+                    <p class="font-semibold text-slate-900 dark:text-white mt-1">48 Hours</p>
+                    <p id="receipt-date" class="text-slate-500 dark:text-slate-400">Date Placed</p>
                 </div>
             </div>
 
-            <div class="border-t border-b border-slate-200 py-3 text-xs">
-                <p class="font-semibold text-slate-400 uppercase tracking-wider mb-2 text-[11px]">Item Details</p>
-                <div id="receipt-items-list" class="space-y-1 text-slate-800 font-mono">
+            <div class="border-t border-b border-slate-200 dark:border-slate-800 py-3 text-xs">
+                <p class="font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 text-[11px]">Item Details</p>
+                <div id="receipt-items-list" class="space-y-1 text-slate-800 dark:text-slate-200 font-mono">
                     2x Brake Pads (SKU-102)
                 </div>
             </div>
 
             <div class="flex justify-between items-center pt-2">
-                <button onclick="window.print()" class="text-xs text-slate-600 hover:text-slate-900 underline font-medium transition-colors">Print PDF</button>
-                <button onclick="closeReceiptModal()" class="px-5 py-2 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 transition-all">Close</button>
+                <button onclick="window.print()" class="text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white underline font-medium transition-colors">Print PDF</button>
+                <button onclick="closeReceiptModal()" class="px-5 py-2 bg-slate-900 dark:bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 dark:shadow-indigo-950/20 transition-all">Close</button>
             </div>
         </div>
     </div>
 
     <!-- ================= CLIENT SCRIPTS ================= -->
     <script>
+        function toggleDarkMode() 
+        {
+            try 
+            {
+                const htmlElement = document.documentElement;
+                if (htmlElement.classList.contains('dark')) 
+                {
+                    htmlElement.classList.remove('dark');
+                    localStorage.setItem('scamazon_theme', 'light');
+                } 
+                else 
+                {
+                    htmlElement.classList.add('dark');
+                    localStorage.setItem('scamazon_theme', 'dark');
+                }
+            } 
+            catch (toggleErr) 
+            {
+                console.error('Dark mode toggle failed:', toggleErr);
+            }
+        }
+        window.toggleDarkMode = toggleDarkMode;
+
         let activeStorefronts = [];
         let allListings = [];
         let cart = [];
@@ -400,18 +447,18 @@
                 el.setAttribute('hidden', '');
             });
             Object.values(navs).forEach(el => {
-                el.className = 'w-full text-left px-3 py-2 rounded-lg transition-all flex items-center justify-between hover:bg-slate-100 text-slate-600 hover:text-slate-900';
+                el.className = 'w-full text-left px-3 py-2 rounded-lg transition-all flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
             });
 
             tabs[tab].classList.remove('hidden');
             tabs[tab].removeAttribute('hidden');
-            navs[tab].className = 'w-full text-left px-3 py-2 rounded-lg transition-all flex items-center justify-between bg-slate-900 text-white shadow-sm shadow-slate-900/10';
+            navs[tab].className = 'w-full text-left px-3 py-2 rounded-lg transition-all flex items-center justify-between bg-slate-900 dark:bg-indigo-600 text-white shadow-sm shadow-slate-900/10 dark:shadow-indigo-950/20';
             document.getElementById('page-heading').textContent = headings[tab];
 
             const badgeListings = document.getElementById('badge-listings');
             if (badgeListings) {
                 badgeListings.className = `text-xs px-2 py-0.5 rounded-md font-mono transition-all duration-200 inline-block ${
-                    tab === 'catalog' ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-600'
+                    tab === 'catalog' ? 'bg-slate-800 dark:bg-indigo-700 text-slate-200 dark:text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                 }`;
             }
         }
@@ -453,36 +500,36 @@
             });
 
             if (branchItems.length === 0) {
-                container.innerHTML = `<p class="text-sm text-slate-400 col-span-full py-12 text-center">No listings available matching your selection.</p>`;
+                container.innerHTML = `<p class="text-sm text-slate-400 dark:text-slate-500 col-span-full py-12 text-center">No listings available matching your selection.</p>`;
                 return;
             }
 
             container.innerHTML = branchItems.map(item => {
                 const isOutOfStock = item.stock <= 0;
                 const img = item.image_url 
-                    ? `<div class="w-full h-44 bg-white rounded-lg mb-3 border border-slate-200 flex items-center justify-center p-2.5 overflow-hidden">
+                    ? `<div class="w-full h-44 bg-white dark:bg-slate-800 rounded-lg mb-3 border border-slate-200 dark:border-slate-700 flex items-center justify-center p-2.5 overflow-hidden">
                         <img src="${sanitizeHtml(item.image_url)}" alt="${sanitizeHtml(item.title)}" class="max-h-full max-w-full object-contain">
                        </div>`
-                    : `<div class="w-full h-44 bg-slate-50 rounded-lg mb-3 flex items-center justify-center text-slate-400 font-mono text-xs border border-slate-200">No Image</div>`;
+                    : `<div class="w-full h-44 bg-slate-50 dark:bg-slate-800/60 rounded-lg mb-3 flex items-center justify-center text-slate-400 dark:text-slate-500 font-mono text-xs border border-slate-200 dark:border-slate-700">No Image</div>`;
 
                 return `
-                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div class="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:shadow-md transition-all">
                         <div>
                             ${img}
                             <div class="flex justify-between items-start gap-2">
                                 <div>
-                                    <h3 class="font-bold text-slate-900 text-sm tracking-tight">${sanitizeHtml(item.title)}</h3>
-                                    <p class="text-xs font-mono text-slate-400">${sanitizeHtml(item.sku)}</p>
-                                    <span class="inline-block mt-1.5 text-[11px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md border border-slate-200">${sanitizeHtml(item.storefront)}</span>
+                                    <h3 class="font-bold text-slate-900 dark:text-white text-sm tracking-tight">${sanitizeHtml(item.title)}</h3>
+                                    <p class="text-xs font-mono text-slate-400 dark:text-slate-500">${sanitizeHtml(item.sku)}</p>
+                                    <span class="inline-block mt-1.5 text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700">${sanitizeHtml(item.storefront)}</span>
                                 </div>
-                                <span class="text-sm font-bold text-slate-900">$${(parseFloat(item.price) || 0).toFixed(2)}</span>
+                                <span class="text-sm font-bold text-slate-900 dark:text-white">$${(parseFloat(item.price) || 0).toFixed(2)}</span>
                             </div>
-                            <p class="text-xs mt-3 ${isOutOfStock ? 'text-rose-600 font-semibold' : 'text-slate-500'}">
+                            <p class="text-xs mt-3 ${isOutOfStock ? 'text-rose-600 dark:text-rose-400 font-semibold' : 'text-slate-500 dark:text-slate-400'}">
                                 ${isOutOfStock ? 'Out of Stock' : (item.stock || 0) + ' units available'}
                             </p>
                         </div>
                         <button onclick="addToCart('${sanitizeHtml(item.id)}')" ${isOutOfStock ? 'disabled' : ''} 
-                            class="mt-4 w-full inline-flex items-center justify-center py-2 px-4 bg-slate-900 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed">
+                            class="mt-4 w-full inline-flex items-center justify-center py-2 px-4 bg-slate-900 dark:bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 dark:shadow-indigo-950/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed">
                             ${isOutOfStock ? 'Unavailable' : 'Add to Cart'}
                         </button>
                     </div>
@@ -568,7 +615,7 @@
             const orderBtn = document.getElementById('order-btn');
 
             if (cart.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-10">Cart is empty.</p>`;
+                container.innerHTML = `<p class="text-xs text-slate-400 dark:text-slate-500 text-center py-10">Cart is empty.</p>`;
                 totalEl.textContent = '$0.00';
                 orderBtn.disabled = true;
                 return;
@@ -583,22 +630,22 @@
                 const isMax = item.qty >= maxStock;
 
                 return `
-                    <div class="flex flex-col gap-2.5 p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs hover:border-slate-300 transition-colors">
+                    <div class="flex flex-col gap-2.5 p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700/80 text-xs hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
                         <div class="flex justify-between items-start gap-2">
                             <div class="min-w-0 flex-1">
-                                <p class="font-semibold text-slate-900 truncate text-[13px] leading-snug">${sanitizeHtml(item.title)}</p>
-                                <p class="text-slate-400 font-mono text-[11px] mt-0.5">${sanitizeHtml(item.sku)} &bull; $${price.toFixed(2)} each</p>
-                                <p class="text-[10px] text-slate-500 font-medium mt-0.5">${sanitizeHtml(item.storefront)} &bull; <span class="text-slate-400">${maxStock} in stock</span></p>
+                                <p class="font-semibold text-slate-900 dark:text-white truncate text-[13px] leading-snug">${sanitizeHtml(item.title)}</p>
+                                <p class="text-slate-400 dark:text-slate-400 font-mono text-[11px] mt-0.5">${sanitizeHtml(item.sku)} &bull; $${price.toFixed(2)} each</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">${sanitizeHtml(item.storefront)} &bull; <span class="text-slate-400 dark:text-slate-500">${maxStock} in stock</span></p>
                             </div>
-                            <button onclick="removeFromCart('${sanitizeHtml(item.id)}')" class="text-slate-400 hover:text-rose-600 transition-colors p-1 -mr-1 -mt-1 rounded hover:bg-slate-200/50" title="Remove item">
+                            <button onclick="removeFromCart('${sanitizeHtml(item.id)}')" class="text-slate-400 dark:text-slate-500 hover:text-rose-600 dark:hover:text-rose-400 transition-colors p-1 -mr-1 -mt-1 rounded hover:bg-slate-200/50 dark:hover:bg-slate-700/50" title="Remove item">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-between pt-2 border-t border-slate-200/70">
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-200/70 dark:border-slate-700/70">
                             <!-- Stepper + Manual Entry Input -->
-                            <div class="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-0.5 shadow-sm">
-                                <button onclick="changeCartQty('${sanitizeHtml(item.id)}', -1)" class="w-6 h-6 flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 rounded font-bold text-xs transition-colors" title="Decrease quantity">
+                            <div class="flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-0.5 shadow-sm">
+                                <button onclick="changeCartQty('${sanitizeHtml(item.id)}', -1)" class="w-6 h-6 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white rounded font-bold text-xs transition-colors" title="Decrease quantity">
                                     &minus;
                                 </button>
                                 <input 
@@ -608,18 +655,18 @@
                                     value="${item.qty}" 
                                     onchange="setCartQtyManual('${sanitizeHtml(item.id)}', this.value)" 
                                     onkeydown="if(event.key==='Enter') this.blur();"
-                                    class="w-10 text-center font-mono font-bold text-slate-900 text-xs bg-transparent focus:outline-none focus:ring-1 focus:ring-slate-400 rounded py-0.5 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+                                    class="w-10 text-center font-mono font-bold text-slate-900 dark:text-white text-xs bg-transparent focus:outline-none focus:ring-1 focus:ring-slate-400 dark:focus:ring-indigo-500 rounded py-0.5 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
                                     title="Click to type custom quantity"
                                 >
-                                <button onclick="changeCartQty('${sanitizeHtml(item.id)}', 1)" ${isMax ? 'disabled' : ''} class="w-6 h-6 flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 rounded font-bold text-xs transition-colors disabled:opacity-30 disabled:cursor-not-allowed" title="${isMax ? 'Max stock reached' : 'Increase quantity'}">
+                                <button onclick="changeCartQty('${sanitizeHtml(item.id)}', 1)" ${isMax ? 'disabled' : ''} class="w-6 h-6 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white rounded font-bold text-xs transition-colors disabled:opacity-30 disabled:cursor-not-allowed" title="${isMax ? 'Max stock reached' : 'Increase quantity'}">
                                     +
                                 </button>
                             </div>
 
                             <!-- Line Subtotal -->
                             <div class="text-right">
-                                <span class="text-slate-400 text-[10px] block font-medium">Subtotal</span>
-                                <span class="font-mono font-bold text-slate-900 text-sm">$${sub.toFixed(2)}</span>
+                                <span class="text-slate-400 dark:text-slate-500 text-[10px] block font-medium">Subtotal</span>
+                                <span class="font-mono font-bold text-slate-900 dark:text-white text-sm">$${sub.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>
@@ -709,27 +756,27 @@
             document.getElementById('track-status-text').textContent = data.status;
 
             ['step-submitted-dot', 'step-picking-dot', 'step-packed-dot', 'step-ready-dot'].forEach(id => {
-                document.getElementById(id).className = 'w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center text-xs font-bold';
+                document.getElementById(id).className = 'w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500 flex items-center justify-center text-xs font-bold';
             });
 
             // Milestone 1: Always active for placed orders
-            document.getElementById('step-submitted-dot').className = 'w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm';
+            document.getElementById('step-submitted-dot').className = 'w-8 h-8 rounded-full bg-slate-900 dark:bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-sm';
 
             // Milestone 2: Picking (Active immediately once in floor queue)
             if (['Processing', 'Ready for Driver', 'Out for Delivery'].includes(data.status)) {
-                document.getElementById('step-picking-dot').className = 'w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm';
+                document.getElementById('step-picking-dot').className = 'w-8 h-8 rounded-full bg-slate-900 dark:bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-sm';
                 document.getElementById('time-picking').textContent = 'In Progress';
             }
 
             // Milestone 3: Packed
             if (data.status === 'Pack' || data.status === 'Ready for Driver' || data.status === 'Out for Delivery') {
-                document.getElementById('step-packed-dot').className = 'w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm';
+                document.getElementById('step-packed-dot').className = 'w-8 h-8 rounded-full bg-slate-900 dark:bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-sm';
                 document.getElementById('time-packed').textContent = 'Completed';
             }
 
             // Milestone 4: Ready / Courier
             if (data.status === 'Ready for Driver' || data.status === 'Out for Delivery') {
-                document.getElementById('step-ready-dot').className = 'w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm';
+                document.getElementById('step-ready-dot').className = 'w-8 h-8 rounded-full bg-slate-900 dark:bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-sm';
                 document.getElementById('time-ready').textContent = data.status;
             }
         }
