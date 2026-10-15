@@ -6,45 +6,39 @@
     <meta name="description" content="Scamazon - Automate inventory, generate invoices, and manage storefronts efficiently with our panel.">
     <title>Home | Scamazon</title>
     <link rel="icon" type="image/jpg" href="/img/scamazon.jpg">
-    
+
     <!-- Preconnect to Google Fonts for performance optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: 
+            theme:
             {
-                extend: 
+                extend:
                 {
-                    fontFamily: 
+                    fontFamily:
                     {
                         sans: ['Inter', 'sans-serif'],
                     },
-                    animation: 
+                    animation:
                     {
-                        'infinite-scroll': 'infinite-scroll 30s linear infinite',
                         'gradient-shift': 'gradient-shift 8s ease infinite',
                         'float': 'float 4s ease-in-out infinite',
                     },
-                    keyframes: 
+                    keyframes:
                     {
-                        'infinite-scroll': 
-                        {
-                            from: { transform: 'translateX(0)' },
-                            to: { transform: 'translateX(-50%)' },
-                        },
-                        'gradient-shift': 
+                        'gradient-shift':
                         {
                             '0%, 100%': { 'background-position': '0% 50%' },
                             '50%': { 'background-position': '100% 50%' },
                         },
-                        'float': 
+                        'float':
                         {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-8px)' },
@@ -56,23 +50,204 @@
     </script>
     <script>
         // load theme
-        try 
+        try
         {
             const savedTheme = localStorage.getItem('scamazon_theme');
-            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) 
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches))
             {
                 document.documentElement.classList.add('dark');
-            } 
-            else 
+            }
+            else
             {
                 document.documentElement.classList.remove('dark');
             }
-        } 
-        catch (err) 
+        }
+        catch (err)
         {
             console.error('Theme loader error:', err);
         }
     </script>
+
+    <!-- styles for testimonial wheel -->
+    <style>
+        .tw
+        {
+            --tw-visible: 1;
+            --tw-gap: 1rem;
+            --tw-fade: 12px;
+            --tw-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        @media (min-width: 640px)
+        {
+            .tw
+            {
+                --tw-visible: 2;
+                --tw-gap: 1.5rem;
+                --tw-fade: 24px;
+            }
+        }
+
+        @media (min-width: 1024px)
+        {
+            .tw
+            {
+                --tw-visible: 3;
+                --tw-fade: 32px;
+            }
+        }
+
+        .tw-viewport
+        {
+            overflow: hidden;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            touch-action: pan-y;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--tw-fade), #000 calc(100% - var(--tw-fade)), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 var(--tw-fade), #000 calc(100% - var(--tw-fade)), transparent 100%);
+        }
+
+        .tw-viewport.is-dragging
+        {
+            cursor: grabbing;
+        }
+
+        .tw:focus-visible
+        {
+            outline: 2px solid #4f46e5;
+            outline-offset: 8px;
+            border-radius: 1.25rem;
+        }
+
+        .tw-track
+        {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+            gap: var(--tw-gap);
+            transform: translate3d(0, 0, 0);
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .tw-slide
+        {
+            flex: 0 0 auto;
+            display: flex;
+            width: calc((100% - (var(--tw-visible) - 1) * var(--tw-gap)) / var(--tw-visible));
+        }
+
+        .tw-slide > *
+        {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .tw-arrow
+        {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 9999px;
+            border: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            color: #475569;
+            transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease, transform 200ms ease;
+        }
+
+        .tw-arrow:hover
+        {
+            color: #4f46e5;
+            border-color: #c7d2fe;
+            transform: translateY(-1px);
+        }
+
+        .tw-arrow:active
+        {
+            transform: translateY(0) scale(0.96);
+        }
+
+        .tw-arrow:focus-visible
+        {
+            outline: 2px solid #4f46e5;
+            outline-offset: 3px;
+        }
+
+        .dark .tw-arrow
+        {
+            border-color: #1e293b;
+            background-color: #020617;
+            color: #cbd5e1;
+        }
+
+        .dark .tw-arrow:hover
+        {
+            color: #a5b4fc;
+            border-color: #4338ca;
+        }
+
+        .tw-dot
+        {
+            display: block;
+            width: 0.5rem;
+            height: 0.5rem;
+            padding: 0;
+            border: 0;
+            border-radius: 9999px;
+            background-color: #cbd5e1;
+            cursor: pointer;
+            transition: width 300ms var(--tw-ease), background-color 300ms var(--tw-ease);
+        }
+
+        .tw-dot:hover
+        {
+            background-color: #94a3b8;
+        }
+
+        .tw-dot:focus-visible
+        {
+            outline: 2px solid #4f46e5;
+            outline-offset: 3px;
+        }
+
+        .tw-dot[aria-current="true"]
+        {
+            width: 1.75rem;
+            background-color: #4f46e5;
+        }
+
+        .dark .tw-dot
+        {
+            background-color: #334155;
+        }
+
+        .dark .tw-dot:hover
+        {
+            background-color: #475569;
+        }
+
+        .dark .tw-dot[aria-current="true"]
+        {
+            background-color: #818cf8;
+        }
+
+        @media (prefers-reduced-motion: reduce)
+        {
+            .tw-arrow,
+            .tw-dot
+            {
+                transition: none;
+            }
+        }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white transition-colors duration-300">
 
@@ -101,7 +276,7 @@
                 <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
                     Sign Up
                 </a>
-                
+
                 <!-- dark mode toggle button -->
                 <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
                     <!-- sun icon -->
@@ -115,26 +290,26 @@
 
     <!-- Main Content -->
     <main class="flex-grow flex flex-col">
-        
+
         <!-- Hero Section -->
         <section class="relative px-6 py-16 flex-grow flex flex-col items-center justify-center text-center overflow-hidden" aria-label="Hero">
             <!-- background -->
             <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/70 via-slate-50 to-slate-100 dark:from-indigo-950/30 dark:via-slate-950 dark:to-slate-900 transition-colors"></div>
-            
+
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="text-center lg:text-left space-y-6">
 
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
-                        Industry Leading<br class="hidden sm:block" /> 
+                        Industry Leading<br class="hidden sm:block" />
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-600 to-indigo-800 dark:from-white dark:via-indigo-400 dark:to-indigo-200 bg-[length:200%_auto] animate-gradient-shift">
                             Warehouse Management
                         </span>
                     </h1>
-                    
+
                     <p class="text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
                         Automate inventory, generate invoices, and manage storefronts effortlessly from a unified control panel.
                     </p>
-                    
+
                     <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
                         <a href="login.html" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-slate-900 dark:bg-indigo-600 rounded-xl hover:bg-slate-800 dark:hover:bg-indigo-500 hover:-translate-y-0.5 shadow-lg shadow-slate-900/20 dark:shadow-indigo-950/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
                             Get Started
@@ -189,7 +364,7 @@
 
             <!-- feature grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto w-full items-stretch">
-                
+
                 <!-- feature 1 -->
                 <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col justify-between group">
                     <div>
@@ -203,7 +378,7 @@
                         Explore module &rarr;
                     </div>
                 </div>
-                
+
                 <!-- feature 2 -->
                 <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col justify-between group">
                     <div>
@@ -217,7 +392,7 @@
                         Explore module &rarr;
                     </div>
                 </div>
-                
+
                 <!-- feature 3 -->
                 <div class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col justify-between group">
                     <div>
@@ -236,66 +411,139 @@
         </section>
 
         <!-- Testimonial Section -->
-        <section class="relative px-6 py-20 flex flex-col items-center justify-center text-center overflow-hidden border-t border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors" aria-label="Testimonials">
-            
+        <section id="testimonials" class="relative px-6 py-20 flex flex-col items-center justify-center text-center overflow-hidden border-t border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors" aria-label="Testimonials">
+
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
                 <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Testimonials</h2>
                 <p class="text-lg text-slate-600 dark:text-slate-300">Hear how our platform provides smooth, efficient management for our customers.</p>
             </div>
 
-            <div class="w-full p-4 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
-                <ul id="scroller-content" class="flex items-stretch justify-center md:justify-start [&_li]:mx-4 animate-infinite-scroll">
-                    
-                    <!-- testimonial 1 -->
-                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800 shrink-0">
-                        <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/52?img=1" alt="Jane Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
-                            <div class="text-left">
-                                <p class="font-semibold text-slate-900 dark:text-white">Jane Doe</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Head of Dev, GummieBears</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
-                            "Scamazon made it remarkably easy to view which inventory products needed immediate restocking compared to clunkier software."
-                        </p>
-                    </li>
-                    
-                    <!-- testimonial 2 -->
-                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800 shrink-0">
-                        <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/52?img=2" alt="John Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
-                            <div class="text-left">
-                                <p class="font-semibold text-slate-900 dark:text-white">John Doe</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Senior Manager, DoeNuts</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
-                            "This software streamlined our entire invoicing workflow, saving our team dozens of hours every single week."
-                        </p>
-                    </li>
-                    
-                    <!-- testimonial 3 -->
-                    <li class="w-[350px] flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800 shrink-0">
-                        <div class="flex items-center gap-4">
-                            <img src="https://i.pravatar.cc/52?img=3" alt="John Apple" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
-                            <div class="text-left">
-                                <p class="font-semibold text-slate-900 dark:text-white">John Apple</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Software Director, Apple Inc.</p>
-                            </div>
-                        </div>
-                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
-                            "An absolute powerhouse of a management program. Perfect for orchestrating hundreds of different SKUs seamlessly."
-                        </p>
-                    </li>
-                    
-                </ul>
+            <!-- wheel -->
+            <div id="tw" class="tw w-full max-w-6xl mx-auto" role="region" aria-roledescription="carousel" aria-label="Customer testimonials" tabindex="0" data-autoplay="5000" data-speed="650">
+
+                <div id="tw-viewport" class="tw-viewport">
+                    <ul id="tw-track" class="tw-track">
+
+                        <!-- testimonial 1 -->
+                        <li class="tw-slide" aria-label="Testimonial 1 of 3">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://i.pravatar.cc/52?img=1" alt="Jane Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
+                                    <div class="text-left">
+                                        <p class="font-semibold text-slate-900 dark:text-white">Jane Doe</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Head of Dev, GummieBears</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
+                                    "Scamazon made it remarkably easy to view which inventory products needed immediate restocking compared to clunkier software."
+                                </p>
+                            </article>
+                        </li>
+
+                        <!-- testimonial 2 -->
+                        <li class="tw-slide" aria-label="Testimonial 2 of 3">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://i.pravatar.cc/52?img=2" alt="John Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
+                                    <div class="text-left">
+                                        <p class="font-semibold text-slate-900 dark:text-white">John Doe</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Senior Manager, DoeNuts</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
+                                    "This software streamlined our entire invoicing workflow, saving our team dozens of hours every single week."
+                                </p>
+                            </article>
+                        </li>
+
+                        <!-- testimonial 3 -->
+                        <li class="tw-slide" aria-label="Testimonial 3 of 3">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://i.pravatar.cc/52?img=3" alt="John Apple" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
+                                    <div class="text-left">
+                                        <p class="font-semibold text-slate-900 dark:text-white">John Apple</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Software Director, Apple Inc.</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
+                                    "An absolute powerhouse of a management program. Perfect for orchestrating hundreds of different SKUs seamlessly."
+                                </p>
+                            </article>
+                        </li>
+
+                        <!-- testimonial 4 -->
+                        <li class="tw-slide" aria-label="Testimonial 1 of 3">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://i.pravatar.cc/52?img=1" alt="Jane Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
+                                    <div class="text-left">
+                                        <p class="font-semibold text-slate-900 dark:text-white">Jane Doe</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Head of Dev, GummieBears</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
+                                    "Scamazon made it remarkably easy to view which inventory products needed immediate restocking compared to clunkier software."
+                                </p>
+                            </article>
+                        </li>
+
+                        <!-- testimonial 5 -->
+                        <li class="tw-slide" aria-label="Testimonial 2 of 3">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://i.pravatar.cc/52?img=2" alt="John Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
+                                    <div class="text-left">
+                                        <p class="font-semibold text-slate-900 dark:text-white">John Doe</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Senior Manager, DoeNuts</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
+                                    "This software streamlined our entire invoicing workflow, saving our team dozens of hours every single week."
+                                </p>
+                            </article>
+                        </li>
+
+                        <!-- testimonial 6 -->
+                        <li class="tw-slide" aria-label="Testimonial 3 of 3">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <img src="https://i.pravatar.cc/52?img=3" alt="John Apple" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
+                                    <div class="text-left">
+                                        <p class="font-semibold text-slate-900 dark:text-white">John Apple</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">Software Director, Apple Inc.</p>
+                                    </div>
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
+                                    "An absolute powerhouse of a management program. Perfect for orchestrating hundreds of different SKUs seamlessly."
+                                </p>
+                            </article>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- manual navigation -->
+                <div class="mt-8 flex items-center justify-center gap-6">
+                    <button id="tw-prev" type="button" class="tw-arrow" aria-label="Previous testimonial">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+
+                    <div id="tw-dots" class="flex items-center justify-center gap-2.5" role="group" aria-label="Select a testimonial"></div>
+
+                    <button id="tw-next" type="button" class="tw-arrow" aria-label="Next testimonial">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+
+                <p id="tw-status" class="sr-only" aria-live="polite">Testimonial 1 of 3</p>
             </div>
         </section>
 
         <!-- CTA Section -->
         <section class="relative px-6 py-20 flex flex-col items-center justify-center text-center overflow-hidden bg-slate-900 dark:bg-slate-950 text-white border-t border-slate-800" aria-label="CTA">
             <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-900 to-slate-950"></div>
-        
+
             <div class="max-w-4xl mx-auto space-y-6">
                 <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to scale your warehouse?</h2>
                 <p class="text-lg text-slate-300 max-w-2xl mx-auto">Join thousands of high-performing companies managing their inventory with our robust cloud platform.</p>
@@ -327,23 +575,23 @@
             console.error('Uncaught Async Error:', event.reason);
         });
 
-        function toggleDarkMode() 
+        function toggleDarkMode()
         {
-            try 
+            try
             {
                 const htmlElement = document.documentElement;
-                if (htmlElement.classList.contains('dark')) 
+                if (htmlElement.classList.contains('dark'))
                 {
                     htmlElement.classList.remove('dark');
                     localStorage.setItem('scamazon_theme', 'light');
-                } 
-                else 
+                }
+                else
                 {
                     htmlElement.classList.add('dark');
                     localStorage.setItem('scamazon_theme', 'dark');
                 }
-            } 
-            catch (toggleErr) 
+            }
+            catch (toggleErr)
             {
                 console.error('Dark mode toggle failed:', toggleErr);
             }
@@ -406,15 +654,15 @@
 
         async function initialize()
         {
-            try 
+            try
             {
                 const { client } = await import('./supaBase.js');
                 const navbar = document.getElementById('navbar');
                 const { data: { session }, error } = await client.auth.getSession();
-                
+
                 if (error) throw error;
 
-                if (!session) 
+                if (!session)
                 {
                     localStorage.removeItem('scamazon_user_role');
                     renderGuestNav(navbar);
@@ -423,7 +671,7 @@
 
                 const email = session.user.email;
 
-                try 
+                try
                 {
                     const { data: userRecord, error: userErr } = await client
                         .from('users')
@@ -440,7 +688,7 @@
 
                     localStorage.setItem('scamazon_user_role', userRecord.role);
                     renderRoleNav(navbar, userRecord.role);
-                } 
+                }
                 catch (fetchErr)
                 {
                     console.error('Failed to load user state:', fetchErr);
@@ -454,67 +702,732 @@
             }
         }
 
-        try
+        // testimonial wheel
+        (function ()
         {
-            const scrollerContent = document.getElementById('scroller-content');
-            if (scrollerContent)
+            try
             {
-                const template = scrollerContent.innerHTML;
-                scrollerContent.insertAdjacentHTML('beforeend', template);
+                const root = document.getElementById('tw');
+                const viewport = document.getElementById('tw-viewport');
+                const track = document.getElementById('tw-track');
+                const prevBtn = document.getElementById('tw-prev');
+                const nextBtn = document.getElementById('tw-next');
+                const dotsWrap = document.getElementById('tw-dots');
+                const statusEl = document.getElementById('tw-status');
+
+                if (!root || !viewport || !track || !prevBtn || !nextBtn || !dotsWrap)
+                {
+                    return;
+                }
+
+                const realSlides = Array.from(track.children);
+                const realCount = realSlides.length;
+
+                if (realCount === 0)
+                {
+                    return;
+                }
+
+                const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+                const autoplayMs = Math.max(1200, parseInt(root.dataset.autoplay, 10) || 5000);
+                const snapMs = Math.max(0, parseInt(root.dataset.speed, 10) || 650);
+                const resumeDelay = Math.max(900, Math.round(autoplayMs * 0.6));
+
+                const dotEls = [];
+                let cloneCount = 0;
+                let visibleCount = 1;
+                let step = 1;
+                let pos = 0;
+                let activeIndex = -1;
+                let rafId = null;
+                let lastTimestamp = 0;
+                let mode = 'idle';
+                let snapFrom = 0;
+                let snapTo = 0;
+                let snapStartedAt = 0;
+                let snapDuration = 0;
+                let resumeAt = 0;
+                let resumeTimer = null;
+                let resizeFrame = null;
+                let dragging = null;
+                let suppressClick = false;
+                let hovering = false;
+                let focused = false;
+                let offscreen = false;
+                let keyboardNav = false;
+
+                function modulo(value, max)
+                {
+                    const result = value % max;
+                    return result < 0 ? result + max : result;
+                }
+
+                function easeOutCubic(progress)
+                {
+                    return 1 - Math.pow(1 - progress, 3);
+                }
+
+                function canAutoRotate()
+                {
+                    return !reduceMotion.matches
+                        && !dragging
+                        && !hovering
+                        && !focused
+                        && !offscreen
+                        && !document.hidden
+                        && realCount > 1
+                        && performance.now() >= resumeAt;
+                }
+
+                // transform, not layout
+                function render()
+                {
+                    pos = modulo(pos, realCount);
+
+                    const offset = -((cloneCount + pos) * step);
+                    track.style.transform = 'translate3d(' + offset.toFixed(2) + 'px, 0, 0)';
+                }
+
+                function updateActive(announce)
+                {
+                    const index = modulo(Math.round(pos), realCount);
+
+                    if (index !== activeIndex)
+                    {
+                        activeIndex = index;
+
+                        for (let i = 0; i < dotEls.length; i++)
+                        {
+                            dotEls[i].setAttribute('aria-current', i === index ? 'true' : 'false');
+                        }
+                    }
+
+                    if (announce && statusEl)
+                    {
+                        statusEl.textContent = 'Testimonial ' + (activeIndex + 1) + ' of ' + realCount;
+                    }
+                }
+
+                // distance between two slide origins, which includes the gutter
+                function measure()
+                {
+                    const first = track.children[0];
+
+                    if (!first)
+                    {
+                        return;
+                    }
+
+                    const second = track.children[1];
+
+                    if (second)
+                    {
+                        const measured = second.getBoundingClientRect().left - first.getBoundingClientRect().left;
+
+                        if (measured > 0)
+                        {
+                            step = measured;
+                        }
+                    }
+
+                    if (!(step > 0))
+                    {
+                        step = first.getBoundingClientRect().width || 1;
+                    }
+                }
+
+                function countVisible()
+                {
+                    return Math.max(1, Math.round(viewport.getBoundingClientRect().width / step));
+                }
+
+                function buildClones()
+                {
+                    Array.prototype.forEach.call(track.querySelectorAll('[data-tw-clone]'), function (node)
+                    {
+                        node.parentNode.removeChild(node);
+                    });
+
+                    const leading = document.createDocumentFragment();
+                    const trailing = document.createDocumentFragment();
+
+                    for (let i = 0; i < cloneCount; i++)
+                    {
+                        const leadClone = realSlides[modulo(realCount - cloneCount + i, realCount)].cloneNode(true);
+                        const trailClone = realSlides[modulo(i, realCount)].cloneNode(true);
+
+                        [leadClone, trailClone].forEach(function (node)
+                        {
+                            node.setAttribute('data-tw-clone', '');
+                            node.setAttribute('aria-hidden', 'true');
+                            node.setAttribute('role', 'presentation');
+                            node.removeAttribute('aria-label');
+                        });
+
+                        leading.appendChild(leadClone);
+                        trailing.appendChild(trailClone);
+                    }
+
+                    track.insertBefore(leading, realSlides[0]);
+                    track.appendChild(trailing);
+                }
+
+                function buildDots()
+                {
+                    dotsWrap.textContent = '';
+                    dotEls.length = 0;
+
+                    for (let i = 0; i < realCount; i++)
+                    {
+                        const dot = document.createElement('button');
+                        dot.type = 'button';
+                        dot.className = 'tw-dot';
+                        dot.setAttribute('aria-current', 'false');
+                        dot.setAttribute('aria-label', 'Go to testimonial ' + (i + 1) + ' of ' + realCount);
+                        dot.setAttribute('data-index', String(i));
+                        dotsWrap.appendChild(dot);
+                        dotEls.push(dot);
+                    }
+                }
+
+                function ensureLoop()
+                {
+                    if (rafId === null)
+                    {
+                        lastTimestamp = 0;
+                        rafId = window.requestAnimationFrame(tick);
+                    }
+                }
+
+                function stopLoop()
+                {
+                    if (rafId !== null)
+                    {
+                        window.cancelAnimationFrame(rafId);
+                        rafId = null;
+                    }
+                }
+
+                // should keep moving?
+                function syncAuto()
+                {
+                    if (mode === 'snap')
+                    {
+                        return;
+                    }
+
+                    if (resumeTimer !== null)
+                    {
+                        window.clearTimeout(resumeTimer);
+                        resumeTimer = null;
+                    }
+
+                    const wait = resumeAt - performance.now();
+
+                    if (wait > 0)
+                    {
+                        mode = 'idle';
+                        stopLoop();
+                        resumeTimer = window.setTimeout(function ()
+                        {
+                            resumeTimer = null;
+                            syncAuto();
+                        }, wait);
+                        return;
+                    }
+
+                    if (canAutoRotate())
+                    {
+                        mode = 'auto';
+                        ensureLoop();
+                    }
+                    else
+                    {
+                        mode = 'idle';
+                        stopLoop();
+                    }
+                }
+
+                function tick(timestamp)
+                {
+                    rafId = null;
+
+                    if (!lastTimestamp)
+                    {
+                        lastTimestamp = timestamp;
+                    }
+
+                    let delta = timestamp - lastTimestamp;
+                    lastTimestamp = timestamp;
+
+                    if (delta < 0 || delta > 120)
+                    {
+                        delta = 0;
+                    }
+
+                    if (mode === 'snap')
+                    {
+                        const progress = snapDuration > 0
+                            ? Math.min(1, (timestamp - snapStartedAt) / snapDuration)
+                            : 1;
+
+                        pos = snapFrom + (snapTo - snapFrom) * easeOutCubic(progress);
+                        render();
+                        updateActive(false);
+
+                        if (progress >= 1)
+                        {
+                            pos = modulo(snapTo, realCount);
+                            mode = 'idle';
+                            render();
+                            updateActive(true);
+                            syncAuto();
+                        }
+                        else
+                        {
+                            ensureLoop();
+                        }
+
+                        return;
+                    }
+
+                    if (mode === 'auto' && canAutoRotate())
+                    {
+                        pos += delta / autoplayMs;
+                        render();
+                        updateActive(false);
+                        ensureLoop();
+                        return;
+                    }
+
+                    syncAuto();
+                }
+
+                // picks the closest copy of a card so the wheel always takes the short way round
+                function nearestEquivalent(index)
+                {
+                    let target = index;
+                    const half = realCount / 2;
+
+                    while (target - pos > half)
+                    {
+                        target -= realCount;
+                    }
+
+                    while (pos - target > half)
+                    {
+                        target += realCount;
+                    }
+
+                    return target;
+                }
+
+                function startSnap(target, announce)
+                {
+                    const duration = reduceMotion.matches ? 0 : snapMs;
+
+                    snapFrom = pos;
+                    snapTo = target;
+                    snapStartedAt = performance.now();
+                    snapDuration = duration;
+                    mode = 'snap';
+
+                    if (duration <= 0)
+                    {
+                        pos = modulo(target, realCount);
+                        mode = 'idle';
+                        render();
+                        updateActive(announce);
+                        syncAuto();
+                        return;
+                    }
+
+                    ensureLoop();
+                }
+
+                function goTo(index, announce)
+                {
+                    const target = nearestEquivalent(index);
+
+                    resumeAt = performance.now() + resumeDelay;
+
+                    if (Math.abs(target - pos) < 0.001)
+                    {
+                        updateActive(announce);
+                        syncAuto();
+                        return;
+                    }
+
+                    startSnap(target, announce);
+                }
+
+                function stepBy(direction, announce)
+                {
+                    goTo(Math.round(pos) + direction, announce);
+                }
+
+                function pointerDown(event)
+                {
+                    if (event.pointerType === 'mouse' && event.button !== 0)
+                    {
+                        return;
+                    }
+
+                    dragging = {
+                        id: event.pointerId,
+                        pointerType: event.pointerType,
+                        startX: event.clientX,
+                        startY: event.clientY,
+                        startPos: pos,
+                        lastX: event.clientX,
+                        lastTime: performance.now(),
+                        velocity: 0,
+                        axis: null,
+                        moved: false
+                    };
+                    suppressClick = false;
+                    viewport.classList.add('is-dragging');
+
+                    if (viewport.setPointerCapture)
+                    {
+                        try
+                        {
+                            viewport.setPointerCapture(event.pointerId);
+                        }
+                        catch (captureError)
+                        {
+                            console.error('Testimonial wheel: pointer capture failed', captureError);
+                        }
+                    }
+
+                    syncAuto();
+                }
+
+                function pointerMove(event)
+                {
+                    if (!dragging || event.pointerId !== dragging.id)
+                    {
+                        return;
+                    }
+
+                    const deltaX = event.clientX - dragging.startX;
+                    const deltaY = event.clientY - dragging.startY;
+
+                    if (!dragging.axis)
+                    {
+                        if (Math.abs(deltaX) < 6 && Math.abs(deltaY) < 6)
+                        {
+                            return;
+                        }
+
+                        dragging.axis = Math.abs(deltaX) >= Math.abs(deltaY) ? 'x' : 'y';
+
+                        // check if scrolling page, not wheel
+                        if (dragging.axis === 'y')
+                        {
+                            endDrag(true);
+                            return;
+                        }
+                    }
+
+                    if (Math.abs(deltaX) > 4)
+                    {
+                        dragging.moved = true;
+                    }
+
+                    pos = dragging.startPos - deltaX / step;
+                    render();
+                    updateActive(false);
+
+                    const now = performance.now();
+                    const elapsed = now - dragging.lastTime;
+
+                    if (elapsed > 0)
+                    {
+                        const instantVelocity = (event.clientX - dragging.lastX) / elapsed;
+                        dragging.velocity = dragging.velocity * 0.75 + instantVelocity * 0.25;
+                        dragging.lastX = event.clientX;
+                        dragging.lastTime = now;
+                    }
+                }
+
+                function endDrag(cancelled)
+                {
+                    if (!dragging)
+                    {
+                        return;
+                    }
+
+                    const state = dragging;
+                    dragging = null;
+                    viewport.classList.remove('is-dragging');
+
+                    if (viewport.releasePointerCapture)
+                    {
+                        try
+                        {
+                            viewport.releasePointerCapture(state.id);
+                        }
+                        catch (releaseError)
+                        {
+                            console.log("Release failed: ", releaseError);
+                        }
+                    }
+
+                    if (state.pointerType !== 'mouse')
+                    {
+                        hovering = false;
+                    }
+
+                    const momentum = cancelled ? 0 : (-state.velocity / step) * 160;
+                    const projected = state.moved ? pos + momentum : pos;
+                    const target = nearestEquivalent(Math.round(projected));
+
+                    suppressClick = state.moved;
+
+                    if (state.moved)
+                    {
+                        resumeAt = performance.now() + resumeDelay;
+                    }
+
+                    if (state.moved || Math.abs(target - pos) > 0.001)
+                    {
+                        startSnap(target, state.moved);
+                    }
+                    else
+                    {
+                        syncAuto();
+                    }
+                }
+
+                /* ---------- interaction wiring ---------- */
+
+                viewport.addEventListener('pointerdown', pointerDown);
+                viewport.addEventListener('pointermove', pointerMove);
+                viewport.addEventListener('pointerup', function ()
+                {
+                    endDrag(false);
+                });
+                viewport.addEventListener('pointercancel', function ()
+                {
+                    endDrag(true);
+                });
+                viewport.addEventListener('lostpointercapture', function ()
+                {
+                    endDrag(true);
+                });
+
+                // disable click when dragging
+                viewport.addEventListener('click', function (event)
+                {
+                    if (!suppressClick)
+                    {
+                        return;
+                    }
+
+                    suppressClick = false;
+                    event.preventDefault();
+                    event.stopPropagation();
+                }, true);
+
+                prevBtn.addEventListener('click', function ()
+                {
+                    stepBy(-1, true);
+                });
+
+                nextBtn.addEventListener('click', function ()
+                {
+                    stepBy(1, true);
+                });
+
+                dotsWrap.addEventListener('click', function (event)
+                {
+                    const dot = event.target.closest('.tw-dot');
+
+                    if (!dot)
+                    {
+                        return;
+                    }
+
+                    goTo(parseInt(dot.getAttribute('data-index'), 10) || 0, true);
+                });
+
+                root.addEventListener('keydown', function (event)
+                {
+                    if (event.key === 'ArrowLeft')
+                    {
+                        event.preventDefault();
+                        stepBy(-1, true);
+                    }
+                    else if (event.key === 'ArrowRight')
+                    {
+                        event.preventDefault();
+                        stepBy(1, true);
+                    }
+                    else if (event.key === 'Home')
+                    {
+                        event.preventDefault();
+                        goTo(0, true);
+                    }
+                    else if (event.key === 'End')
+                    {
+                        event.preventDefault();
+                        goTo(realCount - 1, true);
+                    }
+                });
+
+                document.addEventListener('keydown', function ()
+                {
+                    keyboardNav = true;
+                }, true);
+
+                root.addEventListener('pointerdown', function ()
+                {
+                    keyboardNav = false;
+                }, true);
+
+                root.addEventListener('pointerenter', function ()
+                {
+                    hovering = true;
+                    syncAuto();
+                });
+
+                root.addEventListener('pointerleave', function ()
+                {
+                    hovering = false;
+                    syncAuto();
+                });
+
+                // release hover
+                function releaseTouchHover(event)
+                {
+                    if (event.pointerType !== 'mouse')
+                    {
+                        hovering = false;
+                        syncAuto();
+                    }
+                }
+
+                root.addEventListener('pointerup', releaseTouchHover, true);
+                root.addEventListener('pointercancel', releaseTouchHover, true);
+
+                root.addEventListener('focusin', function ()
+                {
+                    focused = keyboardNav;
+                    syncAuto();
+                });
+
+                root.addEventListener('focusout', function (event)
+                {
+                    if (!root.contains(event.relatedTarget))
+                    {
+                        focused = false;
+                        syncAuto();
+                    }
+                });
+
+                document.addEventListener('visibilitychange', function ()
+                {
+                    syncAuto();
+                });
+
+                if ('IntersectionObserver' in window)
+                {
+                    const visibilityObserver = new IntersectionObserver(function (entries)
+                    {
+                        offscreen = !entries[0].isIntersecting;
+                        syncAuto();
+                    });
+
+                    visibilityObserver.observe(root);
+                }
+
+                if (typeof reduceMotion.addEventListener === 'function')
+                {
+                    reduceMotion.addEventListener('change', function ()
+                    {
+                        syncAuto();
+                    });
+                }
+
+                /* ---------- responsive re-measure ---------- */
+
+                function handleResize()
+                {
+                    resizeFrame = null;
+                    measure();
+
+                    const nextVisible = countVisible();
+
+                    if (nextVisible !== visibleCount)
+                    {
+                        visibleCount = nextVisible;
+                        cloneCount = Math.min(visibleCount + 1, 6);
+                        buildClones();
+                        measure();
+                    }
+
+                    render();
+                    updateActive(false);
+                    syncAuto();
+                }
+
+                function requestResize()
+                {
+                    if (resizeFrame === null)
+                    {
+                        resizeFrame = window.requestAnimationFrame(handleResize);
+                    }
+                }
+
+                if ('ResizeObserver' in window)
+                {
+                    const sizeObserver = new ResizeObserver(requestResize);
+                    sizeObserver.observe(viewport);
+                }
+                else
+                {
+                    window.addEventListener('resize', requestResize);
+                    window.addEventListener('orientationchange', requestResize);
+                }
+
+                window.addEventListener('load', requestResize);
+
+                // remeasure based on fonts
+                if (document.fonts && document.fonts.ready)
+                {
+                    document.fonts.ready.then(requestResize).catch(function (fontError)
+                    {
+                        console.error('Testimonial wheel: font re-measure failed', fontError);
+                    });
+                }
+
+                /* ---------- start ---------- */
+
+                measure();
+                visibleCount = countVisible();
+
+                cloneCount = Math.min(visibleCount + 1, 6);
+                buildClones();
+                measure();
+                buildDots();
+                render();
+                updateActive(false);
+                syncAuto();
             }
-        }
-        catch (domError)
-        {
-            console.error('Animation failed', domError.message || domError);
-        }
+            catch (wheelError)
+            {
+                console.error('Testimonial wheel failed to start:', wheelError);
+            }
+        })();
 
         function renderRoleNav(navbar, role)
         {
-            if (!navbar) return;
-
             const dashboardMap =
             {
                 owner: 'owner.html',
                 customer: 'customer.html',
                 worker: 'worker.html'
-            };
-            const dashPage = dashboardMap[role] || 'storefront.html';
-
-            navbar.innerHTML = `
-                <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
-                </div>
-                <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity">
-                    Home
-                </a>
-                <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity">
-                    Pricing
-                </a>
-                <a href="aboutus.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity" aria-current="page">
-                    Meet the Team
-                </a>
-                <a href="${dashPage}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm transition-all">
-                    Dashboard
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                </a>
-                <button id="logout-btn" class="inline-flex items-center justify-center p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Sign Out">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                </button>
-                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Toggle Dark Mode">
-                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                </button>
-            `;
-        }
-
-        function renderRoleNav(navbar, role)
-        {
-            const dashboardMap = 
-            { 
-                owner: 'owner.html', 
-                customer: 'customer.html', 
-                worker: 'worker.html' 
             };
             const dashPage = dashboardMap[role] || 'storefront.html';
 
@@ -546,14 +1459,14 @@
             `;
         }
 
-        document.addEventListener('click', async (event) => 
+        document.addEventListener('click', async (event) =>
         {
             const logout = event.target.closest("#logout-btn");
-            if (!logout) 
+            if (!logout)
             {
                 return;
             }
-            
+
             try
             {
                 logout.disabled = true;
