@@ -200,8 +200,9 @@
                         <select id="orders-filter-status" class="border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 focus:border-transparent bg-white dark:bg-slate-800 transition-all">
                             <option value="">All Statuses</option>
                             <option value="Processing">Processing</option>
-                            <option value="Ready for Driver">Ready for Driver</option>
+                            <option value="Shipped">Shipped</option>
                             <option value="Out for Delivery">Out for Delivery</option>
+                            <option value="Delivered">Delivered</option>
                         </select>
                     </div>
                 </div>
@@ -916,13 +917,14 @@
                 const orderNum = (o.order_number || '').toLowerCase();
                 const itemsStr = (o.items || '').toLowerCase();
                 const matchSearch = orderNum.includes(search) || itemsStr.includes(search);
-                const matchStatus = !status || o.status === status;
+                const currentStatus = o.status === 'Ready for Driver' ? 'Shipped' : (o.status || 'Processing');
+                const matchStatus = !status || o.status === status || currentStatus === status;
                 return matchSearch && matchStatus;
             });
 
             document.getElementById('stat-ord-total').textContent = state.orders.length;
             document.getElementById('stat-ord-processing').textContent = state.orders.filter(o => o.status === 'Processing').length;
-            document.getElementById('stat-ord-ready').textContent = state.orders.filter(o => ['Ready for Driver', 'Out for Delivery'].includes(o.status)).length;
+            document.getElementById('stat-ord-ready').textContent = state.orders.filter(o => ['Ready for Driver', 'Shipped', 'Out for Delivery', 'Delivered'].includes(o.status)).length;
             document.getElementById('badge-orders').textContent = state.orders.length;
             
             tbody.innerHTML = '';
@@ -932,25 +934,14 @@
                 return;
             }
 
-            const getStatusBadge = (statusStr) => {
-                switch(statusStr) {
-                    case 'Processing': 
-                        return '<span class="px-2 py-0.5 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 text-[10px] font-bold uppercase tracking-wider rounded-md border border-indigo-200 dark:border-indigo-800">Processing</span>';
-                    case 'Ready for Driver': 
-                        return '<span class="px-2 py-0.5 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wider rounded-md border border-emerald-200 dark:border-emerald-800">Ready</span>';
-                    case 'Out for Delivery': 
-                        return '<span class="px-2 py-0.5 bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400 text-[10px] font-bold uppercase tracking-wider rounded-md border border-purple-200 dark:border-purple-800">Dispatched</span>';
-                    default: 
-                        return `<span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] font-bold uppercase tracking-wider rounded-md border border-slate-200 dark:border-slate-700">${sanitizeHtml(statusStr)}</span>`;
-                }
-            };
-
             rows.forEach(o => {
                 const tr = document.createElement('tr');
                 tr.className = 'border-b border-slate-100 dark:border-slate-800 last:border-0 hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors';
                 
                 const formattedDate = o.created_at ? new Date(o.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '-';
                 
+                const currentStatus = o.status === 'Ready for Driver' ? 'Shipped' : (o.status || 'Processing');
+
                 tr.innerHTML = `
                     <td class="py-3 px-4">
                         <button onclick="viewOrderReceipt('${sanitizeHtml(o.id)}')" class="font-mono font-semibold text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hover:underline transition-colors focus:outline-none">
@@ -959,12 +950,55 @@
                     </td>
                     <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400">${sanitizeHtml(o.storefront)}</td>
                     <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300">${sanitizeHtml(o.items)}</td>
-                    <td class="py-3 px-4">${getStatusBadge(o.status)}</td>
+                    <td class="py-3 px-4">
+                        <select onchange="updateOrderStatus('${sanitizeHtml(o.id)}', this.value)" class="text-xs font-medium border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-indigo-500 transition-all cursor-pointer">
+                            <option value="Processing" ${currentStatus === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Shipped" ${currentStatus === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Out for Delivery" ${currentStatus === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
+                            <option value="Delivered" ${currentStatus === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                        </select>
+                    </td>
                     <td class="py-3 px-4 text-right text-sm text-slate-400 dark:text-slate-500">${formattedDate}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            const { client } = await import('./supaBase.js');
+            const order = state.orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const dbStatus = newStatus === 'Shipped' ? 'Ready for Driver' : newStatus;
+
+            try {
+                const { error } = await client
+                    .from('orders')
+                    .update({ status: dbStatus })
+                    .eq('id', orderId);
+
+                if (error) {
+                    if (error.code === '23514' && newStatus === 'Delivered') {
+                        const { error: fallbackErr } = await client
+                            .from('orders')
+                            .update({ status: 'Out for Delivery' })
+                            .eq('id', orderId);
+                        if (fallbackErr) throw fallbackErr;
+                    } else {
+                        throw error;
+                    }
+                }
+
+                order.status = (newStatus === 'Shipped') ? 'Ready for Driver' : newStatus;
+                renderOrders();
+                renderSales();
+            } catch (err) {
+                console.error('Failed to update order status:', err);
+                alert('Could not update order status: ' + (err.message || 'Unknown error'));
+                renderOrders();
+            }
+        }
+        window.updateOrderStatus = updateOrderStatus;
 
         function viewOrderReceipt(orderId) {
             const order = state.orders.find(o => o.id === orderId);
@@ -980,10 +1014,12 @@
 
             const badge = document.getElementById('receipt-status-badge');
             if (badge) {
-                badge.textContent = order.status || 'Processing';
+                const displayStatus = order.status === 'Ready for Driver' ? 'Shipped' : (order.status || 'Processing');
+                badge.textContent = displayStatus;
                 badge.className = 'inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border ' + 
-                    (order.status === 'Ready for Driver' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' :
+                    (order.status === 'Shipped' || order.status === 'Ready for Driver' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800' :
                      order.status === 'Out for Delivery' ? 'bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-400 border-purple-200 dark:border-purple-800' :
+                     order.status === 'Delivered' ? 'bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-400 border-teal-200 dark:border-teal-800' :
                      order.status === 'Pick' ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800' :
                      'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800');
             }

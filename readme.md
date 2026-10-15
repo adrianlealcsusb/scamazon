@@ -17,7 +17,7 @@
       * Set status 🟢
     * Orders 
       * View 🟢
-      * Set status🔴
+      * Set status 🟢
       * Receipts/invoice 🔴
       * Tracking 🔴
   * **Storefront**
@@ -33,7 +33,7 @@
       * Set status 🟢
     * Orders 
       * View 🟢
-      * Set status🔴
+      * Set status 🟢
       * Receipts/invoice 🔴
       * Tracking 🔴
   * **Worker**
@@ -43,7 +43,7 @@
       * Edit 🟢
     * Orders 
       * View 🟢
-      * Set status🔴
+      * Set status 🟢
       * Receipts/invoice 🔴
       * Tracking 🔴
     * Scanner (camera QR/barcode scan) 🟢
