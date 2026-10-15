@@ -706,7 +706,8 @@
             document.getElementById('track-order-id').textContent = data.order_number;
             document.getElementById('track-storefront').textContent = data.storefront;
             document.getElementById('track-items').textContent = data.items;
-            document.getElementById('track-status-text').textContent = data.status;
+            const displayStatus = data.status === 'Ready for Driver' ? 'Shipped' : data.status;
+            document.getElementById('track-status-text').textContent = displayStatus;
 
             ['step-submitted-dot', 'step-picking-dot', 'step-packed-dot', 'step-ready-dot'].forEach(id => {
                 document.getElementById(id).className = 'w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center text-xs font-bold';
@@ -715,22 +716,25 @@
             // Milestone 1: Always active for placed orders
             document.getElementById('step-submitted-dot').className = 'w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm';
 
-            // Milestone 2: Picking (Active immediately once in floor queue)
-            if (['Processing', 'Ready for Driver', 'Out for Delivery'].includes(data.status)) {
+            // Milestone 2: Processing / Picking
+            if (['Processing', 'Ready for Driver', 'Shipped', 'Out for Delivery', 'Delivered'].includes(data.status)) {
                 document.getElementById('step-picking-dot').className = 'w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm';
-                document.getElementById('time-picking').textContent = 'In Progress';
+                document.getElementById('time-picking').textContent = data.status === 'Processing' ? 'In Progress' : 'Completed';
             }
 
-            // Milestone 3: Packed
-            if (data.status === 'Pack' || data.status === 'Ready for Driver' || data.status === 'Out for Delivery') {
+            // Milestone 3: Packed / Shipped
+            if (['Shipped', 'Ready for Driver', 'Out for Delivery', 'Delivered', 'Pack'].includes(data.status)) {
                 document.getElementById('step-packed-dot').className = 'w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm';
                 document.getElementById('time-packed').textContent = 'Completed';
             }
 
-            // Milestone 4: Ready / Courier
-            if (data.status === 'Ready for Driver' || data.status === 'Out for Delivery') {
+            // Milestone 4: Out for Delivery / Delivered
+            if (['Out for Delivery', 'Delivered'].includes(data.status)) {
                 document.getElementById('step-ready-dot').className = 'w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-sm';
                 document.getElementById('time-ready').textContent = data.status;
+            } else if (['Shipped', 'Ready for Driver'].includes(data.status)) {
+                document.getElementById('step-ready-dot').className = 'w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center text-xs font-bold';
+                document.getElementById('time-ready').textContent = 'Shipped';
             }
         }
 
