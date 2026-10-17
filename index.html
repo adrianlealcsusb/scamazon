@@ -68,6 +68,19 @@
                 scroll-behavior: auto !important;
             }
         }
+
+        @media print {
+            body * { visibility: hidden !important; }
+            #receipt-modal, #receipt-modal * { visibility: visible !important; }
+            #receipt-modal {
+                position: absolute !important;
+                inset: 0 !important;
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+            }
+            #receipt-modal button { display: none !important; }
+        }
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-950">
@@ -107,9 +120,10 @@
 
                     <!-- Search Input with Keyboard Shortcut Indicator -->
                     <label for="catalog-search" class="sr-only">Search catalog by title or SKU</label>
-                    <div class="relative flex-1">
+                    <div class="relative flex-1 flex items-center">
                         <input id="catalog-search" type="search" placeholder="Search catalog by title, category, or SKU..." 
-                            class="w-full px-3.5 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 bg-transparent focus:outline-none">
+                            class="w-full pl-3.5 pr-9 py-2 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-400 bg-transparent focus:outline-none">
+                        <kbd class="hidden sm:inline-flex items-center justify-center absolute right-2.5 px-1.5 py-0.5 text-xs font-mono font-bold text-slate-400 dark:text-slate-400 bg-slate-100 dark:bg-slate-700/80 rounded border border-slate-300 dark:border-slate-600 pointer-events-none" title="Press / to focus search">/</kbd>
                     </div>
 
                     <!-- Search Action Button -->
@@ -770,8 +784,19 @@
             }
         }
 
-        // Close modals and drawer on Escape key
+        // Keyboard shortcuts
         window.addEventListener('keydown', (e) => {
+            // Quick-focus search on '/'
+            if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+                e.preventDefault();
+                const searchInput = document.getElementById('catalog-search');
+                if (searchInput) {
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            }
+
+            // Close modals and drawer on Escape key
             if (e.key === 'Escape') {
                 toggleCartDrawer(false);
                 closeConfirmationModal();
