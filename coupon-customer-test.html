@@ -189,6 +189,7 @@
                         <button
                             id="apply-coupon-btn"
                             type="button"
+                            onclick="applyCoupon()"
                             class="px-4 py-2 bg-slate-100 text-slate-700 text-sm font-semibold rounded-lg border border-slate-300 hover:bg-slate-200 transition">
                             Apply
                         </button>
@@ -466,6 +467,55 @@
 
         function toggleCartDrawer() {
             document.getElementById('cart-drawer').classList.toggle('hidden');
+        }
+        
+        async function applyCoupon() {
+            const input = document.getElementById('coupon-input');
+            const feedback = document.getElementById('coupon-feedback');
+
+            const code = input.value.trim().toUpperCase();
+
+            if (!code) {
+                feedback.textContent = 'Enter a coupon code.';
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            if (cart.length === 0) {
+                feedback.textContent = 'Add an item to your cart first.';
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            const storefront = cart[0].storefront;
+            const subtotal = cart.reduce(
+                (sum, item) => sum + (item.qty * Number(item.price)),
+                0
+            );
+
+            const { data, error } = await client.rpc('validate_coupon', {
+                p_code: code,
+                p_storefront: storefront,
+                p_subtotal: subtotal
+            });
+
+            if (error) {
+                feedback.textContent = `Unable to validate coupon: ${error.message}`;
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            const result = data?.[0];
+
+            if (!result || !result.is_valid) {
+                feedback.textContent =
+                    result?.message || 'Coupon is not valid.';
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            feedback.textContent = result.message;
+            feedback.className = 'text-xs text-emerald-600';
         }
 
         async function placeOrder() {
