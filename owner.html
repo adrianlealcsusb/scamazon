@@ -45,21 +45,34 @@
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        h1, .type-display { font-size: 1.75rem; line-height: 1.25; letter-spacing: -0.025em; text-wrap: balance; }
+        h2, .type-section { font-size: 1.375rem; line-height: 1.3; letter-spacing: -0.02em; text-wrap: balance; }
+        h3, .type-title { font-size: 1.0625rem; line-height: 1.35; letter-spacing: -0.015em; text-wrap: balance; }
+
+        /* browser surface theming */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.7); }
+        .dark ::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.5); }
+        .dark ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.7); }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased flex h-screen overflow-hidden selection:bg-indigo-600 dark:selection:bg-indigo-500 selection:text-white transition-colors duration-300">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased flex h-screen overflow-hidden selection:bg-amber-500 selection:text-slate-950 transition-colors duration-300">
     
     <!-- Sidebar -->
     <aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 transition-colors">
         <div class="p-4 h-16 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
             <a href="index.html" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity">
-                Scamazon<span class="text-indigo-600 dark:text-indigo-400">.</span>
+                Scamazon<span class="text-amber-600 dark:text-amber-400">.</span>
             </a>
             <span class="text-[11px] font-semibold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700 font-mono">owner</span>
         </div>
         <nav class="flex-1 p-3 space-y-1 text-sm font-medium overflow-y-auto" id="sidebar-nav">
-            <button onclick="switchTab('listings')" data-tab="listings" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between bg-slate-900 dark:bg-indigo-600 text-white shadow-sm shadow-slate-900/10 transition-all">
+            <button onclick="switchTab('listings')" data-tab="listings" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 shadow-sm shadow-slate-900/10 transition-all font-semibold">
                 Listings
-                <span id="badge-listings" class="text-xs bg-slate-800 dark:bg-indigo-700 text-slate-200 dark:text-indigo-100 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-listings" class="text-xs bg-slate-800 dark:bg-amber-600 text-slate-200 dark:text-slate-950 px-2 py-0.5 rounded-md font-mono">0</span>
             </button>
             <button onclick="switchTab('storefronts')" data-tab="storefronts" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
                 Storefronts
@@ -503,14 +516,14 @@
             </div>
 
             <div class="p-6 overflow-y-auto space-y-6 text-sm">
-                <div class="flex flex-wrap justify-between items-center gap-3 p-3.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl">
+                <div class="flex flex-wrap justify-between items-center gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
                     <div>
                         <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Storefront Branch</p>
                         <p id="receipt-branch-name" class="font-bold text-slate-900 dark:text-white mt-0.5">-</p>
                     </div>
                     <div class="text-right">
                         <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Status</p>
-                        <span id="receipt-status-badge" class="inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800">Processing</span>
+                        <span id="receipt-status-badge" class="inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800">Processing</span>
                     </div>
                 </div>
 
@@ -519,7 +532,7 @@
                     <p id="receipt-date-time" class="font-medium text-slate-800 dark:text-slate-200 mt-1">-</p>
                 </div>
 
-                <div class="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                <div class="border-y border-slate-200 dark:border-slate-700 overflow-x-auto">
                     <table class="w-full text-left text-xs">
                         <thead class="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
                             <tr>
@@ -664,13 +677,13 @@
                 const isSelected = btn.dataset.tab === tab;
                 btn.className = `nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between text-sm font-medium transition-all ${
                     isSelected 
-                        ? 'bg-slate-900 dark:bg-indigo-600 text-white shadow-sm shadow-slate-900/10' 
+                        ? 'bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 font-semibold shadow-sm shadow-slate-900/10' 
                         : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`;
                 if (badge) {
                     badge.className = `text-xs px-2 py-0.5 rounded-md font-mono ${
                         isSelected 
-                            ? 'bg-slate-800 dark:bg-indigo-700 text-slate-200 dark:text-indigo-100' 
+                            ? 'bg-slate-800 dark:bg-amber-600 text-slate-200 dark:text-slate-950' 
                             : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                     }`;
                 }
