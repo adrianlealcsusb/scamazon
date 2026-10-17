@@ -411,37 +411,52 @@
                     existing.qty += 1;
                 } else {
                     alert('Cannot add more units than are physically in stock.');
+                    return;
                 }
             } else {
                 cart.push({ ...item, qty: 1 });
             }
 
-            updateCartUI();
+            updateCartUI(true);
         }
 
-        function updateCartUI() {
+        function updateCartUI(cartChanged = false) {
             const count = cart.reduce((sum, i) => sum + i.qty, 0);
             document.getElementById('cart-counter').textContent = count;
             document.getElementById('cart-badge').textContent = count;
 
             const selectedBranch = document.getElementById('catalog-storefront').value;
-            document.getElementById('cart-storefront-name').textContent = selectedBranch || (cart.length > 0 ? cart[0].storefront : 'All Storefronts');
+            document.getElementById('cart-storefront-name').textContent =
+                selectedBranch ||
+                (cart.length > 0 ? cart[0].storefront : 'All Storefronts');
 
             const container = document.getElementById('cart-items-container');
             const totalEl = document.getElementById('cart-total-price');
             const orderBtn = document.getElementById('order-btn');
+            const feedback = document.getElementById('coupon-feedback');
 
             if (cart.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-10">Cart is empty.</p>`;
+                appliedCoupon = null;
+                feedback.textContent = '';
+                container.innerHTML =
+                    `<p class="text-xs text-slate-400 text-center py-10">Cart is empty.</p>`;
                 totalEl.textContent = '$0.00';
                 orderBtn.disabled = true;
                 return;
             }
 
+            if (cartChanged && appliedCoupon) {
+                appliedCoupon = null;
+                feedback.textContent = 'Cart changed. Reapply your coupon.';
+                feedback.className = 'text-xs text-amber-600';
+            }
+            
             let total = 0;
+
             container.innerHTML = cart.map(item => {
                 const sub = item.qty * item.price;
                 total += sub;
+
                 return `
                     <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs">
                         <div>
@@ -463,7 +478,7 @@
 
         function removeFromCart(id) {
             cart = cart.filter(c => c.id !== id);
-            updateCartUI();
+            updateCartUI(true);
         }
 
         function toggleCartDrawer() {
@@ -479,6 +494,13 @@
 
             if (!code) {
                 appliedCoupon = null;
+
+                const subtotal = cart.reduce(
+                    (sum, item) => sum + (item.qty * Number(item.price)),
+                    0
+                );
+
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
                 feedback.textContent = 'Enter a coupon code.';
                 feedback.className = 'text-xs text-rose-600';
                 return;
@@ -491,11 +513,23 @@
                 return;
             }
 
-            const storefront = cart[0].storefront;
             const subtotal = cart.reduce(
                 (sum, item) => sum + (item.qty * Number(item.price)),
                 0
             );
+
+            const storefronts = [...new Set(cart.map(item => item.storefront))];
+
+            if (storefronts.length !== 1) {
+                appliedCoupon = null;
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+                feedback.textContent =
+                    'Coupons can only be applied to items from one storefront.';
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            const storefront = storefronts[0];
 
             const { data, error } = await client.rpc('validate_coupon', {
                 p_code: code,
