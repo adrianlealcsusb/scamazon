@@ -472,6 +472,7 @@
         async function applyCoupon() {
             const input = document.getElementById('coupon-input');
             const feedback = document.getElementById('coupon-feedback');
+            const totalEl = document.getElementById('cart-total-price');
 
             const code = input.value.trim().toUpperCase();
 
@@ -500,6 +501,7 @@
             });
 
             if (error) {
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
                 feedback.textContent = `Unable to validate coupon: ${error.message}`;
                 feedback.className = 'text-xs text-rose-600';
                 return;
@@ -508,13 +510,19 @@
             const result = data?.[0];
 
             if (!result || !result.is_valid) {
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
                 feedback.textContent =
                     result?.message || 'Coupon is not valid.';
                 feedback.className = 'text-xs text-rose-600';
                 return;
             }
 
-            feedback.textContent = result.message;
+            const discountAmount = Number(result.discount_amount);
+            const finalTotal = Number(result.final_total);
+
+            totalEl.textContent = `$${finalTotal.toFixed(2)}`;
+            feedback.textContent =
+                `${result.message} You saved $${discountAmount.toFixed(2)}.`;
             feedback.className = 'text-xs text-emerald-600';
         }
 
