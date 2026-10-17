@@ -576,43 +576,53 @@
         }
 
         async function placeOrder() {
+            if (cart.length === 0) return;
+
             const orderBtn = document.getElementById('order-btn');
             orderBtn.disabled = true;
             orderBtn.textContent = 'Processing Order...';
 
-            const selectedBranch = document.getElementById('catalog-storefront').value || (cart[0] ? cart[0].storefront : 'Main Depot');
-            const orderNum = `Order #${Math.floor(1000 + Math.random() * 9000)}`;
-            const itemString = cart.map(i => `${i.qty}x ${i.title} (${i.sku})`).join(', ');
-            const total = cart.reduce((sum, i) => sum + (i.qty * i.price), 0).toFixed(2);
-
             try {
-                for (const item of cart) {
-                    const newStock = Math.max(0, item.stock - item.qty);
-                    await client.from('listings').update({ stock: newStock }).eq('id', item.id);
-                }
+                const items = cart.map(item => ({
+                    id: item.id,
+                    qty: item.qty
+                }));
 
-                const { error: orderErr } = await client.from('orders').insert([{
-                    order_number: orderNum,
-                    storefront: selectedBranch,
-                    items: itemString,
-                    status: 'Processing'
-                }]);
+                const couponCode = appliedCoupon
+                    ? appliedCoupon.code
+                    : null;
 
-                if (orderErr) throw orderErr;
+                const { data, error } = await client.rpc('place_order', {
+                    p_items: items,
+                    p_coupon_code: couponCode
+                });
 
-                document.getElementById('confirmation-message').textContent = 
-                    `${orderNum} confirmed. Held for 48 hours. Total: $${total}.`;
-                document.getElementById('confirmation-modal').classList.remove('hidden');
+                if (error) throw error;
+
+                const total = Number(data.total);
+
+                document.getElementById('confirmation-message').textContent =
+                    `${data.order_number} confirmed. Held for 48 hours. Total: $${total.toFixed(2)}.`;
+
+                document
+                    .getElementById('confirmation-modal')
+                    .classList.remove('hidden');
 
                 cart = [];
+                appliedCoupon = null;
+
+                document.getElementById('coupon-input').value = '';
+
                 updateCartUI();
                 toggleCartDrawer();
+
                 await fetchListings();
                 renderCatalog();
+
             } catch (err) {
                 alert('Failed to place order: ' + err.message);
-            } finally {
                 orderBtn.disabled = false;
+            } finally {
                 orderBtn.textContent = 'Place Order';
             }
         }
