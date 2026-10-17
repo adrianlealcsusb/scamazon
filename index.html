@@ -25,7 +25,7 @@
                 'space-x-2', 'gap-1.5', 'px-3', 'px-4', 'px-5', 'py-1', 'py-2', 'p-2', 'p-2.5',
                 'rounded-sm', 'rounded-lg', 'rounded-xl', 'rounded-full',
                 'text-[11px]', 'text-sm', 'font-medium', 'font-semibold', 'font-mono',
-                'uppercase', 'tracking-tight', 'tracking-wider', 'animate-pulse', 'duration-200',
+                'uppercase', 'tracking-tight', 'tracking-wider', 'duration-200',
                 'w-2', 'h-2', 'w-4', 'h-4', 'w-5', 'h-5', 'block', 'dark:block', 'dark:hidden',
                 'border', 'border-slate-200', 'dark:border-slate-700',
                 'bg-slate-100', 'dark:bg-slate-800', 'bg-slate-900', 'dark:bg-indigo-600',
@@ -37,7 +37,9 @@
                 'hover:text-rose-600', 'dark:hover:text-rose-400', 'hover:opacity-80',
                 'transition-opacity', 'transition-colors', 'transition-all', 'shadow-sm',
                 'focus:outline-none', 'focus:ring-2', 'focus:ring-indigo-500',
-                'focus:ring-offset-2', 'focus:ring-indigo-600'
+                'focus:ring-offset-2', 'focus:ring-indigo-600',
+                'focus-visible:outline-none', 'focus-visible:ring-2', 'focus-visible:ring-indigo-500',
+                'focus-visible:ring-offset-2', 'dark:focus-visible:ring-offset-slate-900'
             ],
             theme:
             {
@@ -49,16 +51,10 @@
                     },
                     animation:
                     {
-                        'gradient-shift': 'gradient-shift 8s ease infinite',
                         'float': 'float 4s ease-in-out infinite',
                     },
                     keyframes:
                     {
-                        'gradient-shift':
-                        {
-                            '0%, 100%': { 'background-position': '0% 50%' },
-                            '50%': { 'background-position': '100% 50%' },
-                        },
                         'float':
                         {
                             '0%, 100%': { transform: 'translateY(0)' },
@@ -89,8 +85,37 @@
         }
     </script>
 
-    <!-- styles for testimonial wheel -->
+    <!-- type scale + testimonial wheel styles -->
     <style>
+        /* type scale: declared once, referenced by the role classes below */
+        .type-display,
+        .type-section,
+        .type-title
+        {
+            text-wrap: balance;
+        }
+
+        .type-display
+        {
+            font-size: clamp(2.75rem, 1.9rem + 3.6vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+
+        .type-section
+        {
+            font-size: clamp(1.875rem, 1.5rem + 1.2vw, 2.5rem);
+            line-height: 1.12;
+            letter-spacing: -0.025em;
+        }
+
+        .type-title
+        {
+            font-size: 1.25rem;
+            line-height: 1.35;
+            letter-spacing: -0.015em;
+        }
+
         .tw
         {
             --tw-visible: 1;
@@ -223,14 +248,14 @@
             padding: 0;
             border: 0;
             border-radius: 9999px;
-            background-color: #cbd5e1;
+            background-color: #64748b;
             cursor: pointer;
             transition: width 300ms var(--tw-ease), background-color 300ms var(--tw-ease);
         }
 
         .tw-dot:hover
         {
-            background-color: #94a3b8;
+            background-color: #475569;
         }
 
         .tw-dot:focus-visible
@@ -247,12 +272,12 @@
 
         .dark .tw-dot
         {
-            background-color: #334155;
+            background-color: #94a3b8;
         }
 
         .dark .tw-dot:hover
         {
-            background-color: #475569;
+            background-color: #cbd5e1;
         }
 
         .dark .tw-dot[aria-current="true"]
@@ -267,13 +292,18 @@
             {
                 transition: none;
             }
+
+            .animate-float
+            {
+                animation: none;
+            }
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white transition-colors duration-300">
 
     <!-- Navigation -->
-    <header class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-xs transition-colors">
+    <header class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
         <nav class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center" aria-label="Main Navigation">
             <!-- logo -->
             <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-sm">
@@ -284,16 +314,16 @@
             <div class="flex items-center space-x-6 sm:space-x-8">
                 <!-- desktop links -->
                 <div id="navbar" class="hidden sm:flex items-center space-x-6 sm:space-x-8">
-                    <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm" aria-current="page">
+                    <a href="index.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900" aria-current="page">
                         Home
                     </a>
-                    <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                         Pricing
                     </a>
-                    <a href="aboutus.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    <a href="aboutus.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                         Meet the Team
                     </a>
-                    <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                         Log In
                     </a>
                     <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
@@ -352,14 +382,14 @@
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="text-center lg:text-left space-y-6">
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                    <h1 class="type-display font-extrabold text-slate-900 dark:text-white">
                         Industry Leading<br class="hidden sm:block" />
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-600 to-indigo-800 dark:from-white dark:via-indigo-400 dark:to-indigo-200 bg-[length:200%_auto] animate-gradient-shift">
+                        <span class="text-indigo-600 dark:text-indigo-400">
                             Warehouse Management
                         </span>
                     </h1>
 
-                    <p class="text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
+                    <p class="text-lg text-pretty text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
                         Automate inventory, generate invoices, and manage storefronts effortlessly from a unified control panel.
                     </p>
 
@@ -387,19 +417,19 @@
         <section class="border-y border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm py-8 px-6 transition-colors">
             <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">99.99999%</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-900 dark:text-white">99.99999%</p>
                     <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Inventory Accuracy</p>
                 </div>
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
-                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">6.9x</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-indigo-600 dark:text-indigo-400">6.9x</p>
                     <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Faster Order Fulfillment</p>
                 </div>
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">10,000+</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-900 dark:text-white">10,000+</p>
                     <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Happy Customers</p>
                 </div>
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
-                    <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">24/7</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold tabular-nums text-indigo-600 dark:text-indigo-400">24/7</p>
                     <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">AI Assistant Uptime</p>
                 </div>
             </div>
@@ -411,7 +441,7 @@
             <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-indigo-50/40 dark:from-slate-900 dark:via-slate-950 dark:to-indigo-950/20"></div>
 
             <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Features</h2>
+                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Features</h2>
                 <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300">Everything you need to run a modern warehouse operation smoothly.</p>
             </div>
 
@@ -424,11 +454,8 @@
                         <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" /><path fill-rule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087Zm6.163 3.75A.75.75 0 0 1 10 12h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" /></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Superior Management</h3>
+                        <h3 class="type-title font-bold text-slate-900 dark:text-white mb-3">Superior Management</h3>
                         <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Manage your listings, storefronts, warehouse workers, and orders in a unified dashboard.</p>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
-                        Explore module &rarr;
                     </div>
                 </div>
 
@@ -438,11 +465,8 @@
                         <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M3.75 3.375c0-1.036.84-1.875 1.875-1.875H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375Zm10.5 1.875a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25ZM12 10.5a.75.75 0 0 1 .75.75v.028a9.727 9.727 0 0 1 1.687.28.75.75 0 1 1-.374 1.452 8.207 8.207 0 0 0-1.313-.226v1.68l.969.332c.67.23 1.281.85 1.281 1.704 0 .158-.007.314-.02.468-.083.931-.83 1.582-1.669 1.695a9.776 9.776 0 0 1-.561.059v.028a.75.75 0 0 1-1.5 0v-.029a9.724 9.724 0 0 1-1.687-.278.75.75 0 0 1 .374-1.453c.425.11.864.186 1.313.226v-1.68l-.968-.332C9.612 14.974 9 14.354 9 13.5c0-.158.007-.314.02-.468.083-.931.831-1.582 1.67-1.694.185-.025.372-.045.56-.06v-.028a.75.75 0 0 1 .75-.75Zm-1.11 2.324c.119-.016.239-.03.36-.04v1.166l-.482-.165c-.208-.072-.268-.211-.268-.285 0-.113.005-.225.015-.336.013-.146.14-.309.374-.34Zm1.86 4.392V16.05l.482.165c.208.072.268.211.268.285 0 .113-.005.225-.015.336-.012.146-.14.309-.374.34-.12.016-.24.03-.361.04Z" clip-rule="evenodd" /></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Robust Invoice Manager</h3>
+                        <h3 class="type-title font-bold text-slate-900 dark:text-white mb-3">Robust Invoice Manager</h3>
                         <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Create, track, and dispatch professional invoices and packing slips automatically.</p>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
-                        Explore module &rarr;
                     </div>
                 </div>
 
@@ -452,11 +476,8 @@
                         <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M12 2.25c-2.429 0-4.817.178-7.152.521C2.87 3.061 1.5 4.795 1.5 6.741v6.018c0 1.946 1.37 3.68 3.348 3.97.877.129 1.761.234 2.652.316V21a.75.75 0 0 0 1.28.53l4.184-4.183a.39.39 0 0 1 .266-.112c2.006-.05 3.982-.22 5.922-.506 1.978-.29 3.348-2.023 3.348-3.97V6.741c0-1.947-1.37-3.68-3.348-3.97A49.145 49.145 0 0 0 12 2.25ZM8.25 8.625a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Zm2.625 1.125a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875-1.125a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25Z" clip-rule="evenodd" /></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">AI Customer Assistance</h3>
+                        <h3 class="type-title font-bold text-slate-900 dark:text-white mb-3">AI Customer Assistance</h3>
                         <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Scale client support instantly with our proprietary context-aware AI chatbot.</p>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
-                        Explore module &rarr;
                     </div>
                 </div>
 
@@ -467,7 +488,7 @@
         <section id="testimonials" class="relative px-6 py-20 flex flex-col items-center justify-center text-center overflow-hidden border-t border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors" aria-label="Testimonials">
 
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Testimonials</h2>
+                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Testimonials</h2>
                 <p class="text-lg text-slate-600 dark:text-slate-300">Hear how our platform provides smooth, efficient management for our customers.</p>
             </div>
 
@@ -479,7 +500,7 @@
 
                         <!-- testimonial 1 -->
                         <li class="tw-slide" aria-label="Testimonial 1 of 3">
-                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-sm border border-slate-200/80 dark:border-slate-800">
                                 <div class="flex items-center gap-4">
                                     <img src="https://i.pravatar.cc/52?img=1" alt="Jane Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
                                     <div class="text-left">
@@ -495,7 +516,7 @@
 
                         <!-- testimonial 2 -->
                         <li class="tw-slide" aria-label="Testimonial 2 of 3">
-                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-sm border border-slate-200/80 dark:border-slate-800">
                                 <div class="flex items-center gap-4">
                                     <img src="https://i.pravatar.cc/52?img=2" alt="John Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
                                     <div class="text-left">
@@ -511,55 +532,7 @@
 
                         <!-- testimonial 3 -->
                         <li class="tw-slide" aria-label="Testimonial 3 of 3">
-                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
-                                <div class="flex items-center gap-4">
-                                    <img src="https://i.pravatar.cc/52?img=3" alt="John Apple" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
-                                    <div class="text-left">
-                                        <p class="font-semibold text-slate-900 dark:text-white">John Apple</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Software Director, Apple Inc.</p>
-                                    </div>
-                                </div>
-                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
-                                    "An absolute powerhouse of a management program. Perfect for orchestrating hundreds of different SKUs seamlessly."
-                                </p>
-                            </article>
-                        </li>
-
-                        <!-- testimonial 4 -->
-                        <li class="tw-slide" aria-label="Testimonial 1 of 3">
-                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
-                                <div class="flex items-center gap-4">
-                                    <img src="https://i.pravatar.cc/52?img=1" alt="Jane Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
-                                    <div class="text-left">
-                                        <p class="font-semibold text-slate-900 dark:text-white">Jane Doe</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Head of Dev, GummieBears</p>
-                                    </div>
-                                </div>
-                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
-                                    "Scamazon made it remarkably easy to view which inventory products needed immediate restocking compared to clunkier software."
-                                </p>
-                            </article>
-                        </li>
-
-                        <!-- testimonial 5 -->
-                        <li class="tw-slide" aria-label="Testimonial 2 of 3">
-                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
-                                <div class="flex items-center gap-4">
-                                    <img src="https://i.pravatar.cc/52?img=2" alt="John Doe" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
-                                    <div class="text-left">
-                                        <p class="font-semibold text-slate-900 dark:text-white">John Doe</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">Senior Manager, DoeNuts</p>
-                                    </div>
-                                </div>
-                                <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-left">
-                                    "This software streamlined our entire invoicing workflow, saving our team dozens of hours every single week."
-                                </p>
-                            </article>
-                        </li>
-
-                        <!-- testimonial 6 -->
-                        <li class="tw-slide" aria-label="Testimonial 3 of 3">
-                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-xs border border-slate-200/80 dark:border-slate-800">
+                            <article class="flex flex-col justify-between space-y-6 rounded-2xl bg-slate-50 dark:bg-slate-950 p-6 shadow-sm border border-slate-200/80 dark:border-slate-800">
                                 <div class="flex items-center gap-4">
                                     <img src="https://i.pravatar.cc/52?img=3" alt="John Apple" class="w-12 h-12 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900" />
                                     <div class="text-left">
@@ -598,7 +571,7 @@
             <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-900 to-slate-950"></div>
 
             <div class="max-w-4xl mx-auto space-y-6">
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to scale your warehouse?</h2>
+                <h2 class="type-section font-extrabold">Ready to scale your warehouse?</h2>
                 <p class="text-lg text-slate-300 max-w-2xl mx-auto">Join thousands of high-performing companies managing their inventory with our robust cloud platform.</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
                     <a href="login.html?mode=signup" class="rounded-xl px-8 py-3.5 text-sm font-semibold text-slate-900 bg-white hover:bg-slate-100 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-200">
@@ -617,8 +590,8 @@
         <div class="max-w-7xl mx-auto px-6 text-sm text-slate-500 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p>&copy; 2026 Scamazon WMS. All rights reserved.</p>
             <div class="flex space-x-6">
-                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus:underline">Privacy Policy</a>
-                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus:underline">Terms of Service</a>
+                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Privacy Policy</a>
+                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Terms of Service</a>
             </div>
         </div>
     </footer>
@@ -633,7 +606,7 @@
         // page-specific active link, shared by the desktop and mobile navbar renders below
         const NAV_ACTIVE_PAGE = 'index.html';
 
-        const DESKTOP_LINK_BASE = 'tracking-tight hover:opacity-80 transition-opacity focus:outline-none rounded-sm';
+        const DESKTOP_LINK_BASE = 'tracking-tight hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900';
         const DESKTOP_LINK_ACTIVE = 'text-indigo-600 dark:text-indigo-400 font-semibold';
         const DESKTOP_LINK_IDLE = 'text-slate-900 dark:text-slate-300';
 
@@ -1644,7 +1617,7 @@
 
             const roleBadge = `
                 <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
                 </div>
             `;
@@ -1664,7 +1637,7 @@
 
             const mobileRoleBadge = `
                 <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full w-fit mb-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
                 </div>
             `;

@@ -26,30 +26,6 @@
                     {
                         sans: ['Inter', 'sans-serif'],
                     },
-                    animation:
-                    {
-                        'infinite-scroll': 'infinite-scroll 30s linear infinite',
-                        'gradient-shift': 'gradient-shift 8s ease infinite',
-                        'float': 'float 4s ease-in-out infinite',
-                    },
-                    keyframes:
-                    {
-                        'infinite-scroll':
-                        {
-                            from: { transform: 'translateX(0)' },
-                            to: { transform: 'translateX(-50%)' },
-                        },
-                        'gradient-shift':
-                        {
-                            '0%, 100%': { 'background-position': '0% 50%' },
-                            '50%': { 'background-position': '100% 50%' },
-                        },
-                        'float':
-                        {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-8px)' },
-                        }
-                    },
                 }
             }
         }
@@ -73,11 +49,42 @@
             console.error('Theme loader error:', err);
         }
     </script>
+
+    <!-- type scale: declared once, referenced by the role classes below -->
+    <style>
+        .type-display,
+        .type-section,
+        .type-title
+        {
+            text-wrap: balance;
+        }
+
+        .type-display
+        {
+            font-size: clamp(2.75rem, 1.9rem + 3.6vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+
+        .type-section
+        {
+            font-size: clamp(1.875rem, 1.5rem + 1.2vw, 2.5rem);
+            line-height: 1.12;
+            letter-spacing: -0.025em;
+        }
+
+        .type-title
+        {
+            font-size: 1.25rem;
+            line-height: 1.35;
+            letter-spacing: -0.015em;
+        }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white transition-colors duration-300">
 
     <!-- Navigation -->
-    <header class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-xs transition-colors">
+    <header class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
         <nav class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center" aria-label="Main Navigation">
             <!-- logo -->
             <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-sm">
@@ -88,16 +95,16 @@
             <div class="flex items-center space-x-6 sm:space-x-8">
                 <!-- desktop links -->
                 <div id="navbar" class="hidden sm:flex items-center space-x-6 sm:space-x-8">
-                    <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                         Home
                     </a>
-                    <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                         Pricing
                     </a>
-                    <a href="aboutus.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity focus:outline-none rounded-sm" aria-current="page">
+                    <a href="aboutus.html" class="tracking-tight text-indigo-600 dark:text-indigo-400 font-semibold hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900" aria-current="page">
                         Meet the Team
                     </a>
-                    <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity focus:outline-none rounded-sm">
+                    <a href="login.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                         Log In
                     </a>
                     <a href="login.html?mode=signup" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-slate-900 dark:bg-indigo-600 rounded-lg hover:bg-slate-800 dark:hover:bg-indigo-500 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all duration-200">
@@ -154,18 +161,14 @@
             <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/70 via-slate-50 to-slate-100 dark:from-indigo-950/30 dark:via-slate-950 dark:to-slate-900 transition-colors"></div>
 
             <div class="max-w-3xl mx-auto space-y-6">
-                <span class="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300 font-mono">
-                    CSE 4550 Team Project
-                </span>
-
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+                <h1 class="type-display font-extrabold text-slate-900 dark:text-white">
                     Meet the
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-indigo-600 to-indigo-800 dark:from-white dark:via-indigo-400 dark:to-indigo-200 bg-[length:200%_auto] animate-gradient-shift">
+                    <span class="text-indigo-600 dark:text-indigo-400">
                         Team
                     </span>
                 </h1>
 
-                <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+                <p class="text-lg text-pretty text-slate-600 dark:text-slate-300 leading-relaxed">
                     Scamazon is built by a small student team for our software engineering course.
                 </p>
 
@@ -185,11 +188,11 @@
         <section class="border-y border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm py-8 px-6 transition-colors" aria-label="Snapshot statistics">
             <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
-                    <p id="stat-contributors" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">&mdash;</p>
+                    <p id="stat-contributors" class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-900 dark:text-white">&mdash;</p>
                     <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Contributors</p>
                 </div>
                 <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-700 transition-colors">
-                    <p id="stat-month-commits" class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">&mdash;</p>
+                    <p id="stat-month-commits" class="text-2xl sm:text-3xl font-extrabold tabular-nums text-indigo-600 dark:text-indigo-400">&mdash;</p>
                     <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Commits This Month</p>
                 </div>
             </div>
@@ -201,7 +204,7 @@
             <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-indigo-50/40 dark:from-slate-900 dark:via-slate-950 dark:to-indigo-950/20 transition-colors"></div>
 
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Contributors</h2>
+                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Contributors</h2>
                 <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300">Each team member did their due diligence in this project.</p>
             </div>
 
@@ -223,7 +226,7 @@
             <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/40 via-slate-900 to-slate-950"></div>
 
             <div class="max-w-4xl mx-auto space-y-6">
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Want to see what we built?</h2>
+                <h2 class="type-section font-extrabold">Want to see what we built?</h2>
                 <p class="text-lg text-slate-300 max-w-2xl mx-auto">Explore the warehouse management platform our team designed, or view our pricing plans per tier.</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
                     <a href="index.html" class="rounded-xl px-8 py-3.5 text-sm font-semibold text-slate-900 bg-white hover:bg-slate-100 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all duration-200">
@@ -242,8 +245,8 @@
         <div class="max-w-7xl mx-auto px-6 text-sm text-slate-500 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p>&copy; 2026 Scamazon WMS. All rights reserved.</p>
             <div class="flex space-x-6">
-                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus:underline">Privacy Policy</a>
-                <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors focus:outline-none focus:underline">Terms of Service</a>
+                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Privacy Policy</a>
+                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Terms of Service</a>
             </div>
         </div>
     </footer>
@@ -258,7 +261,7 @@
         // page-specific active link, shared by the desktop and mobile navbar renders below
         const NAV_ACTIVE_PAGE = 'aboutus.html';
 
-        const DESKTOP_LINK_BASE = 'tracking-tight hover:opacity-80 transition-opacity focus:outline-none rounded-sm';
+        const DESKTOP_LINK_BASE = 'tracking-tight hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900';
         const DESKTOP_LINK_ACTIVE = 'text-indigo-600 dark:text-indigo-400 font-semibold';
         const DESKTOP_LINK_IDLE = 'text-slate-900 dark:text-slate-300';
 
@@ -552,7 +555,7 @@
 
             const roleBadge = `
                 <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
                 </div>
             `;
@@ -572,7 +575,7 @@
 
             const mobileRoleBadge = `
                 <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full w-fit mb-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
                     <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
                 </div>
             `;
@@ -699,7 +702,7 @@
                 ? override.role.trim()
                 : (entry.role || '');
 
-            const card = makeElement('article', 'p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col items-center text-center group');
+            const card = makeElement('article', 'p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col items-center text-center');
 
             const avatarWrapper = makeElement('div', 'relative w-20 h-20');
             avatarWrapper.appendChild(makeElement('div', 'absolute inset-0 rounded-full flex items-center justify-center text-xl font-bold bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 ring-4 ring-indigo-50 dark:ring-indigo-950/60', initialsFor(displayName)));
@@ -716,7 +719,7 @@
             }
 
             card.appendChild(avatarWrapper);
-            card.appendChild(makeElement('h3', 'mt-5 text-lg font-bold text-slate-900 dark:text-white tracking-tight', displayName));
+            card.appendChild(makeElement('h3', 'mt-5 type-title font-bold text-slate-900 dark:text-white', displayName));
 
             if (loginText)
             {
@@ -730,7 +733,7 @@
 
             if (entry.profileUrl)
             {
-                const profileLink = makeElement('a', 'mt-6 inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:opacity-80 transition-opacity', 'View profile');
+                const profileLink = makeElement('a', 'mt-auto pt-6 inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:opacity-80 transition-opacity rounded-sm', 'View profile');
                 profileLink.href = entry.profileUrl;
                 profileLink.target = '_blank';
                 profileLink.rel = 'noopener noreferrer';
@@ -738,7 +741,7 @@
             }
             else
             {
-                card.appendChild(makeElement('span', 'mt-6 text-xs font-medium text-slate-400 dark:text-slate-500', 'Private repo member'));
+                card.appendChild(makeElement('span', 'mt-auto pt-6 text-xs font-medium text-slate-500 dark:text-slate-400', 'Private repo member'));
             }
 
             return card;
@@ -932,8 +935,6 @@
 
             if (window.location.protocol === 'file:')
             {
-                const fileBanner = document.getElementById('file-banner');
-                if (fileBanner) fileBanner.classList.remove('hidden');
                 if (grid)
                 {
                     grid.replaceChildren();
