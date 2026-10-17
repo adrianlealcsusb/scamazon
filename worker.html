@@ -665,7 +665,7 @@
             try {
                 const { data: { session }, error: sessionErr } = await client.auth.getSession();
                 if (sessionErr || !session) {
-                    window.location.replace('login.html');
+                    window.location.replace('index.html');
                     return;
                 }
 
@@ -677,7 +677,7 @@
 
                 if (userErr || !user || user.role !== 'worker') {
                     await client.auth.signOut();
-                    window.location.replace('login.html?unauthorized=1');
+                    window.location.replace('index.html');
                     return;
                 }
 
@@ -691,7 +691,7 @@
 
                 await loadAll();
             } catch (err) {
-                window.location.replace('login.html');
+                window.location.replace('index.html');
             }
         }
 
@@ -1363,7 +1363,7 @@
         document.getElementById('logout-btn').addEventListener('click', async () => {
             const { client } = await import('./supaBase.js');
             await client.auth.signOut();
-            window.location.replace('login.html');
+            window.location.replace('index.html');
         });
 
         init();
