@@ -478,12 +478,14 @@
             const code = input.value.trim().toUpperCase();
 
             if (!code) {
+                appliedCoupon = null;
                 feedback.textContent = 'Enter a coupon code.';
                 feedback.className = 'text-xs text-rose-600';
                 return;
             }
 
             if (cart.length === 0) {
+                appliedCoupon = null;
                 feedback.textContent = 'Add an item to your cart first.';
                 feedback.className = 'text-xs text-rose-600';
                 return;
@@ -502,8 +504,10 @@
             });
 
             if (error) {
+                appliedCoupon = null;
                 totalEl.textContent = `$${subtotal.toFixed(2)}`;
-                feedback.textContent = `Unable to validate coupon: ${error.message}`;
+                feedback.textContent =
+                    `Unable to validate coupon: ${error.message}`;
                 feedback.className = 'text-xs text-rose-600';
                 return;
             }
@@ -511,6 +515,7 @@
             const result = data?.[0];
 
             if (!result || !result.is_valid) {
+                appliedCoupon = null;
                 totalEl.textContent = `$${subtotal.toFixed(2)}`;
                 feedback.textContent =
                     result?.message || 'Coupon is not valid.';
@@ -520,6 +525,15 @@
 
             const discountAmount = Number(result.discount_amount);
             const finalTotal = Number(result.final_total);
+
+            appliedCoupon = {
+                code,
+                storefront,
+                discountType: result.discount_type,
+                discountValue: Number(result.discount_value),
+                discountAmount,
+                finalTotal
+            };
 
             totalEl.textContent = `$${finalTotal.toFixed(2)}`;
             feedback.textContent =
