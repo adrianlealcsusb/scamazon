@@ -447,7 +447,7 @@
                 </div>
 
                 <!-- Segmented Mode Control (Sign In vs Create Account) -->
-                <div class="grid grid-cols-2 p-1 bg-slate-100 dark:bg-slate-800/90 rounded-xl mb-5 text-xs font-semibold" role="tablist" aria-label="Authentication Mode">
+                <div id="auth-tabs-container" class="grid grid-cols-2 p-1 bg-slate-100 dark:bg-slate-800/90 rounded-xl mb-5 text-xs font-semibold" role="tablist" aria-label="Authentication Mode">
                     <button type="button" id="tab-btn-signin" onclick="setAuthMode('signin')" class="py-2 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 bg-amber-500 text-slate-950 font-bold shadow-xs" role="tab" aria-selected="true">
                         Sign In
                     </button>
@@ -484,7 +484,7 @@
                     </div>
 
                     <!-- Email Field -->
-                    <div>
+                    <div id="auth-email-group">
                         <label for="auth-email-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                             Email Address
                         </label>
@@ -493,12 +493,15 @@
                     </div>
 
                     <!-- Password Field with Show/Hide Toggle -->
-                    <div>
+                    <div id="auth-password-group">
                         <div class="flex items-center justify-between mb-1">
-                            <label for="auth-password-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                            <label id="auth-password-label" for="auth-password-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                 Password
                             </label>
-                            <span id="auth-pwd-hint" class="text-[11px] text-slate-400 dark:text-slate-500"></span>
+                            <div class="flex items-center gap-2">
+                                <span id="auth-pwd-hint" class="text-[11px] text-slate-400 dark:text-slate-500"></span>
+                                <button type="button" id="auth-forgot-link" onclick="setAuthMode('forgot')" class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 hover:underline focus:outline-none">Forgot?</button>
+                            </div>
                         </div>
                         <div class="relative">
                             <input id="auth-password-input" type="password" required autocomplete="current-password" placeholder="••••••••"
@@ -508,6 +511,15 @@
                                 <svg id="pwd-icon-hide" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/></svg>
                             </button>
                         </div>
+                    </div>
+
+                    <!-- Confirm Password Field (Recovery mode only) -->
+                    <div id="auth-confirm-group" class="hidden">
+                        <label for="auth-confirm-password-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                            Confirm New Password
+                        </label>
+                        <input id="auth-confirm-password-input" type="password" autocomplete="new-password" placeholder="••••••••"
+                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white rounded-xl border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-all">
                     </div>
 
                     <!-- Submit CTA -->
