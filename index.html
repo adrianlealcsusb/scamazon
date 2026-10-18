@@ -2169,13 +2169,17 @@
             }
 
             const { client } = await import('./supaBase.js');
-            const query = (document.getElementById('tracking-input').value || '').trim();
-            if (!query) return;
+            const rawQuery = (document.getElementById('tracking-input').value || '').trim();
+            if (!rawQuery) return;
+
+            // Extract numeric digits if present (e.g., 'Order #5041' -> '5041'), else clean special chars
+            const digits = rawQuery.replace(/\D/g, '');
+            const cleanPattern = digits || rawQuery.replace(/[#%_]/g, '').trim();
 
             const { data, error } = await client
                 .from('orders')
                 .select('*')
-                .ilike('order_number', `%${query.replace('#', '')}%`)
+                .ilike('order_number', `%${cleanPattern}%`)
                 .maybeSingle();
 
             const errorContainer = document.getElementById('tracking-error');
@@ -2183,10 +2187,10 @@
 
             if (error || !data) {
                 if (errorContainer && errorText) {
-                    errorText.textContent = `Order "${query}" was not found. Please verify your order number (e.g. Order #1042).`;
+                    errorText.textContent = `Order "${rawQuery}" was not found. Please verify your order number (e.g. Order #1042).`;
                     errorContainer.classList.remove('hidden');
                 } else {
-                    showToast(`Order "${query}" was not found.`, 'error');
+                    showToast(`Order "${rawQuery}" was not found.`, 'error');
                 }
                 return;
             }
