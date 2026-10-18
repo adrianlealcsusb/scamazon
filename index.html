@@ -90,21 +90,21 @@
         <!-- Main Utility Bar -->
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 sm:gap-6">
             
-            <!-- Left: Brand Logo & Pickup Location Indicator -->
+            <!-- Left: Brand Logo & Fulfillment Depot Indicator -->
             <div class="flex items-center gap-4 sm:gap-6 shrink-0">
                 <a href="index.html" class="flex items-center gap-1.5 text-xl sm:text-2xl font-black tracking-tight text-white hover:text-amber-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-sm">
                     <span>Scamazon</span><span class="text-amber-500">.</span>
                 </a>
 
                 <!-- Location / Branch Pill -->
-                <button type="button" onclick="focusStorefrontDropdown()" class="hidden md:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-700/80 hover:border-amber-400/80 bg-slate-800/60 hover:bg-slate-800 transition-all text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500" title="Change storefront pickup branch">
+                <button type="button" onclick="focusStorefrontDropdown()" class="hidden md:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-700/80 hover:border-amber-400/80 bg-slate-800/60 hover:bg-slate-800 transition-all text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500" title="Filter by fulfillment depot">
                     <svg class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
                     <div class="text-[11px] leading-tight">
-                        <span class="text-slate-400 block font-medium">Pickup Branch</span>
-                        <span id="nav-selected-branch" class="font-bold text-slate-100 max-w-[120px] truncate block">All Branches</span>
+                        <span class="text-slate-400 block font-medium">Delivering From</span>
+                        <span id="nav-selected-branch" class="font-bold text-slate-100 max-w-[120px] truncate block">All Depots</span>
                     </div>
                 </button>
             </div>
@@ -222,7 +222,7 @@
                 <!-- Quick Filter: In Stock Only -->
                 <button type="button" onclick="toggleStockFilter()" id="filter-stock-btn" class="inline-flex items-center gap-1 px-2.5 py-1 rounded text-slate-300 hover:text-white hover:bg-slate-700/50 transition-colors">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
-                    <span>Ready for Pickup Today</span>
+                    <span>Fast Dispatch Available</span>
                 </button>
             </div>
 
@@ -232,9 +232,9 @@
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                     </svg>
-                    Scamazon FastReserve
+                    Direct Delivery Guarantee
                 </span>
-                <span>&bull; Items held for 48 hours</span>
+                <span>&bull; Dispatched straight to your door</span>
             </div>
         </div>
     </header>
@@ -245,47 +245,35 @@
         <!-- ================= TAB 1: CATALOG VIEW ================= -->
         <section id="tab-catalog" class="tab-pane space-y-6">
 
-            <!-- Streamlined Operational Header (Warehouse Logistics Bar) -->
-            <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 text-white p-5 sm:p-6 transition-colors shadow-sm">
-                <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/30 pointer-events-none"></div>
-                <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-                    <div class="space-y-1.5 max-w-xl">
-                        <div class="flex items-center gap-2">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                                Live Depot Catalog
-                            </span>
-                            <span class="text-xs text-slate-400 font-mono">FastReserve System</span>
-                        </div>
+            <!-- Operational Header (Warehouse Logistics Bar) -->
+            <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 text-white p-6 sm:p-7 transition-colors shadow-sm">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/20 pointer-events-none"></div>
+                <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div class="space-y-2 max-w-xl">
                         <h1 id="page-heading" class="type-display font-black tracking-tight text-white leading-tight">
-                            Order Direct from the Warehouse Floor
+                            Direct Warehouse Delivery to Your Door
                         </h1>
-                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                            Reserve verified SKUs with sub-second inventory accuracy across regional depots. Held for 48 hours.
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Order genuine inventory dispatched straight from regional store depots to your doorstep. Fast courier delivery with live tracking.
                         </p>
                     </div>
 
-                    <!-- Operational Specs Strip (Compact 4-Pillar Grid) -->
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-5 border-t lg:border-t-0 lg:border-l border-slate-800 pt-3 lg:pt-0 lg:pl-6 shrink-0 text-xs">
+                    <!-- Operational Commitments -->
+                    <div class="grid grid-cols-3 gap-6 sm:gap-8 border-t lg:border-t-0 lg:border-l border-slate-800 pt-4 lg:pt-0 lg:pl-8 shrink-0">
                         <div>
-                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Fulfillment</span>
-                            <span class="font-bold text-white block mt-0.5">Same-Day Pick</span>
-                            <span class="text-[11px] text-slate-400">Live floor queue</span>
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Fast Dispatch</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Same-Day Out</span>
+                            <span class="text-xs text-slate-400">From local depot</span>
                         </div>
                         <div>
-                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Hold Window</span>
-                            <span class="font-bold text-amber-400 block mt-0.5">48-Hour Hold</span>
-                            <span class="text-[11px] text-slate-400">Reserved at depot</span>
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Doorstep Drop</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Live Tracking</span>
+                            <span class="text-xs text-slate-400">Direct courier route</span>
                         </div>
                         <div>
-                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Accuracy</span>
-                            <span class="font-bold text-white block mt-0.5">Optical Scan</span>
-                            <span class="text-[11px] text-slate-400">Barcode verified</span>
-                        </div>
-                        <div>
-                            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Invoicing</span>
-                            <span class="font-bold text-amber-400 block mt-0.5">Thermal Slip</span>
-                            <span class="text-[11px] text-slate-400">Instant pickup slip</span>
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Pricing</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Direct Rates</span>
+                            <span class="text-xs text-slate-400">Zero markups</span>
                         </div>
                     </div>
                 </div>
@@ -328,9 +316,9 @@
         <section id="tab-tracking" class="tab-pane hidden space-y-8" hidden>
             
             <div class="max-w-3xl space-y-4">
-                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Track Your Warehouse Order</h2>
+                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Track Your Delivery Order</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-300">
-                    Enter your confirmation number to view live floor progression from submission to packing and ready for pickup.
+                    Enter your order number to check current fulfillment status and download your delivery packing slip.
                 </p>
 
                 <!-- Search Input Group -->
@@ -366,7 +354,7 @@
                         <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                         </svg>
-                        Download Pickup Receipt
+                        Download Delivery Slip
                     </button>
                 </div>
 
@@ -400,7 +388,7 @@
                         <!-- Step 4: Dispatch -->
                         <div class="relative z-10 flex flex-col items-center text-center">
                             <span id="step-ready-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">4</span>
-                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Ready / Courier</p>
+                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Out for Delivery</p>
                             <span id="time-ready" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Pending</span>
                         </div>
                     </div>
@@ -428,7 +416,7 @@
         </div>
         <div class="min-w-0 pr-2">
             <p id="toast-title" class="text-xs font-bold text-slate-100 max-w-[260px] truncate">Item added to cart</p>
-            <p id="toast-subtitle" class="text-[11px] text-slate-400">Ready for pickup hold</p>
+            <p id="toast-subtitle" class="text-[11px] text-slate-400">Added for delivery</p>
         </div>
         <button id="toast-action-btn" onclick="toggleCartDrawer(true); hideCartToast();" class="text-xs font-bold text-amber-400 hover:text-amber-300 underline underline-offset-2 shrink-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-amber-500 rounded">
             View Cart
@@ -586,15 +574,15 @@
                     <svg class="w-4 h-4 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <div>
                         <span class="font-bold block text-white">Guest Session</span>
-                        <span>Items saved in local storage. <button type="button" onclick="openBuiltInAuth('signin')" class="underline font-bold text-amber-400 hover:text-amber-300 focus:outline-none">Sign in</button> to reserve inventory at checkout.</span>
+                        <span>Items saved in local storage. <button type="button" onclick="openBuiltInAuth('signin')" class="underline font-bold text-amber-400 hover:text-amber-300 focus:outline-none">Sign in</button> to confirm delivery address and reserve inventory.</span>
                     </div>
                 </div>
                 <div id="cart-multidepot-notice" class="hidden p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-[11px] text-slate-300">
                     <span class="font-bold text-amber-400 block mb-0.5">Multi-Depot Fulfillment</span>
-                    <span>Items will be split into separate pickup slips per warehouse branch.</span>
+                    <span>Items will be split into separate shipments per warehouse branch.</span>
                 </div>
                 <button id="order-btn" onclick="handleCheckoutClick()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-40 disabled:cursor-not-allowed">
-                    Proceed to Checkout &bull; Place Order
+                    Proceed to Checkout &bull; Place Delivery Order
                 </button>
             </div>
         </div>
@@ -610,7 +598,7 @@
             </div>
             <h3 class="type-section font-bold text-slate-900 dark:text-white">Order Confirmed!</h3>
             <p id="confirmation-message" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Order confirmed. Held for 48 hours.
+                Order confirmed. Dispatched via courier.
             </p>
             <div id="confirmation-orders-list" class="space-y-2 text-left pt-1"></div>
             <div class="pt-2">
@@ -622,11 +610,11 @@
     </div>
 
     <!-- ================= INVOICE / RECEIPT MODAL ================= -->
-    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Pickup Invoice">
+    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Delivery Packing Slip">
         <div class="bg-white dark:bg-slate-900 max-w-lg w-full rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 border border-slate-200 dark:border-slate-800 font-sans">
             <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
-                    <h2 class="type-section font-black tracking-tight text-slate-900 dark:text-white">Warehouse Pickup Slip</h2>
+                    <h2 class="type-section font-black tracking-tight text-slate-900 dark:text-white">Delivery Packing Slip & Invoice</h2>
                     <p id="receipt-order-id" class="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 mt-1">Order #1042</p>
                 </div>
                 <div class="text-right">
@@ -636,13 +624,13 @@
 
             <div class="grid grid-cols-2 gap-4 text-xs">
                 <div>
-                    <p class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">Pickup Location</p>
+                    <p class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">Fulfillment Depot</p>
                     <p id="receipt-branch-name" class="font-bold text-slate-900 dark:text-white mt-1">Downtown Auto Storefront</p>
                     <p id="receipt-branch-address" class="text-slate-500 dark:text-slate-400 mt-0.5">100 Main St, Downtown</p>
                 </div>
                 <div>
-                    <p class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">Hold Expiration</p>
-                    <p class="font-bold text-slate-900 dark:text-white mt-1">48 Hours from Placement</p>
+                    <p class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">Dispatch Method</p>
+                    <p class="font-bold text-slate-900 dark:text-white mt-1">Direct Courier Delivery</p>
                     <p id="receipt-date" class="text-slate-500 dark:text-slate-400 mt-0.5">Date Placed</p>
                 </div>
             </div>
@@ -656,7 +644,7 @@
 
             <div class="flex justify-between items-center pt-2">
                 <button onclick="window.print()" class="text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 underline underline-offset-4 transition-colors">
-                    Print Thermal Receipt
+                    Print Delivery Slip
                 </button>
                 <button onclick="closeReceiptModal()" class="px-5 py-2.5 bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 text-xs font-bold rounded-xl hover:bg-slate-800 dark:hover:bg-amber-400 transition-all focus:outline-none focus:ring-2 focus:ring-amber-500">
                     Close Slip
@@ -867,7 +855,7 @@
         function handleTrackingClick() {
             if (!currentUser) {
                 pendingPostAuthAction = 'tracking';
-                openBuiltInAuth('signin', 'Sign in to view real-time fulfillment status, order history, and pickup slips.');
+                openBuiltInAuth('signin', 'Sign in to view real-time fulfillment status, order history, and delivery packing slips.');
                 return;
             }
             switchTab('tracking');
@@ -1019,7 +1007,7 @@
             }
         }
 
-        function showToast(title, type = 'success', subtitle = 'Ready for pickup hold') {
+        function showToast(title, type = 'success', subtitle = 'Added for delivery') {
             const toast = document.getElementById('cart-toast');
             const titleEl = document.getElementById('toast-title');
             const subEl = document.getElementById('toast-subtitle');
@@ -1060,7 +1048,7 @@
         }
 
         function showCartToast(title) {
-            showToast(title ? `Added "${title}"` : 'Item added to cart', 'success', 'Ready for pickup hold');
+            showToast(title ? `Added "${title}"` : 'Item added to cart', 'success', 'Added for delivery');
         }
 
         function hideCartToast() {
@@ -1305,7 +1293,7 @@
             if (badge) badge.textContent = allListings.length;
 
             const navBranch = document.getElementById('nav-selected-branch');
-            if (navBranch) navBranch.textContent = selectedBranch || 'All Branches';
+            if (navBranch) navBranch.textContent = selectedBranch || 'All Depots';
 
             let branchItems = allListings.filter(l => {
                 const matchesBranch = !selectedBranch || l.storefront === selectedBranch;
@@ -1382,16 +1370,8 @@
                                 ${sanitizeHtml(item.title)}
                             </h3>
 
-                            <!-- Floor Verified & FastReserve Badge -->
-                            <div class="flex items-center gap-1.5 mt-2 mb-3 text-xs text-slate-600 dark:text-slate-300">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                <span class="font-semibold text-slate-700 dark:text-slate-200">Floor Verified</span>
-                                <span class="text-slate-400 dark:text-slate-500">&bull;</span>
-                                <span class="text-slate-500 dark:text-slate-400 font-mono">FastReserve</span>
-                            </div>
-
                             <!-- Price Display -->
-                            <div class="flex items-baseline gap-1">
+                            <div class="flex items-baseline gap-1 mt-3">
                                 <span class="text-xs text-slate-500 dark:text-slate-400 font-semibold">$</span>
                                 <span class="text-2xl font-black text-slate-900 dark:text-white tabular-nums">${priceNum.toFixed(2)}</span>
                             </div>
@@ -1540,7 +1520,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                         </svg>
                         <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Your cart is empty</p>
-                        <p class="text-xs text-slate-400 dark:text-slate-500">Add products from the catalog to prepare your warehouse pickup order.</p>
+                        <p class="text-xs text-slate-400 dark:text-slate-500">Add products from the catalog to prepare your delivery order.</p>
                     </div>
                 `;
                 totalEl.textContent = '$0.00';
@@ -1683,17 +1663,17 @@
 
                 if (placedOrders.length === 1) {
                     const single = placedOrders[0];
-                    msgEl.innerHTML = `Your order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> at <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed. Reserved for 48 hours. Total: $${single.total}.`;
+                    msgEl.innerHTML = `Your delivery order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed and queued for courier dispatch. Total: $${single.total}.`;
                     if (listEl) {
                         listEl.innerHTML = `
                             <button onclick="viewSlipDirect('${sanitizeHtml(single.orderNum)}', '${sanitizeHtml(single.branch)}', '${sanitizeHtml(single.items)}', '${single.total}')" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                                <span>View Warehouse Pickup Slip</span>
+                                <span>View Delivery Packing Slip</span>
                             </button>
                         `;
                     }
                 } else {
-                    msgEl.innerHTML = `Successfully generated <strong class="text-slate-900 dark:text-white">${placedOrders.length} separate warehouse pickup orders</strong>:`;
+                    msgEl.innerHTML = `Successfully generated <strong class="text-slate-900 dark:text-white">${placedOrders.length} separate warehouse delivery shipments</strong>:`;
                     if (listEl) {
                         listEl.innerHTML = placedOrders.map(o => `
                             <div class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-left flex justify-between items-center text-xs gap-3">
@@ -1722,7 +1702,7 @@
                 showToast('Failed to place order: ' + err.message, 'error');
             } finally {
                 orderBtn.disabled = false;
-                orderBtn.textContent = 'Proceed to Checkout • Place Order';
+                orderBtn.textContent = 'Proceed to Checkout • Place Delivery Order';
             }
         }
 
@@ -1746,7 +1726,7 @@
         // ================= TRACKING & INVOICES =================
         async function trackOrder() {
             if (!currentUser) {
-                openAuthModal('Sign in or register an account to track your orders and view pickup slips.');
+                openAuthModal('Sign in or register an account to track your orders and view delivery packing slips.');
                 return;
             }
 
