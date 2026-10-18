@@ -34,7 +34,7 @@ A multi-tenant Warehouse Management System and Direct-to-Customer Storefront pow
     * Orders 
       * View 🟢
       * Set status 🟢
-      * Receipts / Packing Slips 🟢
+      * Receipts / Invoices 🟢
       * Live Tracking 🟢
   * **Storefront Manager Portal (`storefront.html`)**
     * Branch Overview & Inventory Management 🟢
@@ -51,7 +51,7 @@ A multi-tenant Warehouse Management System and Direct-to-Customer Storefront pow
     * Orders 
       * View 🟢
       * Set status 🟢
-      * Receipts / Packing Slips 🟢
+      * Receipts / Invoices 🟢
       * Live Tracking 🟢
   * **Worker Portal (`worker.html`)**
     * Listings
@@ -61,7 +61,7 @@ A multi-tenant Warehouse Management System and Direct-to-Customer Storefront pow
     * Orders 
       * View 🟢
       * Set status 🟢
-      * Receipts / Packing Slips 🟢
+      * Receipts / Invoices 🟢
       * Live Tracking 🟢
     * Scanner (Live camera QR/barcode scan) 🟢
   * **Customer Storefront (`index.html`)**
@@ -77,7 +77,7 @@ A multi-tenant Warehouse Management System and Direct-to-Customer Storefront pow
     * Orders & Fulfillment
       * Direct Courier Dispatch Checkout 🟢
       * Real-time Multi-step Delivery Tracking 🟢
-      * Verified Line-item Printable Delivery Slips & Receipts 🟢
+      * Verified Line-item Printable Invoices & Receipts 🟢
       * View order history 🟢
       * Refund / cancel 🔴
   * **Global Platform UI & Experience**

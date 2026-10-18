@@ -319,7 +319,7 @@
             <div class="max-w-4xl space-y-2">
                 <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Your Delivery Orders &amp; Fulfillment</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-300">
-                    Review your placed orders, track real-time courier milestones, and download official warehouse delivery packing slips.
+                    Review your placed orders, track real-time courier milestones, and download official warehouse order receipts and invoices.
                 </p>
             </div>
 
@@ -354,7 +354,7 @@
                 <div>
                     <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Search By Order Number</h3>
                     <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                        Have a specific reference or tracking slip code? Enter it below to look up any shipment directly.
+                        Have a specific reference or order tracking number? Enter it below to look up any shipment directly.
                     </p>
                 </div>
 
@@ -390,7 +390,7 @@
                         <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                         </svg>
-                        Download Delivery Slip
+                        View Receipt &amp; Invoice
                     </button>
                 </div>
 
@@ -668,11 +668,11 @@
     </div>
 
     <!-- ================= INVOICE / RECEIPT MODAL ================= -->
-    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Delivery Packing Slip">
+    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Receipt &amp; Invoice">
         <div class="bg-white dark:bg-slate-900 max-w-lg w-full rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 border border-slate-200 dark:border-slate-800 font-sans">
             <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
-                    <h2 class="type-section font-black tracking-tight text-slate-900 dark:text-white">Delivery Packing Slip & Invoice</h2>
+                    <h2 class="type-section font-black tracking-tight text-slate-900 dark:text-white">Order Receipt &amp; Invoice</h2>
                     <p id="receipt-order-id" class="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 mt-1">Order #1042</p>
                 </div>
                 <div class="text-right">
@@ -718,10 +718,10 @@
 
             <div class="flex justify-between items-center pt-2">
                 <button onclick="window.print()" class="text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 underline underline-offset-4 transition-colors">
-                    Print Delivery Slip
+                    Print Receipt
                 </button>
                 <button onclick="closeReceiptModal()" class="px-5 py-2.5 bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 text-xs font-bold rounded-xl hover:bg-slate-800 dark:hover:bg-amber-400 transition-all focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    Close Slip
+                    Close Receipt
                 </button>
             </div>
         </div>
@@ -1001,7 +1001,7 @@
         function handleTrackingClick() {
             if (!currentUser) {
                 pendingPostAuthAction = 'tracking';
-                openBuiltInAuth('signin', 'Sign in to view real-time fulfillment status, order history, and delivery packing slips.');
+                openBuiltInAuth('signin', 'Sign in to view real-time fulfillment status, order history, and printable receipts.');
                 return;
             }
             switchTab('tracking');
@@ -1944,9 +1944,9 @@
                     msgEl.innerHTML = `Your delivery order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed and queued for courier dispatch. Total: <strong>$${single.total}</strong> <span class="text-xs text-slate-500 dark:text-slate-400 font-normal">(incl. $${single.tax} tax)</span>.`;
                     if (listEl) {
                         listEl.innerHTML = `
-                            <button onclick="viewSlipDirect('${sanitizeHtml(single.orderNum)}', '${sanitizeHtml(single.branch)}', '${sanitizeHtml(single.items)}', '${single.total}', '${single.subtotal}', '${single.tax}')" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors">
+                            <button onclick="viewReceiptDirect('${sanitizeHtml(single.orderNum)}', '${sanitizeHtml(single.branch)}', '${sanitizeHtml(single.items)}', '${single.total}', '${single.subtotal}', '${single.tax}')" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                                <span>View Delivery Packing Slip</span>
+                                <span>View Order Receipt</span>
                             </button>
                         `;
                     }
@@ -1960,8 +1960,8 @@
                                     <span class="block text-slate-700 dark:text-slate-300 font-semibold mt-0.5 truncate">${sanitizeHtml(o.branch)} &bull; ${o.count} item${o.count === 1 ? '' : 's'}</span>
                                     <span class="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">$${o.total} <span class="text-[11px] font-normal text-slate-500 dark:text-slate-400">(incl. $${o.tax} tax)</span></span>
                                 </div>
-                                <button onclick="viewSlipDirect('${sanitizeHtml(o.orderNum)}', '${sanitizeHtml(o.branch)}', '${sanitizeHtml(o.items)}', '${o.total}', '${o.subtotal}', '${o.tax}')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors">
-                                    View Slip
+                                <button onclick="viewReceiptDirect('${sanitizeHtml(o.orderNum)}', '${sanitizeHtml(o.branch)}', '${sanitizeHtml(o.items)}', '${o.total}', '${o.subtotal}', '${o.tax}')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors">
+                                    View Receipt
                                 </button>
                             </div>
                         `).join('');
@@ -1988,7 +1988,7 @@
             document.getElementById('confirmation-modal').classList.add('hidden');
         }
 
-        function viewSlipDirect(orderNum, branchName, itemsString, total, subtotal, tax) {
+        function viewReceiptDirect(orderNum, branchName, itemsString, total, subtotal, tax) {
             closeConfirmationModal();
             const branch = activeStorefronts.find(s => s.name === branchName);
             trackedOrderCache = {
@@ -2002,6 +2002,7 @@
             };
             openReceiptModal();
         }
+        window.viewReceiptDirect = viewReceiptDirect;
 
         /* --- REGISTERED CUSTOMER ORDER HISTORY --- */
         function getCustomerOrdersStorageKey() {
@@ -2039,7 +2040,7 @@
                         </div>
                         <p class="text-sm font-bold text-slate-900 dark:text-white">Sign In to View Your Order History</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-                            Connect your customer account to automatically view past warehouse orders, shipment milestones, and printable slips.
+                            Connect your customer account to automatically view past warehouse orders, shipment milestones, and printable receipts.
                         </p>
                         <button onclick="openBuiltInAuth('signin')" class="mt-2 inline-flex items-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-xs transition-colors">
                             Sign In / Create Account
@@ -2175,11 +2176,11 @@
                                     </svg>
                                     <span>Track Live</span>
                                 </button>
-                                <button type="button" onclick="viewSlipDirect('${sanitizeHtml(order.order_number)}', '${sanitizeHtml(order.storefront)}', '${sanitizeHtml(order.items)}', '${order.total || '0.00'}', '${order.subtotal || ''}', '${order.tax || ''}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-300 dark:border-slate-700 hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-400 text-slate-700 dark:text-slate-300 font-bold text-xs rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                <button type="button" onclick="viewReceiptDirect('${sanitizeHtml(order.order_number)}', '${sanitizeHtml(order.storefront)}', '${sanitizeHtml(order.items)}', '${order.total || '0.00'}', '${order.subtotal || ''}', '${order.tax || ''}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-300 dark:border-slate-700 hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-400 text-slate-700 dark:text-slate-300 font-bold text-xs rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                                     </svg>
-                                    <span>Slip</span>
+                                    <span>Receipt</span>
                                 </button>
                             </div>
                         </div>
@@ -2217,7 +2218,7 @@
         // ================= TRACKING & INVOICES =================
         async function trackOrder() {
             if (!currentUser) {
-                openAuthModal('Sign in or register an account to track your orders and view delivery packing slips.');
+                openAuthModal('Sign in or register an account to track your orders and view delivery receipts.');
                 return;
             }
 
