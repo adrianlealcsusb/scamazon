@@ -748,11 +748,19 @@
         window.toggleAuthMode = toggleAuthMode;
 
         function applyAuthModeUI() {
-            const isSignup = currentAuthMode === 'signup';
             const title = document.getElementById('auth-modal-title');
             const subtitle = document.getElementById('auth-modal-subtitle');
+            const tabsContainer = document.getElementById('auth-tabs-container');
             const nameGroup = document.getElementById('auth-name-group');
             const nameInput = document.getElementById('auth-name-input');
+            const emailGroup = document.getElementById('auth-email-group');
+            const emailInput = document.getElementById('auth-email-input');
+            const passwordGroup = document.getElementById('auth-password-group');
+            const passwordLabel = document.getElementById('auth-password-label');
+            const passwordInput = document.getElementById('auth-password-input');
+            const forgotLink = document.getElementById('auth-forgot-link');
+            const confirmGroup = document.getElementById('auth-confirm-group');
+            const confirmInput = document.getElementById('auth-confirm-password-input');
             const submitText = document.getElementById('auth-submit-text');
             const altText = document.getElementById('auth-alt-text');
             const altBtn = document.getElementById('auth-alt-btn');
@@ -760,14 +768,66 @@
             const tabSignUp = document.getElementById('tab-btn-signup');
             const pwdHint = document.getElementById('auth-pwd-hint');
 
-            if (isSignup) {
+            if (currentAuthMode === 'forgot') {
+                if (title) title.textContent = 'Reset Password';
+                if (subtitle) subtitle.textContent = "Enter your email address to receive a password reset link";
+                if (tabsContainer) tabsContainer.classList.add('hidden');
+                if (nameGroup) nameGroup.classList.add('hidden');
+                if (nameInput) { nameInput.required = false; nameInput.value = ''; }
+                if (emailGroup) emailGroup.classList.remove('hidden');
+                if (emailInput) { emailInput.required = true; }
+                if (passwordGroup) passwordGroup.classList.add('hidden');
+                if (passwordInput) { passwordInput.required = false; passwordInput.value = ''; }
+                if (confirmGroup) confirmGroup.classList.add('hidden');
+                if (confirmInput) { confirmInput.required = false; confirmInput.value = ''; }
+                if (submitText) submitText.textContent = 'Send Reset Link';
+                if (altText) altText.textContent = 'Remember your password?';
+                if (altBtn) {
+                    altBtn.textContent = 'Sign In';
+                    altBtn.onclick = () => setAuthMode('signin');
+                }
+                if (pwdHint) pwdHint.textContent = '';
+            } else if (currentAuthMode === 'recovery') {
+                if (title) title.textContent = 'Set New Password';
+                if (subtitle) subtitle.textContent = 'Enter your new password below (min 6 characters)';
+                if (tabsContainer) tabsContainer.classList.add('hidden');
+                if (nameGroup) nameGroup.classList.add('hidden');
+                if (nameInput) { nameInput.required = false; nameInput.value = ''; }
+                if (emailGroup) emailGroup.classList.add('hidden');
+                if (emailInput) { emailInput.required = false; }
+                if (passwordGroup) passwordGroup.classList.remove('hidden');
+                if (passwordLabel) passwordLabel.textContent = 'New Password';
+                if (passwordInput) { passwordInput.required = true; passwordInput.value = ''; }
+                if (forgotLink) forgotLink.classList.add('hidden');
+                if (confirmGroup) confirmGroup.classList.remove('hidden');
+                if (confirmInput) { confirmInput.required = true; confirmInput.value = ''; }
+                if (submitText) submitText.textContent = 'Update Password';
+                if (altText) altText.textContent = 'Already updated?';
+                if (altBtn) {
+                    altBtn.textContent = 'Sign In';
+                    altBtn.onclick = () => setAuthMode('signin');
+                }
+                if (pwdHint) pwdHint.textContent = 'Min 6 characters';
+            } else if (currentAuthMode === 'signup') {
                 if (title) title.textContent = 'Create Account';
                 if (subtitle) subtitle.textContent = 'Register a new customer account to reserve warehouse items';
+                if (tabsContainer) tabsContainer.classList.remove('hidden');
                 if (nameGroup) nameGroup.classList.remove('hidden');
                 if (nameInput) nameInput.required = true;
+                if (emailGroup) emailGroup.classList.remove('hidden');
+                if (emailInput) emailInput.required = true;
+                if (passwordGroup) passwordGroup.classList.remove('hidden');
+                if (passwordLabel) passwordLabel.textContent = 'Password';
+                if (passwordInput) passwordInput.required = true;
+                if (forgotLink) forgotLink.classList.add('hidden');
+                if (confirmGroup) confirmGroup.classList.add('hidden');
+                if (confirmInput) { confirmInput.required = false; confirmInput.value = ''; }
                 if (submitText) submitText.textContent = 'Create Account';
                 if (altText) altText.textContent = 'Already have an account?';
-                if (altBtn) altBtn.textContent = 'Sign In';
+                if (altBtn) {
+                    altBtn.textContent = 'Sign In';
+                    altBtn.onclick = () => setAuthMode('signin');
+                }
                 if (pwdHint) pwdHint.textContent = 'Min 6 characters';
 
                 if (tabSignUp) {
@@ -779,16 +839,26 @@
                     tabSignIn.setAttribute('aria-selected', 'false');
                 }
             } else {
+                currentAuthMode = 'signin';
                 if (title) title.textContent = 'Sign In';
                 if (subtitle) subtitle.textContent = 'Access your customer orders and checkout';
+                if (tabsContainer) tabsContainer.classList.remove('hidden');
                 if (nameGroup) nameGroup.classList.add('hidden');
-                if (nameInput) {
-                    nameInput.required = false;
-                    nameInput.value = '';
-                }
+                if (nameInput) { nameInput.required = false; nameInput.value = ''; }
+                if (emailGroup) emailGroup.classList.remove('hidden');
+                if (emailInput) emailInput.required = true;
+                if (passwordGroup) passwordGroup.classList.remove('hidden');
+                if (passwordLabel) passwordLabel.textContent = 'Password';
+                if (passwordInput) passwordInput.required = true;
+                if (forgotLink) forgotLink.classList.remove('hidden');
+                if (confirmGroup) confirmGroup.classList.add('hidden');
+                if (confirmInput) { confirmInput.required = false; confirmInput.value = ''; }
                 if (submitText) submitText.textContent = 'Sign In';
                 if (altText) altText.textContent = "Don't have an account?";
-                if (altBtn) altBtn.textContent = 'Create Account';
+                if (altBtn) {
+                    altBtn.textContent = 'Create Account';
+                    altBtn.onclick = () => setAuthMode('signup');
+                }
                 if (pwdHint) pwdHint.textContent = '';
 
                 if (tabSignIn) {
@@ -845,7 +915,9 @@
                 setTimeout(() => {
                     const targetInput = currentAuthMode === 'signup' 
                         ? document.getElementById('auth-name-input') 
-                        : document.getElementById('auth-email-input');
+                        : currentAuthMode === 'recovery'
+                            ? document.getElementById('auth-password-input')
+                            : document.getElementById('auth-email-input');
                     if (targetInput) targetInput.focus();
                 }, 60);
             }
