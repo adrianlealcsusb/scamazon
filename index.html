@@ -1875,7 +1875,11 @@
                 for (const [branch, items] of Object.entries(branchMap)) {
                     const orderNum = `Order #${Math.floor(1000 + Math.random() * 9000)}`;
                     const itemString = items.map(i => `${i.qty}x ${i.title} (${i.sku})`).join(', ');
-                    const branchTotal = items.reduce((sum, i) => sum + (i.qty * i.price), 0).toFixed(2);
+                    const branchSubtotal = items.reduce((sum, i) => sum + (i.qty * i.price), 0);
+                    const branchTax = branchSubtotal * 0.0825;
+                    const branchTotal = (branchSubtotal + branchTax).toFixed(2);
+                    const branchSubtotalStr = branchSubtotal.toFixed(2);
+                    const branchTaxStr = branchTax.toFixed(2);
 
                     const { error: orderErr } = await client.from('orders').insert([{
                         order_number: orderNum,
@@ -1894,11 +1898,21 @@
                         if (local) local.stock = newStock;
                     }
 
-                    placedOrders.push({ orderNum, branch, total: branchTotal, count: items.length, items: itemString });
+                    placedOrders.push({
+                        orderNum,
+                        branch,
+                        subtotal: branchSubtotalStr,
+                        tax: branchTaxStr,
+                        total: branchTotal,
+                        count: items.length,
+                        items: itemString
+                    });
                     storeCustomerOrderReference({
                         order_number: orderNum,
                         storefront: branch,
                         items: itemString,
+                        subtotal: branchSubtotalStr,
+                        tax: branchTaxStr,
                         total: branchTotal,
                         created_at: new Date().toISOString(),
                         status: 'Processing'
@@ -1911,7 +1925,7 @@
 
                 if (placedOrders.length === 1) {
                     const single = placedOrders[0];
-                    msgEl.innerHTML = `Your delivery order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed and queued for courier dispatch. Total: $${single.total}.`;
+                    msgEl.innerHTML = `Your delivery order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed and queued for courier dispatch. Total: <strong>$${single.total}</strong> <span class="text-xs text-slate-500 dark:text-slate-400 font-normal">(incl. $${single.tax} tax)</span>.`;
                     if (listEl) {
                         listEl.innerHTML = `
                             <button onclick="viewSlipDirect('${sanitizeHtml(single.orderNum)}', '${sanitizeHtml(single.branch)}', '${sanitizeHtml(single.items)}', '${single.total}')" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors">
@@ -1928,7 +1942,7 @@
                                 <div class="min-w-0 flex-1">
                                     <span class="font-mono font-bold text-amber-500 text-sm">${o.orderNum}</span>
                                     <span class="block text-slate-700 dark:text-slate-300 font-semibold mt-0.5 truncate">${sanitizeHtml(o.branch)} &bull; ${o.count} item${o.count === 1 ? '' : 's'}</span>
-                                    <span class="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">$${o.total}</span>
+                                    <span class="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">$${o.total} <span class="text-[11px] font-normal text-slate-500 dark:text-slate-400">(incl. $${o.tax} tax)</span></span>
                                 </div>
                                 <button onclick="viewSlipDirect('${sanitizeHtml(o.orderNum)}', '${sanitizeHtml(o.branch)}', '${sanitizeHtml(o.items)}', '${o.total}')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors">
                                     View Slip
