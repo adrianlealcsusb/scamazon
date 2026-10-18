@@ -972,6 +972,39 @@
             const email = emailInput ? emailInput.value.trim() : '';
             const password = pwdInput ? pwdInput.value : '';
 
+            if (currentAuthMode === 'forgot') {
+                if (!email) {
+                    if (errorText) errorText.textContent = 'Please enter your email address.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (submitBtn) submitBtn.disabled = true;
+                if (submitText) submitText.textContent = 'Sending Link...';
+
+                try {
+                    const { client } = await import('./supaBase.js');
+                    const redirectUrl = window.location.origin + window.location.pathname;
+                    const { error } = await client.auth.resetPasswordForEmail(email, {
+                        redirectTo: redirectUrl
+                    });
+
+                    if (error) throw error;
+
+                    if (successText) successText.textContent = 'Password reset link sent! Check your email inbox to reset your password.';
+                    if (successBox) successBox.classList.remove('hidden');
+                    if (emailInput) emailInput.value = '';
+                } catch (err) {
+                    console.error('Password reset error:', err);
+                    if (errorText) errorText.textContent = err.message || 'Failed to send reset link. Please verify email.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                } finally {
+                    if (submitBtn) submitBtn.disabled = false;
+                    applyAuthModeUI();
+                }
+                return;
+            }
+
             if (!email || !password) {
                 if (errorText) errorText.textContent = 'Please provide both email and password.';
                 if (errorBox) errorBox.classList.remove('hidden');
