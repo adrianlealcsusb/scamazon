@@ -1288,6 +1288,21 @@
         async function checkSession() {
             try {
                 const { client } = await import('./supaBase.js');
+
+                // Listen for Auth state changes including password recovery
+                client.auth.onAuthStateChange(async (event, session) => {
+                    if (event === 'PASSWORD_RECOVERY') {
+                        openBuiltInAuth('recovery', 'Please enter your new password below.');
+                    }
+                });
+
+                // Also check if arrived directly via recovery URL hash or parameter
+                const urlHash = window.location.hash || '';
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlHash.includes('type=recovery') || urlParams.get('type') === 'recovery') {
+                    openBuiltInAuth('recovery', 'Please enter your new password below.');
+                }
+
                 const { data: { session } } = await client.auth.getSession();
                 
                 if (session && session.user) {
