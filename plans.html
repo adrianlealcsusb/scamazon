@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Scamazon - Choose the right pricing plan for your warehouse management needs.">
+    <title>Pricing | Scamazon</title>
+    <link rel="icon" type="image/jpg" href="/img/scamazon.jpg">
+    
+    <!-- Preconnect to Google Fonts for performance optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        // load theme
+        try 
+        {
+            const savedTheme = localStorage.getItem('scamazon_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) 
+            {
+                document.documentElement.classList.add('dark');
+            } 
+            else 
+            {
+                document.documentElement.classList.remove('dark');
+            }
+        } 
+        catch (err)
+        {
+            console.error('Theme loader error:', err);
+        }
+    </script>
+
+    <!-- type scale: declared once, referenced by the role classes below -->
+    <style>
+        .type-display,
+        .type-section,
+        .type-title
+        {
+            text-wrap: balance;
+        }
+
+        .type-display
+        {
+            font-size: clamp(2.75rem, 1.9rem + 3.6vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+
+        .type-section
+        {
+            font-size: clamp(1.875rem, 1.5rem + 1.2vw, 2.5rem);
+            line-height: 1.12;
+            letter-spacing: -0.025em;
+        }
+
+        .type-title
+        {
+            font-size: 1.25rem;
+            line-height: 1.35;
+            letter-spacing: -0.015em;
+        }
+
+        /* Custom scrollbar for brand consistency */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.05);
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(245, 158, 11, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 158, 11, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950 transition-colors duration-300">
+    
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex justify-between items-center" aria-label="Main Navigation">
+            <!-- logo -->
+            <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-sm">
+                Scamazon<span class="text-amber-600 dark:text-amber-400">.</span>
+            </a>
+
+            <!-- right side nav -->
+            <div class="flex items-center space-x-3 sm:space-x-8">
+                <!-- desktop links -->
+                <div id="navbar" class="hidden sm:flex items-center space-x-6 sm:space-x-8">
+                    <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
+                        Home
+                    </a>
+                    <a href="plans.html" class="tracking-tight text-amber-600 dark:text-amber-400 font-semibold hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900" aria-current="page">
+                        Pricing
+                    </a>
+                    <a href="aboutus.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
+                        Meet the Team
+                    </a>
+                    <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
+                        Log In
+                    </a>
+                    <a href="index.html" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white dark:text-slate-950 bg-slate-900 dark:bg-amber-500 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200">
+                        Sign Up
+                    </a>
+                </div>
+
+                <!-- dark mode toggle button -->
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" title="Toggle Dark Mode">
+                    <!-- sun icon -->
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <!-- moon icon -->
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+
+                <!-- mobile menu toggle button -->
+                <button id="nav-toggle" type="button" class="sm:hidden inline-flex items-center justify-center p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" aria-label="Open main menu" aria-controls="mobile-menu" aria-expanded="false">
+                    <!-- hamburger icon -->
+                    <svg id="nav-toggle-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <!-- close icon -->
+                    <svg id="nav-toggle-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- mobile menu panel -->
+            <div id="mobile-menu" class="sm:hidden absolute left-0 right-0 top-full overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-lg transition-all duration-300 ease-out max-h-0 opacity-0 pointer-events-none">
+                <div id="mobile-menu-list" class="px-4 sm:px-6 py-4 flex flex-col space-y-1">
+                    <a href="index.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        Home
+                    </a>
+                    <a href="plans.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" aria-current="page">
+                        Pricing
+                    </a>
+                    <a href="aboutus.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        Meet the Team
+                    </a>
+                    <a href="index.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        Log In
+                    </a>
+                    <a href="index.html" class="mt-2 flex w-full items-center justify-center px-5 py-2.5 text-sm font-medium text-white dark:text-slate-950 bg-slate-900 dark:bg-amber-500 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all duration-200">
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col">
+        
+        <!-- Pricing Header & Toggle Section -->
+        <section class="relative px-4 sm:px-6 py-12 sm:py-16 flex flex-col items-center justify-center text-center overflow-hidden" aria-label="Pricing Header">
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-500/10 via-slate-50 to-slate-50 dark:from-amber-500/5 dark:via-slate-950 dark:to-slate-900 transition-colors"></div>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <h1 class="type-display font-extrabold text-slate-900 dark:text-white">
+                    Simple, transparent <span class="text-amber-600 dark:text-amber-400">pricing</span>
+                </h1>
+                <p class="text-lg text-pretty text-slate-600 dark:text-slate-300">
+                    Choose the ideal plan that suits you and your team.
+                </p>
+
+                <!-- billing toggle -->
+                <div class="pt-6 flex items-center justify-center space-x-4">
+                    <span id="monthly-label" class="text-sm font-semibold text-slate-900 dark:text-white transition-colors">Monthly</span>
+                    <button id="billing-toggle" type="button" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-slate-900 dark:bg-amber-500 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950" role="switch" aria-checked="false" aria-label="Bill yearly instead of monthly">
+                        <span id="toggle-circle" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-slate-950 shadow ring-0 transition duration-200 ease-in-out translate-x-0"></span>
+                    </button>
+                    <span id="yearly-label" class="text-sm font-medium text-slate-500 dark:text-slate-400 transition-colors flex items-center gap-2">
+                        Yearly
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+                            Save 20%
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- pricing cards -->
+        <section class="relative px-4 sm:px-6 pb-16 sm:pb-24 max-w-7xl mx-auto w-full" aria-labelledby="plans-heading">
+            <h2 id="plans-heading" class="sr-only">Pricing plans</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- free plan -->
+                <div class="flex flex-col justify-between bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="type-title font-bold text-slate-900 dark:text-white">Free</h3>
+                            <span class="px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md">Starter</span>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">Perfect for small individual storefronts testing the waters.</p>
+                        
+                        <div class="mb-6">
+                            <span class="text-4xl font-extrabold tabular-nums text-slate-900 dark:text-white">$0</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400"> / month</span>
+                        </div>
+
+                        <ul class="space-y-4 text-sm text-slate-600 dark:text-slate-300 mb-8">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Up to 50 Inventory Items
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Basic Packing Slips
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Community Support
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="index.html" class="w-full inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-500 transition-all duration-200">
+                        Get Started Free
+                    </a>
+                </div>
+
+                <!-- pro plan -->
+                <div class="relative flex flex-col justify-between bg-white dark:bg-slate-900 rounded-2xl border-2 border-amber-500 dark:border-amber-400 p-6 sm:p-8 shadow-lg shadow-amber-500/10 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl group md:scale-105 z-10">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-amber-500 text-slate-950 text-xs font-extrabold uppercase tracking-wider rounded-full shadow-md">
+                        Most Popular
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="type-title font-bold text-slate-900 dark:text-white">Pro</h3>
+                            <span class="px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider bg-amber-50 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 rounded-md">Growth</span>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">Designed for expanding warehouses needing advanced management tools.</p>
+                        
+                        <div class="mb-6 transition-all duration-300" aria-live="polite">
+                            <span id="pro-price" class="text-4xl font-extrabold tabular-nums text-slate-900 dark:text-white">$29</span>
+                            <span id="pro-period" class="text-sm text-slate-500 dark:text-slate-400"> / month</span>
+                            <div id="pro-savings" class="text-xs text-amber-600 dark:text-amber-400 font-semibold mt-1 h-4"></div>
+                        </div>
+
+                        <ul class="space-y-4 text-sm text-slate-600 dark:text-slate-300 mb-8">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Unlimited Inventory Items
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Robust Invoice & Order Manager
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Dedicated Logistics Support Desk
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Priority Email Support
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="index.html" class="w-full inline-flex items-center justify-center px-6 py-3 text-sm font-bold text-slate-950 bg-amber-500 rounded-lg hover:bg-amber-400 shadow-md shadow-amber-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-500 transition-all duration-200">
+                        Upgrade to Pro
+                    </a>
+                </div>
+
+                <!-- enterprise plan -->
+                <div class="flex flex-col justify-between bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="type-title font-bold text-slate-900 dark:text-white">Enterprise</h3>
+                            <span class="px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-md">Scale</span>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">Custom-tailored solutions for massive industrial supply chains.</p>
+                        
+                        <div class="mb-6 transition-all duration-300" aria-live="polite">
+                            <span id="enterprise-price" class="text-4xl font-extrabold tabular-nums text-slate-900 dark:text-white">$99</span>
+                            <span id="enterprise-period" class="text-sm text-slate-500 dark:text-slate-400"> / month</span>
+                            <div id="enterprise-savings" class="text-xs text-amber-600 dark:text-amber-400 font-semibold mt-1 h-4"></div>
+                        </div>
+
+                        <ul class="space-y-4 text-sm text-slate-600 dark:text-slate-300 mb-8">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Multi-warehouse Sync
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Advanced Worker Permissions
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Dedicated Account Manager
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                Custom API Integrations & SLA
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="w-full inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-500 transition-all duration-200">
+                        Contact Sales
+                    </a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 transition-colors" aria-label="Site Footer">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-sm text-slate-500 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 Scamazon WMS. All rights reserved.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Privacy Policy</a>
+                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Uncaught Async Error:', event.reason);
+        });
+
+        /* ---------- responsive navigation ---------- */
+
+        // page-specific active link, shared by the desktop and mobile navbar renders below
+        const NAV_ACTIVE_PAGE = 'plans.html';
+
+        const DESKTOP_LINK_BASE = 'tracking-tight hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900';
+        const DESKTOP_LINK_ACTIVE = 'text-amber-600 dark:text-amber-400 font-semibold';
+        const DESKTOP_LINK_IDLE = 'text-slate-900 dark:text-slate-300';
+
+        const MOBILE_LINK_BASE = 'block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500';
+        const MOBILE_LINK_ACTIVE = 'text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40';
+        const MOBILE_LINK_IDLE = 'text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800';
+
+        function isActiveNavPage(href)
+        {
+            return href === NAV_ACTIVE_PAGE;
+        }
+
+        function desktopNavLink(item)
+        {
+            const active = isActiveNavPage(item.href);
+            const tone = active ? DESKTOP_LINK_ACTIVE : DESKTOP_LINK_IDLE;
+            const current = active ? ' aria-current="page"' : '';
+            return `<a href="${item.href}" class="${DESKTOP_LINK_BASE} ${tone}"${current}>${item.label}</a>`;
+        }
+
+        function mobileNavLink(item)
+        {
+            const active = isActiveNavPage(item.href);
+            const tone = active ? MOBILE_LINK_ACTIVE : MOBILE_LINK_IDLE;
+            const current = active ? ' aria-current="page"' : '';
+            return `<a href="${item.href}" class="${MOBILE_LINK_BASE} ${tone}"${current}>${item.label}</a>`;
+        }
+
+        function guestNavItems()
+        {
+            return [
+                { href: 'index.html', label: 'Home' },
+                { href: 'plans.html', label: 'Pricing' },
+                { href: 'aboutus.html', label: 'Meet the Team' },
+                { href: 'index.html', label: 'Log In' },
+            ];
+        }
+
+        function roleNavItems()
+        {
+            return [
+                { href: 'index.html', label: 'Home' },
+                { href: 'plans.html', label: 'Pricing' },
+                { href: 'aboutus.html', label: 'Meet the Team' },
+            ];
+        }
+
+        // wires the hamburger button, its icon swap, and the mobile menu panel
+        function initResponsiveNav()
+        {
+            try
+            {
+                const toggle = document.getElementById('nav-toggle');
+                const menu = document.getElementById('mobile-menu');
+                if (!toggle || !menu) return;
+
+                const iconOpen = document.getElementById('nav-toggle-open');
+                const iconClose = document.getElementById('nav-toggle-close');
+                const desktopQuery = window.matchMedia('(min-width: 640px)');
+
+                const hiddenMenuClasses = ['max-h-0', 'opacity-0', 'pointer-events-none'];
+                const shownMenuClasses = ['max-h-[480px]', 'opacity-100'];
+
+                function setExpanded(expanded)
+                {
+                    toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                    toggle.setAttribute('aria-label', expanded ? 'Close main menu' : 'Open main menu');
+                    if (iconOpen) iconOpen.classList.toggle('hidden', expanded);
+                    if (iconClose) iconClose.classList.toggle('hidden', !expanded);
+
+                    hiddenMenuClasses.forEach((className) => menu.classList.toggle(className, !expanded));
+                    shownMenuClasses.forEach((className) => menu.classList.toggle(className, expanded));
+
+                    menu.inert = !expanded;
+                }
+
+                function collapseOnDesktop(event)
+                {
+                    if (event.matches) setExpanded(false);
+                }
+
+                toggle.addEventListener('click', function ()
+                {
+                    setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+                });
+
+                // close after following any link inside the panel
+                menu.addEventListener('click', function (event)
+                {
+                    if (event.target.closest('a')) setExpanded(false);
+                });
+
+                // close when clicking outside the panel
+                document.addEventListener('click', function (event)
+                {
+                    if (toggle.getAttribute('aria-expanded') !== 'true') return;
+                    if (menu.contains(event.target) || toggle.contains(event.target)) return;
+                    setExpanded(false);
+                });
+
+                // close on Escape and return focus to the toggle
+                document.addEventListener('keydown', function (event)
+                {
+                    if (event.key !== 'Escape') return;
+                    if (toggle.getAttribute('aria-expanded') !== 'true') return;
+                    setExpanded(false);
+                    toggle.focus();
+                });
+
+                if (typeof desktopQuery.addEventListener === 'function')
+                {
+                    desktopQuery.addEventListener('change', collapseOnDesktop);
+                }
+                else if (typeof desktopQuery.addListener === 'function')
+                {
+                    desktopQuery.addListener(collapseOnDesktop);
+                }
+
+                setExpanded(false);
+            }
+            catch (navError)
+            {
+                console.error('Responsive navigation failed to start:', navError);
+            }
+        }
+
+        function toggleDarkMode()
+        {
+            try 
+            {
+                const htmlElement = document.documentElement;
+                if (htmlElement.classList.contains('dark')) 
+                {
+                    htmlElement.classList.remove('dark');
+                    localStorage.setItem('scamazon_theme', 'light');
+                } 
+                else 
+                {
+                    htmlElement.classList.add('dark');
+                    localStorage.setItem('scamazon_theme', 'dark');
+                }
+            } 
+            catch (toggleErr) 
+            {
+                console.error('Dark mode toggle failed:', toggleErr);
+            }
+        }
+
+        function readCookie(name)
+        {
+            try
+            {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2)
+                {
+                    return parts.pop().split(';').shift();
+                }
+                return null;
+            }
+            catch (cookieErr)
+            {
+                console.error('Cookie read failed:', cookieErr);
+                return null;
+            }
+        }
+
+        function readSessionCookie()
+        {
+            const baseKey = 'sb-wtcqblyyprofjocksdij-auth-token';
+            return readCookie(baseKey) || readCookie(`${baseKey}.0`);
+        }
+
+        // load navbar from the cookie session so the first paint is already the correct nav
+        (function ()
+        {
+            try
+            {
+                const navbar = document.getElementById('navbar');
+                if (!navbar) return;
+
+                const sessionCookie = readSessionCookie();
+                const cachedRole = localStorage.getItem('scamazon_user_role');
+
+                if (sessionCookie && cachedRole)
+                {
+                    renderRoleNav(navbar, cachedRole);
+                }
+                else if (sessionCookie)
+                {
+                    renderRoleNav(navbar, 'customer');
+                }
+                else
+                {
+                    renderGuestNav(navbar);
+                }
+            }
+            catch (instantErr)
+            {
+                console.error('Instant render error:', instantErr);
+            }
+        })();
+
+        // Billing toggle
+        try
+        {
+            const toggleBtn = document.getElementById('billing-toggle');
+            const toggleCircle = document.getElementById('toggle-circle');
+            const monthlyLabel = document.getElementById('monthly-label');
+            const yearlyLabel = document.getElementById('yearly-label');
+
+            const proPrice = document.getElementById('pro-price');
+            const proPeriod = document.getElementById('pro-period');
+            const proSavings = document.getElementById('pro-savings');
+
+            const enterprisePrice = document.getElementById('enterprise-price');
+            const enterprisePeriod = document.getElementById('enterprise-period');
+            const enterpriseSavings = document.getElementById('enterprise-savings');
+
+            // full token sets, so the active label stays legible in both themes
+            const LABEL_ACTIVE = ['text-slate-900', 'dark:text-white', 'font-semibold'];
+            const LABEL_IDLE = ['text-slate-500', 'dark:text-slate-400', 'font-medium'];
+
+            function setLabelState(label, active)
+            {
+                LABEL_ACTIVE.forEach((className) => label.classList.toggle(className, active));
+                LABEL_IDLE.forEach((className) => label.classList.toggle(className, !active));
+            }
+
+            let isYearly = false;
+
+            toggleBtn.addEventListener('click', () =>
+            {
+                isYearly = !isYearly;
+                toggleBtn.setAttribute('aria-checked', String(isYearly));
+
+                toggleCircle.classList.toggle('translate-x-5', isYearly);
+                toggleCircle.classList.toggle('translate-x-0', !isYearly);
+
+                setLabelState(monthlyLabel, !isYearly);
+                setLabelState(yearlyLabel, isYearly);
+
+                // yearly rate is the monthly price with 20% off, billed annually
+                proPrice.textContent = isYearly ? '$23' : '$29';
+                enterprisePrice.textContent = isYearly ? '$79' : '$99';
+
+                const periodText = isYearly ? ' / month, billed annually' : ' / month';
+                proPeriod.textContent = periodText;
+                enterprisePeriod.textContent = periodText;
+
+                proSavings.textContent = isYearly ? 'Save $72 per year!' : '';
+                enterpriseSavings.textContent = isYearly ? 'Save $240 per year!' : '';
+            });
+        }
+        catch (toggleErr)
+        {
+            console.error('Toggle initialization failed:', toggleErr);
+        }
+
+        async function initialize() 
+        {
+            try 
+            {
+                const { client } = await import('./supaBase.js');
+                const navbar = document.getElementById('navbar');
+                const { data: { session }, error } = await client.auth.getSession();
+                
+                if (error) 
+                {
+                    throw error;
+                }
+
+                if (!session) 
+                {
+                    renderGuestNav(navbar);
+                    return;
+                }
+
+                const email = session.user.email;
+                const { data: userRecord, error: userErr } = await client
+                    .from('users')
+                    .select('role')
+                    .eq('email', email)
+                    .single();
+
+                if (userErr || !userRecord) 
+                {
+                    renderGuestNav(navbar);
+                    return;
+                }
+
+                renderRoleNav(navbar, userRecord.role);
+            } 
+            catch (authError) 
+            {
+                console.warn('Supabase session check skipped or failed:', authError.message || authError);
+            }
+        }
+
+        function renderGuestNav(navbar)
+        {
+            const mobileList = document.getElementById('mobile-menu-list');
+            const items = guestNavItems();
+
+            if (navbar)
+            {
+                navbar.innerHTML = items.map(desktopNavLink).join('') + `
+                    <a href="index.html" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white dark:text-slate-950 bg-slate-900 dark:bg-amber-500 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200">
+                        Sign Up
+                    </a>
+                `;
+            }
+
+            if (mobileList)
+            {
+                mobileList.innerHTML = items.map(mobileNavLink).join('') + `
+                    <a href="index.html" class="mt-2 flex w-full items-center justify-center px-5 py-2.5 text-sm font-medium text-white dark:text-slate-950 bg-slate-900 dark:bg-amber-500 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all duration-200">
+                        Sign Up
+                    </a>
+                `;
+            }
+        }
+
+        function renderRoleNav(navbar, role)
+        {
+            const dashboardMap =
+            {
+                owner: 'owner.html',
+                customer: 'index.html',
+                worker: 'worker.html'
+            };
+            const dashPage = dashboardMap[role] || 'storefront.html';
+            const mobileList = document.getElementById('mobile-menu-list');
+            const items = roleNavItems();
+
+            const roleBadge = `
+                <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
+                </div>
+            `;
+
+            const desktopDashboard = `
+                <a href="${dashPage}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white dark:text-slate-950 bg-slate-900 dark:bg-amber-500 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all">
+                    Dashboard
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+            `;
+
+            const desktopLogout = `
+                <button type="button" data-logout class="inline-flex items-center justify-center p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Sign Out" aria-label="Sign Out">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </button>
+            `;
+
+            const mobileRoleBadge = `
+                <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full w-fit mb-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
+                </div>
+            `;
+
+            const mobileDashboard = `
+                <a href="${dashPage}" class="mt-2 flex w-full items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white dark:text-slate-950 bg-slate-900 dark:bg-amber-500 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all">
+                    Dashboard
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+            `;
+
+            const mobileLogout = `
+                <button type="button" data-logout class="mt-2 flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 dark:hover:text-rose-400 transition-colors">
+                    Sign Out
+                </button>
+            `;
+
+            if (navbar)
+            {
+                navbar.innerHTML = roleBadge + items.map(desktopNavLink).join('') + desktopDashboard + desktopLogout;
+            }
+
+            if (mobileList)
+            {
+                mobileList.innerHTML = mobileRoleBadge + items.map(mobileNavLink).join('') + mobileDashboard + mobileLogout;
+            }
+        }
+
+        document.addEventListener('click', async (event) => 
+        {
+            const logout = event.target.closest("[data-logout]");
+            if (!logout) 
+            {
+                return;
+            }
+            
+            try 
+            {
+                logout.disabled = true;
+                const { client } = await import('./supaBase.js');
+                await client.auth.signOut();
+                window.location.href = 'index.html';
+            } 
+            catch (err) 
+            {
+                console.error('Logout failed:', err);
+                logout.disabled = false;
+            }
+        });
+
+        initialize();
+        initResponsiveNav();
+    </script>
+</body>
+</html>
