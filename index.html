@@ -394,38 +394,38 @@
                     </button>
                 </div>
 
-                <!-- Visual Timeline Stepper -->
+                <!-- Visual Timeline Stepper (Aligned with Processing, Shipped, Out for Delivery, Delivered) -->
                 <div class="space-y-4">
                     <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Fulfillment Timeline</p>
                     <div class="relative flex items-center justify-between w-full pt-2">
                         <div class="absolute left-6 right-6 top-6 h-1 bg-slate-200 dark:bg-slate-800 -z-0"></div>
                         
-                        <!-- Step 1: Submitted -->
+                        <!-- Step 1: Processing -->
                         <div class="relative z-10 flex flex-col items-center text-center">
-                            <span id="step-submitted-dot" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">1</span>
-                            <p class="text-xs font-bold text-slate-900 dark:text-white mt-2">Submitted</p>
-                            <span id="time-submitted" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Order Placed</span>
+                            <span id="step-processing-dot" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">1</span>
+                            <p class="text-xs font-bold text-slate-900 dark:text-white mt-2">Processing</p>
+                            <span id="time-processing" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Floor Queue</span>
                         </div>
 
-                        <!-- Step 2: Picking -->
+                        <!-- Step 2: Shipped -->
                         <div class="relative z-10 flex flex-col items-center text-center">
-                            <span id="step-picking-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">2</span>
-                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Picking</p>
-                            <span id="time-picking" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Floor Queue</span>
+                            <span id="step-shipped-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">2</span>
+                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Shipped</p>
+                            <span id="time-shipped" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Dispatched</span>
                         </div>
 
-                        <!-- Step 3: Packed -->
+                        <!-- Step 3: Out for Delivery -->
                         <div class="relative z-10 flex flex-col items-center text-center">
-                            <span id="step-packed-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">3</span>
-                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Packed</p>
-                            <span id="time-packed" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">In Progress</span>
-                        </div>
-
-                        <!-- Step 4: Dispatch -->
-                        <div class="relative z-10 flex flex-col items-center text-center">
-                            <span id="step-ready-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">4</span>
+                            <span id="step-out-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">3</span>
                             <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Out for Delivery</p>
-                            <span id="time-ready" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Pending</span>
+                            <span id="time-out" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Courier En Route</span>
+                        </div>
+
+                        <!-- Step 4: Delivered -->
+                        <div class="relative z-10 flex flex-col items-center text-center">
+                            <span id="step-delivered-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">4</span>
+                            <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Delivered</p>
+                            <span id="time-delivered" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Package Arrived</span>
                         </div>
                     </div>
                 </div>
@@ -2205,33 +2205,51 @@
             const displayStatus = data.status === 'Ready for Driver' ? 'Shipped' : data.status;
             document.getElementById('track-status-text').textContent = displayStatus;
 
-            // Reset all milestone dots
-            ['step-submitted-dot', 'step-picking-dot', 'step-packed-dot', 'step-ready-dot'].forEach(id => {
-                document.getElementById(id).className = 'w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all';
+            // Reset all 4 milestone dots
+            const activeDotClass = 'w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all';
+            const inactiveDotClass = 'w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all';
+
+            ['step-processing-dot', 'step-shipped-dot', 'step-out-dot', 'step-delivered-dot'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.className = inactiveDotClass;
             });
 
-            // Milestone 1: Always active for placed orders
-            document.getElementById('step-submitted-dot').className = 'w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all';
+            const status = data.status === 'Ready for Driver' ? 'Shipped' : (data.status || 'Processing');
 
-            // Milestone 2: Processing / Picking
-            if (['Processing', 'Ready for Driver', 'Shipped', 'Out for Delivery', 'Delivered'].includes(data.status)) {
-                document.getElementById('step-picking-dot').className = 'w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all';
-                document.getElementById('time-picking').textContent = data.status === 'Processing' ? 'In Progress' : 'Completed';
+            // Milestone 1: Processing (active for all placed orders)
+            const dotProc = document.getElementById('step-processing-dot');
+            const timeProc = document.getElementById('time-processing');
+            if (dotProc) dotProc.className = activeDotClass;
+            if (timeProc) timeProc.textContent = status === 'Processing' ? 'In Progress' : 'Completed';
+
+            // Milestone 2: Shipped
+            const dotShip = document.getElementById('step-shipped-dot');
+            const timeShip = document.getElementById('time-shipped');
+            if (['Shipped', 'Out for Delivery', 'Delivered'].includes(status)) {
+                if (dotShip) dotShip.className = activeDotClass;
+                if (timeShip) timeShip.textContent = status === 'Shipped' ? 'In Transit' : 'Completed';
+            } else {
+                if (timeShip) timeShip.textContent = 'Pending';
             }
 
-            // Milestone 3: Packed / Shipped
-            if (['Shipped', 'Ready for Driver', 'Out for Delivery', 'Delivered', 'Pack'].includes(data.status)) {
-                document.getElementById('step-packed-dot').className = 'w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all';
-                document.getElementById('time-packed').textContent = 'Completed';
+            // Milestone 3: Out for Delivery
+            const dotOut = document.getElementById('step-out-dot');
+            const timeOut = document.getElementById('time-out');
+            if (['Out for Delivery', 'Delivered'].includes(status)) {
+                if (dotOut) dotOut.className = activeDotClass;
+                if (timeOut) timeOut.textContent = status === 'Out for Delivery' ? 'En Route' : 'Completed';
+            } else {
+                if (timeOut) timeOut.textContent = 'Pending';
             }
 
-            // Milestone 4: Out for Delivery / Delivered
-            if (['Out for Delivery', 'Delivered'].includes(data.status)) {
-                document.getElementById('step-ready-dot').className = 'w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all';
-                document.getElementById('time-ready').textContent = data.status;
-            } else if (['Shipped', 'Ready for Driver'].includes(data.status)) {
-                document.getElementById('step-ready-dot').className = 'w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all';
-                document.getElementById('time-ready').textContent = 'Shipped';
+            // Milestone 4: Delivered
+            const dotDel = document.getElementById('step-delivered-dot');
+            const timeDel = document.getElementById('time-delivered');
+            if (status === 'Delivered') {
+                if (dotDel) dotDel.className = activeDotClass;
+                if (timeDel) timeDel.textContent = 'Completed';
+            } else {
+                if (timeDel) timeDel.textContent = 'Pending';
             }
         }
 
