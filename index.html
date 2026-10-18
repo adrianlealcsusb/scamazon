@@ -700,6 +700,22 @@
                 </div>
             </div>
 
+            <!-- Receipt Financial Ledger -->
+            <div class="space-y-1.5 pt-1 text-xs border-b border-slate-200 dark:border-slate-800 pb-4">
+                <div class="flex justify-between text-slate-600 dark:text-slate-400">
+                    <span>Items Subtotal</span>
+                    <span id="receipt-subtotal" class="font-mono text-slate-900 dark:text-slate-200 font-medium">$0.00</span>
+                </div>
+                <div class="flex justify-between text-slate-600 dark:text-slate-400">
+                    <span>Estimated State Tax (8.25%)</span>
+                    <span id="receipt-tax" class="font-mono text-slate-900 dark:text-slate-200 font-medium">$0.00</span>
+                </div>
+                <div class="flex justify-between items-center text-sm font-bold text-slate-900 dark:text-white pt-2 border-t border-dashed border-slate-200 dark:border-slate-700">
+                    <span>Total Cost</span>
+                    <span id="receipt-total" class="font-mono text-amber-600 dark:text-amber-400 font-bold text-base">$0.00</span>
+                </div>
+            </div>
+
             <div class="flex justify-between items-center pt-2">
                 <button onclick="window.print()" class="text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 underline underline-offset-4 transition-colors">
                     Print Delivery Slip
@@ -1928,7 +1944,7 @@
                     msgEl.innerHTML = `Your delivery order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed and queued for courier dispatch. Total: <strong>$${single.total}</strong> <span class="text-xs text-slate-500 dark:text-slate-400 font-normal">(incl. $${single.tax} tax)</span>.`;
                     if (listEl) {
                         listEl.innerHTML = `
-                            <button onclick="viewSlipDirect('${sanitizeHtml(single.orderNum)}', '${sanitizeHtml(single.branch)}', '${sanitizeHtml(single.items)}', '${single.total}')" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors">
+                            <button onclick="viewSlipDirect('${sanitizeHtml(single.orderNum)}', '${sanitizeHtml(single.branch)}', '${sanitizeHtml(single.items)}', '${single.total}', '${single.subtotal}', '${single.tax}')" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                                 <span>View Delivery Packing Slip</span>
                             </button>
@@ -1944,7 +1960,7 @@
                                     <span class="block text-slate-700 dark:text-slate-300 font-semibold mt-0.5 truncate">${sanitizeHtml(o.branch)} &bull; ${o.count} item${o.count === 1 ? '' : 's'}</span>
                                     <span class="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">$${o.total} <span class="text-[11px] font-normal text-slate-500 dark:text-slate-400">(incl. $${o.tax} tax)</span></span>
                                 </div>
-                                <button onclick="viewSlipDirect('${sanitizeHtml(o.orderNum)}', '${sanitizeHtml(o.branch)}', '${sanitizeHtml(o.items)}', '${o.total}')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors">
+                                <button onclick="viewSlipDirect('${sanitizeHtml(o.orderNum)}', '${sanitizeHtml(o.branch)}', '${sanitizeHtml(o.items)}', '${o.total}', '${o.subtotal}', '${o.tax}')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors">
                                     View Slip
                                 </button>
                             </div>
@@ -1972,7 +1988,7 @@
             document.getElementById('confirmation-modal').classList.add('hidden');
         }
 
-        function viewSlipDirect(orderNum, branchName, itemsString, total) {
+        function viewSlipDirect(orderNum, branchName, itemsString, total, subtotal, tax) {
             closeConfirmationModal();
             const branch = activeStorefronts.find(s => s.name === branchName);
             trackedOrderCache = {
@@ -1980,6 +1996,8 @@
                 storefront: branchName,
                 items: itemsString,
                 total: total,
+                subtotal: subtotal,
+                tax: tax,
                 created_at: new Date().toISOString()
             };
             openReceiptModal();
@@ -2297,6 +2315,63 @@
             document.getElementById('receipt-branch-address').textContent = branch ? branch.address : 'Storefront Depot';
             document.getElementById('receipt-items-list').textContent = trackedOrderCache.items;
             document.getElementById('receipt-date').textContent = new Date(trackedOrderCache.created_at).toLocaleDateString();
+
+            // Populate financial breakdown (subtotal, 8.25% state tax, total)
+            let subtotalVal = 0;
+            let taxVal = 0;
+            let totalVal = 0;
+
+            if (trackedOrderCache.subtotal && trackedOrderCache.tax && trackedOrderCache.total) {
+                subtotalVal = parseFloat(trackedOrderCache.subtotal) || 0;
+                taxVal = parseFloat(trackedOrderCache.tax) || 0;
+                totalVal = parseFloat(trackedOrderCache.total) || 0;
+            } else if (trackedOrderCache.total) {
+                totalVal = parseFloat(trackedOrderCache.total) || 0;
+                subtotalVal = totalVal / 1.0825;
+                taxVal = totalVal - subtotalVal;
+            } else {
+                // If tracked order came from direct manual tracking input or orders table query, check user's stored orders
+                const key = getCustomerOrdersStorageKey();
+                if (key) {
+                    try {
+                        const saved = localStorage.getItem(key);
+                        if (saved) {
+                            const list = JSON.parse(saved);
+                            const matched = list.find(o => o.order_number === trackedOrderCache.order_number);
+                            if (matched && matched.total) {
+                                totalVal = parseFloat(matched.total) || 0;
+                                subtotalVal = matched.subtotal ? parseFloat(matched.subtotal) : (totalVal / 1.0825);
+                                taxVal = matched.tax ? parseFloat(matched.tax) : (totalVal - subtotalVal);
+                            }
+                        }
+                    } catch (e) {}
+                }
+
+                // If still 0, parse items from listings or fallback
+                if (totalVal === 0 && trackedOrderCache.items) {
+                    const itemsArr = trackedOrderCache.items.split(/,\s*(?=\d+\s*x)/i);
+                    itemsArr.forEach(rawItem => {
+                        const countMatch = rawItem.match(/^(\d+)\s*x\s*(.*)$/i);
+                        const qty = countMatch ? parseInt(countMatch[1], 10) : 1;
+                        const titleStr = countMatch ? countMatch[2].trim() : rawItem.trim();
+                        const matchedListing = allListings.find(l =>
+                            (l.sku && titleStr.toLowerCase().includes(l.sku.toLowerCase())) ||
+                            (l.title && titleStr.toLowerCase().includes(l.title.toLowerCase()))
+                        );
+                        const unitPrice = matchedListing ? parseFloat(matchedListing.price) : 24.99;
+                        subtotalVal += unitPrice * qty;
+                    });
+                    taxVal = subtotalVal * 0.0825;
+                    totalVal = subtotalVal + taxVal;
+                }
+            }
+
+            const receiptSubtotalEl = document.getElementById('receipt-subtotal');
+            const receiptTaxEl = document.getElementById('receipt-tax');
+            const receiptTotalEl = document.getElementById('receipt-total');
+            if (receiptSubtotalEl) receiptSubtotalEl.textContent = `$${subtotalVal.toFixed(2)}`;
+            if (receiptTaxEl) receiptTaxEl.textContent = `$${taxVal.toFixed(2)}`;
+            if (receiptTotalEl) receiptTotalEl.textContent = `$${totalVal.toFixed(2)}`;
 
             document.getElementById('receipt-modal').classList.remove('hidden');
         }
