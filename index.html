@@ -1005,6 +1005,55 @@
                 return;
             }
 
+            if (currentAuthMode === 'recovery') {
+                const confirmInput = document.getElementById('auth-confirm-password-input');
+                const confirmPassword = confirmInput ? confirmInput.value : '';
+
+                if (!password) {
+                    if (errorText) errorText.textContent = 'Please enter your new password.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    if (errorText) errorText.textContent = 'Password must be at least 6 characters.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    if (errorText) errorText.textContent = 'Passwords do not match.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (submitBtn) submitBtn.disabled = true;
+                if (submitText) submitText.textContent = 'Updating Password...';
+
+                try {
+                    const { client } = await import('./supaBase.js');
+                    const { error } = await client.auth.updateUser({
+                        password: password
+                    });
+
+                    if (error) throw error;
+
+                    if (successText) successText.textContent = 'Password successfully updated! You can now sign in.';
+                    if (successBox) successBox.classList.remove('hidden');
+                    if (pwdInput) pwdInput.value = '';
+                    if (confirmInput) confirmInput.value = '';
+                    setAuthMode('signin');
+                } catch (err) {
+                    console.error('Password recovery error:', err);
+                    if (errorText) errorText.textContent = err.message || 'Failed to update password.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                } finally {
+                    if (submitBtn) submitBtn.disabled = false;
+                    applyAuthModeUI();
+                }
+                return;
+            }
+
             if (!email || !password) {
                 if (errorText) errorText.textContent = 'Please provide both email and password.';
                 if (errorBox) errorBox.classList.remove('hidden');
