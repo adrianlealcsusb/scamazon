@@ -786,7 +786,7 @@
                 else if (item.stock < 10) badge = `<span class="px-2 py-0.5 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800 text-xs font-medium rounded-md">Low (${item.stock})</span>`;
 
                 const img = item.image_url 
-                    ? `<img src="${sanitizeHtml(item.image_url)}" alt="${sanitizeHtml(item.title)}" class="w-8 h-8 object-cover rounded-md border border-slate-200 dark:border-slate-700">`
+                    ? `<img src="${sanitizeHtml(item.image_url)}" alt="${sanitizeHtml(item.title)}" loading="lazy" referrerpolicy="no-referrer" class="w-8 h-8 object-cover rounded-md border border-slate-200 dark:border-slate-700">`
                     : '<div class="w-8 h-8 bg-slate-100 dark:bg-slate-800 rounded-md border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono">-</div>';
 
                 return `
