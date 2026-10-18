@@ -447,7 +447,7 @@
                 </div>
 
                 <!-- Segmented Mode Control (Sign In vs Create Account) -->
-                <div class="grid grid-cols-2 p-1 bg-slate-100 dark:bg-slate-800/90 rounded-xl mb-5 text-xs font-semibold" role="tablist" aria-label="Authentication Mode">
+                <div id="auth-tabs-container" class="grid grid-cols-2 p-1 bg-slate-100 dark:bg-slate-800/90 rounded-xl mb-5 text-xs font-semibold" role="tablist" aria-label="Authentication Mode">
                     <button type="button" id="tab-btn-signin" onclick="setAuthMode('signin')" class="py-2 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 bg-amber-500 text-slate-950 font-bold shadow-xs" role="tab" aria-selected="true">
                         Sign In
                     </button>
@@ -484,7 +484,7 @@
                     </div>
 
                     <!-- Email Field -->
-                    <div>
+                    <div id="auth-email-group">
                         <label for="auth-email-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                             Email Address
                         </label>
@@ -493,12 +493,15 @@
                     </div>
 
                     <!-- Password Field with Show/Hide Toggle -->
-                    <div>
+                    <div id="auth-password-group">
                         <div class="flex items-center justify-between mb-1">
-                            <label for="auth-password-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                            <label id="auth-password-label" for="auth-password-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                                 Password
                             </label>
-                            <span id="auth-pwd-hint" class="text-[11px] text-slate-400 dark:text-slate-500"></span>
+                            <div class="flex items-center gap-2">
+                                <span id="auth-pwd-hint" class="text-[11px] text-slate-400 dark:text-slate-500"></span>
+                                <button type="button" id="auth-forgot-link" onclick="setAuthMode('forgot')" class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 hover:underline focus:outline-none">Forgot?</button>
+                            </div>
                         </div>
                         <div class="relative">
                             <input id="auth-password-input" type="password" required autocomplete="current-password" placeholder="••••••••"
@@ -508,6 +511,15 @@
                                 <svg id="pwd-icon-hide" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/></svg>
                             </button>
                         </div>
+                    </div>
+
+                    <!-- Confirm Password Field (Recovery mode only) -->
+                    <div id="auth-confirm-group" class="hidden">
+                        <label for="auth-confirm-password-input" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                            Confirm New Password
+                        </label>
+                        <input id="auth-confirm-password-input" type="password" autocomplete="new-password" placeholder="••••••••"
+                            class="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white rounded-xl border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-all">
                     </div>
 
                     <!-- Submit CTA -->
@@ -736,11 +748,19 @@
         window.toggleAuthMode = toggleAuthMode;
 
         function applyAuthModeUI() {
-            const isSignup = currentAuthMode === 'signup';
             const title = document.getElementById('auth-modal-title');
             const subtitle = document.getElementById('auth-modal-subtitle');
+            const tabsContainer = document.getElementById('auth-tabs-container');
             const nameGroup = document.getElementById('auth-name-group');
             const nameInput = document.getElementById('auth-name-input');
+            const emailGroup = document.getElementById('auth-email-group');
+            const emailInput = document.getElementById('auth-email-input');
+            const passwordGroup = document.getElementById('auth-password-group');
+            const passwordLabel = document.getElementById('auth-password-label');
+            const passwordInput = document.getElementById('auth-password-input');
+            const forgotLink = document.getElementById('auth-forgot-link');
+            const confirmGroup = document.getElementById('auth-confirm-group');
+            const confirmInput = document.getElementById('auth-confirm-password-input');
             const submitText = document.getElementById('auth-submit-text');
             const altText = document.getElementById('auth-alt-text');
             const altBtn = document.getElementById('auth-alt-btn');
@@ -748,14 +768,66 @@
             const tabSignUp = document.getElementById('tab-btn-signup');
             const pwdHint = document.getElementById('auth-pwd-hint');
 
-            if (isSignup) {
+            if (currentAuthMode === 'forgot') {
+                if (title) title.textContent = 'Reset Password';
+                if (subtitle) subtitle.textContent = "Enter your email address to receive a password reset link";
+                if (tabsContainer) tabsContainer.classList.add('hidden');
+                if (nameGroup) nameGroup.classList.add('hidden');
+                if (nameInput) { nameInput.required = false; nameInput.value = ''; }
+                if (emailGroup) emailGroup.classList.remove('hidden');
+                if (emailInput) { emailInput.required = true; }
+                if (passwordGroup) passwordGroup.classList.add('hidden');
+                if (passwordInput) { passwordInput.required = false; passwordInput.value = ''; }
+                if (confirmGroup) confirmGroup.classList.add('hidden');
+                if (confirmInput) { confirmInput.required = false; confirmInput.value = ''; }
+                if (submitText) submitText.textContent = 'Send Reset Link';
+                if (altText) altText.textContent = 'Remember your password?';
+                if (altBtn) {
+                    altBtn.textContent = 'Sign In';
+                    altBtn.onclick = () => setAuthMode('signin');
+                }
+                if (pwdHint) pwdHint.textContent = '';
+            } else if (currentAuthMode === 'recovery') {
+                if (title) title.textContent = 'Set New Password';
+                if (subtitle) subtitle.textContent = 'Enter your new password below (min 6 characters)';
+                if (tabsContainer) tabsContainer.classList.add('hidden');
+                if (nameGroup) nameGroup.classList.add('hidden');
+                if (nameInput) { nameInput.required = false; nameInput.value = ''; }
+                if (emailGroup) emailGroup.classList.add('hidden');
+                if (emailInput) { emailInput.required = false; }
+                if (passwordGroup) passwordGroup.classList.remove('hidden');
+                if (passwordLabel) passwordLabel.textContent = 'New Password';
+                if (passwordInput) { passwordInput.required = true; passwordInput.value = ''; }
+                if (forgotLink) forgotLink.classList.add('hidden');
+                if (confirmGroup) confirmGroup.classList.remove('hidden');
+                if (confirmInput) { confirmInput.required = true; confirmInput.value = ''; }
+                if (submitText) submitText.textContent = 'Update Password';
+                if (altText) altText.textContent = 'Already updated?';
+                if (altBtn) {
+                    altBtn.textContent = 'Sign In';
+                    altBtn.onclick = () => setAuthMode('signin');
+                }
+                if (pwdHint) pwdHint.textContent = 'Min 6 characters';
+            } else if (currentAuthMode === 'signup') {
                 if (title) title.textContent = 'Create Account';
                 if (subtitle) subtitle.textContent = 'Register a new customer account to reserve warehouse items';
+                if (tabsContainer) tabsContainer.classList.remove('hidden');
                 if (nameGroup) nameGroup.classList.remove('hidden');
                 if (nameInput) nameInput.required = true;
+                if (emailGroup) emailGroup.classList.remove('hidden');
+                if (emailInput) emailInput.required = true;
+                if (passwordGroup) passwordGroup.classList.remove('hidden');
+                if (passwordLabel) passwordLabel.textContent = 'Password';
+                if (passwordInput) passwordInput.required = true;
+                if (forgotLink) forgotLink.classList.add('hidden');
+                if (confirmGroup) confirmGroup.classList.add('hidden');
+                if (confirmInput) { confirmInput.required = false; confirmInput.value = ''; }
                 if (submitText) submitText.textContent = 'Create Account';
                 if (altText) altText.textContent = 'Already have an account?';
-                if (altBtn) altBtn.textContent = 'Sign In';
+                if (altBtn) {
+                    altBtn.textContent = 'Sign In';
+                    altBtn.onclick = () => setAuthMode('signin');
+                }
                 if (pwdHint) pwdHint.textContent = 'Min 6 characters';
 
                 if (tabSignUp) {
@@ -767,16 +839,26 @@
                     tabSignIn.setAttribute('aria-selected', 'false');
                 }
             } else {
+                currentAuthMode = 'signin';
                 if (title) title.textContent = 'Sign In';
                 if (subtitle) subtitle.textContent = 'Access your customer orders and checkout';
+                if (tabsContainer) tabsContainer.classList.remove('hidden');
                 if (nameGroup) nameGroup.classList.add('hidden');
-                if (nameInput) {
-                    nameInput.required = false;
-                    nameInput.value = '';
-                }
+                if (nameInput) { nameInput.required = false; nameInput.value = ''; }
+                if (emailGroup) emailGroup.classList.remove('hidden');
+                if (emailInput) emailInput.required = true;
+                if (passwordGroup) passwordGroup.classList.remove('hidden');
+                if (passwordLabel) passwordLabel.textContent = 'Password';
+                if (passwordInput) passwordInput.required = true;
+                if (forgotLink) forgotLink.classList.remove('hidden');
+                if (confirmGroup) confirmGroup.classList.add('hidden');
+                if (confirmInput) { confirmInput.required = false; confirmInput.value = ''; }
                 if (submitText) submitText.textContent = 'Sign In';
                 if (altText) altText.textContent = "Don't have an account?";
-                if (altBtn) altBtn.textContent = 'Create Account';
+                if (altBtn) {
+                    altBtn.textContent = 'Create Account';
+                    altBtn.onclick = () => setAuthMode('signup');
+                }
                 if (pwdHint) pwdHint.textContent = '';
 
                 if (tabSignIn) {
@@ -833,7 +915,9 @@
                 setTimeout(() => {
                     const targetInput = currentAuthMode === 'signup' 
                         ? document.getElementById('auth-name-input') 
-                        : document.getElementById('auth-email-input');
+                        : currentAuthMode === 'recovery'
+                            ? document.getElementById('auth-password-input')
+                            : document.getElementById('auth-email-input');
                     if (targetInput) targetInput.focus();
                 }, 60);
             }
@@ -887,6 +971,88 @@
 
             const email = emailInput ? emailInput.value.trim() : '';
             const password = pwdInput ? pwdInput.value : '';
+
+            if (currentAuthMode === 'forgot') {
+                if (!email) {
+                    if (errorText) errorText.textContent = 'Please enter your email address.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (submitBtn) submitBtn.disabled = true;
+                if (submitText) submitText.textContent = 'Sending Link...';
+
+                try {
+                    const { client } = await import('./supaBase.js');
+                    const redirectUrl = window.location.origin + window.location.pathname;
+                    const { error } = await client.auth.resetPasswordForEmail(email, {
+                        redirectTo: redirectUrl
+                    });
+
+                    if (error) throw error;
+
+                    if (successText) successText.textContent = 'Password reset link sent! Check your email inbox to reset your password.';
+                    if (successBox) successBox.classList.remove('hidden');
+                    if (emailInput) emailInput.value = '';
+                } catch (err) {
+                    console.error('Password reset error:', err);
+                    if (errorText) errorText.textContent = err.message || 'Failed to send reset link. Please verify email.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                } finally {
+                    if (submitBtn) submitBtn.disabled = false;
+                    applyAuthModeUI();
+                }
+                return;
+            }
+
+            if (currentAuthMode === 'recovery') {
+                const confirmInput = document.getElementById('auth-confirm-password-input');
+                const confirmPassword = confirmInput ? confirmInput.value : '';
+
+                if (!password) {
+                    if (errorText) errorText.textContent = 'Please enter your new password.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    if (errorText) errorText.textContent = 'Password must be at least 6 characters.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    if (errorText) errorText.textContent = 'Passwords do not match.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (submitBtn) submitBtn.disabled = true;
+                if (submitText) submitText.textContent = 'Updating Password...';
+
+                try {
+                    const { client } = await import('./supaBase.js');
+                    const { error } = await client.auth.updateUser({
+                        password: password
+                    });
+
+                    if (error) throw error;
+
+                    if (successText) successText.textContent = 'Password successfully updated! You can now sign in.';
+                    if (successBox) successBox.classList.remove('hidden');
+                    if (pwdInput) pwdInput.value = '';
+                    if (confirmInput) confirmInput.value = '';
+                    setAuthMode('signin');
+                } catch (err) {
+                    console.error('Password recovery error:', err);
+                    if (errorText) errorText.textContent = err.message || 'Failed to update password.';
+                    if (errorBox) errorBox.classList.remove('hidden');
+                } finally {
+                    if (submitBtn) submitBtn.disabled = false;
+                    applyAuthModeUI();
+                }
+                return;
+            }
 
             if (!email || !password) {
                 if (errorText) errorText.textContent = 'Please provide both email and password.';
@@ -1122,6 +1288,21 @@
         async function checkSession() {
             try {
                 const { client } = await import('./supaBase.js');
+
+                // Listen for Auth state changes including password recovery
+                client.auth.onAuthStateChange(async (event, session) => {
+                    if (event === 'PASSWORD_RECOVERY') {
+                        openBuiltInAuth('recovery', 'Please enter your new password below.');
+                    }
+                });
+
+                // Also check if arrived directly via recovery URL hash or parameter
+                const urlHash = window.location.hash || '';
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlHash.includes('type=recovery') || urlParams.get('type') === 'recovery') {
+                    openBuiltInAuth('recovery', 'Please enter your new password below.');
+                }
+
                 const { data: { session } } = await client.auth.getSession();
                 
                 if (session && session.user) {
