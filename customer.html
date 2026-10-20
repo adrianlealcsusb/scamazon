@@ -1176,6 +1176,9 @@
                 if (logoutBtn) logoutBtn.classList.add('hidden');
                 if (dashContainer) dashContainer.classList.add('hidden');
             }
+            if (typeof updateCartUI === 'function') {
+                updateCartUI();
+            }
         }
 
         async function loadInitialData() {
