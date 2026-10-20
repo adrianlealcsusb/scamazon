@@ -81,7 +81,7 @@
                 <span>Scamazon</span><span class="text-amber-500">.</span>
             </a>
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-amber-400 px-2 py-0.5 rounded-md border border-slate-700/80 font-mono">Owner</span>
+                <span class="text-xs font-semibold bg-slate-800 text-amber-400 px-2.5 py-0.5 rounded-md border border-slate-700/80">Owner</span>
                 <button onclick="toggleMobileSidebar(false)" type="button" class="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" aria-label="Close navigation sidebar">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
@@ -90,23 +90,23 @@
         <nav class="flex-1 p-3 space-y-1.5 text-sm font-semibold overflow-y-auto" id="sidebar-nav">
             <button onclick="switchTab('listings')" data-tab="listings" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between bg-amber-500 text-slate-950 font-bold shadow-sm transition-all">
                 Listings
-                <span id="badge-listings" class="text-xs bg-slate-950/20 text-slate-950 px-2 py-0.5 rounded-md font-mono font-bold">0</span>
+                <span id="badge-listings" class="text-xs bg-slate-950/20 text-slate-950 px-2 py-0.5 rounded-md">0</span>
             </button>
-            <button onclick="switchTab('coupons')" data-tab="coupons" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
+                        <button onclick="switchTab('coupons')" data-tab="coupons" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Coupons & Discounts
                 <span id="badge-coupons" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
             </button>
             <button onclick="switchTab('storefronts')" data-tab="storefronts" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Storefronts
-                <span id="badge-storefronts" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-storefronts" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">0</span>
             </button>
             <button onclick="switchTab('workers')" data-tab="workers" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Workers
-                <span id="badge-workers" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-workers" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">0</span>
             </button>
             <button onclick="switchTab('orders')" data-tab="orders" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Orders
-                <span id="badge-orders" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-orders" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">0</span>
             </button>
             <button onclick="switchTab('sales')" data-tab="sales" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Sales & Analytics
@@ -124,7 +124,7 @@
                 <h1 id="page-heading" class="text-lg sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white truncate">Manage Listings</h1>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-4 shrink-0">
-                <span id="user-display" class="hidden sm:inline text-xs text-slate-500 dark:text-slate-400 font-mono font-medium"></span>
+                <span id="user-display" class="hidden sm:inline text-xs text-slate-500 dark:text-slate-400 font-medium"></span>
                 <button onclick="toggleDarkMode()" type="button" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" title="Toggle Dark Mode">
                     <!-- sun icon -->
                     <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
@@ -141,19 +141,19 @@
             <section id="pane-listings" class="tab-pane space-y-6">
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Listings</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Listings</p>
                         <p id="stat-total" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Low Stock (&lt; 10)</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Low Stock (&lt; 10)</p>
                         <p id="stat-low" class="text-2xl sm:text-3xl font-black tracking-tight text-amber-600 dark:text-amber-400 mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Empty Stock</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Empty Stock</p>
                         <p id="stat-empty" class="text-2xl sm:text-3xl font-black tracking-tight text-rose-600 dark:text-rose-400 mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Units</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Units</p>
                         <p id="stat-units" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 tabular-nums">0</p>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                 <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm min-w-[640px]">
-                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs">
                                 <tr>
                                     <th class="py-3.5 px-4 cursor-pointer select-none hover:text-slate-700 dark:hover:text-slate-200" data-sort="title">
                                         Item <span class="sort-icon text-slate-400 dark:text-slate-500">&udarr;</span>
@@ -222,7 +222,7 @@
                 <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm min-w-[640px]">
-                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs">
                                 <tr>
                                     <th class="py-3.5 px-4">Location</th>
                                     <th class="py-3.5 px-4">Hours</th>
@@ -257,7 +257,7 @@
                 <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm min-w-[600px]">
-                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs">
                                 <tr>
                                     <th class="py-3.5 px-4">Name</th>
                                     <th class="py-3.5 px-4">Storefront</th>
@@ -277,15 +277,15 @@
             <section id="pane-orders" class="tab-pane hidden space-y-6" hidden>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Orders</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Orders</p>
                         <p id="stat-ord-total" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Processing</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Processing</p>
                         <p id="stat-ord-processing" class="text-2xl sm:text-3xl font-black tracking-tight text-amber-600 dark:text-amber-400 mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Dispatched</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Dispatched</p>
                         <p id="stat-ord-ready" class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">0</p>
                     </div>
                 </div>
@@ -307,7 +307,7 @@
                 <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm min-w-[640px]">
-                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs">
                                 <tr>
                                     <th class="py-3.5 px-4">Order ID</th>
                                     <th class="py-3.5 px-4">Storefront</th>
@@ -328,15 +328,15 @@
             <section id="pane-sales" class="tab-pane hidden space-y-6" hidden>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Estimated Revenue</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Estimated Revenue</p>
                         <p id="stat-sales-rev" class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">$0.00</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Orders</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Orders</p>
                         <p id="stat-sales-orders" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Units Sold</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Units Sold</p>
                         <p id="stat-sales-units" class="text-2xl sm:text-3xl font-black tracking-tight text-amber-600 dark:text-amber-400 mt-1 tabular-nums">0</p>
                     </div>
                 </div>
@@ -347,7 +347,7 @@
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm min-w-[500px]">
-                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider">
+                            <thead class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs">
                                 <tr>
                                     <th class="py-3.5 px-4">Storefront</th>
                                     <th class="py-3.5 px-4">Orders</th>
@@ -361,8 +361,7 @@
                     </div>
                 </div>
             </section>
-
-            <!-- COUPONS TAB -->
+                    <!-- COUPONS TAB -->
             <section id="pane-coupons" class="tab-pane hidden space-y-6" hidden>
                 <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition-colors">
                     <h2 class="text-lg font-black tracking-tight text-slate-900 dark:text-white mb-2">
@@ -371,47 +370,32 @@
                     <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-6">
                         Create and manage discount codes for your storefronts.
                     </p>
-                    <form id="coupon-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">        
-                        <input id="coupon-code"
-                            type="text"
-                            placeholder="Coupon Code"
-                            maxlength="32"
-                            required
-                            class="border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">          
-                        <select id="coupon-storefront"
-                            required
-                            class="border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
+                    <form id="coupon-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input id="coupon-code" type="text" placeholder="Coupon Code" maxlength="32" required class="border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all uppercase">
+                        <select id="coupon-storefront" required class="border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
                             <option value="">Select Storefront</option>
                         </select>
-                        <select id="coupon-type"
-                            class="border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
+                        <select id="coupon-type" class="border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
                             <option value="percent">Percentage (%)</option>
                             <option value="fixed">Fixed Amount ($)</option>
-                        </select>    
-                        <input id="coupon-value"
-                            type="number"
-                            min="0.01"
-                            step="0.01"
-                            placeholder="Discount Value"
-                            required
-                            class="border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">      
+                        </select>
+                        <input id="coupon-value" type="number" min="0.01" step="0.01" placeholder="Discount Value" required class="border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
                         <div class="md:col-span-2 flex justify-start">
-                            <button type="submit"
-                                class="inline-flex items-center justify-center px-4 py-2.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 active:scale-95 disabled:opacity-50">
+                            <button type="submit" class="inline-flex items-center justify-center px-4 py-2.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 active:scale-95 disabled:opacity-50">
                                 Create Coupon
                             </button>
                         </div>
-                    </form>            
-                    <p id="coupon-message" class="text-xs font-semibold mt-4"></p>            
+                    </form>
+                    <p id="coupon-message" class="text-xs font-semibold mt-4"></p>
                 </div>
                 <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition-colors">
                     <h2 class="text-base font-bold text-slate-900 dark:text-white mb-4">
                         Existing Coupons
-                    </h2> 
+                    </h2>
                     <div id="coupons-list" class="space-y-3">
                         <p class="text-xs text-slate-500 dark:text-slate-400">No coupons loaded.</p>
                     </div>
-                </div>        
+                </div>
             </section>
         </main>
     </div>
@@ -607,7 +591,7 @@
                 </div>
 
                 <div>
-                    <p class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">Date & Time Placed</p>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Date & Time Placed</p>
                     <p id="receipt-date-time" class="font-medium text-slate-800 dark:text-slate-200 mt-1">-</p>
                 </div>
 
@@ -644,42 +628,20 @@
 
             <div class="p-4 bg-slate-50 dark:bg-slate-800/40 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center shrink-0">
                 <button onclick="window.print()" class="text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 underline transition-colors focus:outline-none">
-                    Print Delivery Slip
+                    Print Receipt
                 </button>
                 <button onclick="hideModal('receipt-modal')" class="px-5 py-2.5 bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 text-xs font-bold rounded-xl hover:bg-slate-800 dark:hover:bg-amber-400 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    Close Slip
+                    Close Receipt
                 </button>
             </div>
         </div>
     </div>
 
+    <script type="module" src="./shared-portal.js"></script>
     <script>
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Uncaught Async Error:', event.reason);
         });
-
-        function toggleDarkMode() 
-        {
-            try 
-            {
-                const htmlElement = document.documentElement;
-                if (htmlElement.classList.contains('dark')) 
-                {
-                    htmlElement.classList.remove('dark');
-                    localStorage.setItem('scamazon_theme', 'light');
-                } 
-                else 
-                {
-                    htmlElement.classList.add('dark');
-                    localStorage.setItem('scamazon_theme', 'dark');
-                }
-            } 
-            catch (toggleErr) 
-            {
-                console.error('Dark mode toggle failed:', toggleErr);
-            }
-        }
-        window.toggleDarkMode = toggleDarkMode;
 
         const state = {
             listings: [],
@@ -740,22 +702,6 @@
             }
         });
 
-        function toggleMobileSidebar(open) {
-            const sidebar = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebar-backdrop');
-            if (!sidebar || !backdrop) return;
-            const shouldOpen = open !== undefined ? open : sidebar.classList.contains('-translate-x-full');
-            if (shouldOpen) {
-                sidebar.classList.remove('-translate-x-full');
-                backdrop.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                backdrop.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden');
-            }
-        }
-
         function switchTab(tab) {
             toggleMobileSidebar(false);
             document.querySelectorAll('.tab-pane').forEach(el => {
@@ -777,7 +723,7 @@
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/80 font-semibold'
                 }`;
                 if (badge) {
-                    badge.className = `text-xs px-2 py-0.5 rounded-md font-mono ${
+                    badge.className = `text-xs px-2 py-0.5 rounded-md ${
                         isSelected 
                             ? 'bg-slate-950/20 text-slate-950 font-bold' 
                             : 'bg-slate-800 text-slate-400'
@@ -787,7 +733,6 @@
 
             const titles = {
                 listings: 'Manage Listings',
-                coupons: 'Coupons & Discounts',
                 storefronts: 'Manage Storefronts',
                 workers: 'Manage Workers',
                 orders: 'Orders & Fulfillment',
@@ -868,204 +813,7 @@
                 const el = document.getElementById(id);
                 if (el) el.innerHTML = activeOptions;
             });
-
-            const couponDropdown = document.getElementById('coupon-storefront');
-            if (couponDropdown) {
-                couponDropdown.innerHTML = '<option value="">Select Storefront</option>' + activeOptions;
-            }
         }
-
-        // ==========================================
-        // COUPONS & DISCOUNTS
-        // ==========================================
-
-        function getCouponFormData() {
-            const code = document.getElementById('coupon-code')
-                .value.trim().toUpperCase();
-
-            const storefront = document.getElementById('coupon-storefront').value;
-            const discountType = document.getElementById('coupon-type').value;
-            const discountValue = Number(
-                document.getElementById('coupon-value').value
-            );
-
-            if (!/^[A-Z0-9_-]{3,32}$/.test(code)) {
-                throw new Error('Enter a valid coupon code (3-32 characters).');
-            }
-
-            if (!storefront) {
-                throw new Error('Select a storefront.');
-            }
-
-            if (!Number.isFinite(discountValue) ||
-                discountValue <= 0 ||
-                (discountType === 'percent' && discountValue > 100)) {
-                throw new Error('Enter a valid discount amount.');
-            }
-
-            return {
-                code,
-                storefront,
-                discount_type: discountType,
-                discount_value: discountValue
-            };
-        }
-
-        async function loadCoupons() {
-            const list = document.getElementById('coupons-list');
-            if (!list) return;
-
-            list.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400">Loading coupons...</p>';
-
-            const { client } = await import('./supaBase.js');
-            const { data, error } = await client
-                .from('coupons')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                list.innerHTML = `<p class="text-xs text-rose-600 dark:text-rose-400">Error loading coupons: ${sanitizeHtml(error.message)}</p>`;
-                return;
-            }
-
-            const badge = document.getElementById('badge-coupons');
-            if (badge) {
-                badge.textContent = data ? data.length : 0;
-            }
-
-            if (!data || data.length === 0) {
-                list.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400">No coupons found.</p>';
-                return;
-            }
-
-            list.innerHTML = data.map(coupon => {
-                const discount = coupon.discount_type === 'percent'
-                    ? `${Number(coupon.discount_value)}%`
-                    : `$${Number(coupon.discount_value).toFixed(2)}`;
-
-                return `
-                    <div class="border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between gap-4 transition-colors">
-                        <div>
-                            <div class="font-bold text-slate-900 dark:text-white text-sm font-mono tracking-tight">
-                                ${sanitizeHtml(coupon.code)}
-                            </div>
-                            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                ${sanitizeHtml(coupon.storefront)} &bull; ${discount} off
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-3">
-                            <button
-                                type="button"
-                                onclick="toggleCouponStatus('${sanitizeHtml(coupon.id)}', ${coupon.is_active})"
-                                class="text-xs font-semibold ${
-                                    coupon.is_active
-                                        ? 'text-amber-600 hover:text-amber-500 dark:text-amber-400 dark:hover:text-amber-300'
-                                        : 'text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300'
-                                } transition">
-                                ${coupon.is_active ? 'Disable' : 'Enable'}
-                            </button>
-
-                            <button
-                                type="button"
-                                onclick="deleteCoupon('${sanitizeHtml(coupon.id)}')"
-                                class="text-xs font-semibold text-rose-600 hover:text-rose-500 dark:text-rose-400 dark:hover:text-rose-300 transition">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-        window.loadCoupons = loadCoupons;
-
-        function deleteCoupon(id) {
-            askDelete(
-                'Delete Coupon',
-                'Delete this coupon? It cannot be undone.',
-                async () => {
-                    const { client } = await import('./supaBase.js');
-                    const { error } = await client
-                        .from('coupons')
-                        .delete()
-                        .eq('id', id);
-
-                    if (error) throw error;
-
-                    const message = document.getElementById('coupon-message');
-                    if (message) {
-                        message.textContent = '';
-                        message.className = 'text-xs font-semibold mt-4';
-                    }
-
-                    await loadCoupons();
-                }
-            );
-        }
-        window.deleteCoupon = deleteCoupon;
-
-        async function toggleCouponStatus(id, isActive) {
-            try {
-                const { client } = await import('./supaBase.js');
-                const { error } = await client
-                    .from('coupons')
-                    .update({ is_active: !isActive })
-                    .eq('id', id);
-
-                if (error) throw error;
-
-                await loadCoupons();
-            } catch (err) {
-                alert('Failed to update coupon: ' + err.message);
-            }
-        }
-        window.toggleCouponStatus = toggleCouponStatus;
-
-        document.getElementById('coupon-form')
-            ?.addEventListener('submit', async (event) => {
-                event.preventDefault();
-
-                const form = event.currentTarget;
-                const message = document.getElementById('coupon-message');
-                const button = form.querySelector('button[type="submit"]');
-
-                message.textContent = '';
-
-                try {
-                    const coupon = getCouponFormData();
-
-                    button.disabled = true;
-                    button.textContent = 'Creating...';
-
-                    const { client } = await import('./supaBase.js');
-                    const { error } = await client
-                        .from('coupons')
-                        .insert(coupon);
-
-                    if (error) throw error;
-
-                    message.textContent =
-                        `Coupon ${coupon.code} created successfully!`;
-                    message.className =
-                        'text-xs font-semibold mt-4 text-emerald-600 dark:text-emerald-400';
-
-                    form.reset();
-
-                    await loadCoupons();
-
-                } catch (error) {
-                    message.textContent = error.code === '23505'
-                        ? 'This coupon code already exists for this storefront.'
-                        : error.message;
-
-                    message.className =
-                        'text-xs font-semibold mt-4 text-rose-600 dark:text-rose-400';
-
-                } finally {
-                    button.disabled = false;
-                    button.textContent = 'Create Coupon';
-                }
-            });
 
         // ==========================================
         // SALES & ANALYTICS
@@ -1617,7 +1365,7 @@
                 renderSales();
             } catch (err) {
                 console.error('Failed to update order status:', err);
-                alert('Could not update order status: ' + (err.message || 'Unknown error'));
+                showToast('Could not update order status: ' + (err.message || 'Unknown error'), 'error');
                 renderOrders();
             }
         }

@@ -213,7 +213,7 @@
 
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
                 <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Contributors</h2>
-                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300">Each team member did their due diligence in this project.</p>
+                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300">The engineering and product contributors behind Scamazon WMS.</p>
             </div>
 
             <div class="w-full max-w-6xl mx-auto">
@@ -253,364 +253,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 text-sm text-slate-500 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p>&copy; 2026 Scamazon WMS. All rights reserved.</p>
             <div class="flex space-x-6">
-                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Privacy Policy</a>
-                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Terms of Service</a>
+                <a href="plans.html" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Pricing Plans</a>
+                <a href="index.html" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Storefront</a>
             </div>
         </div>
     </footer>
 
-    <script>
-        window.addEventListener('unhandledrejection', (event) => {
-            console.error('Uncaught Async Error:', event.reason);
-        });
-
-        /* ---------- responsive navigation ---------- */
-
-        // page-specific active link, shared by the desktop and mobile navbar renders below
-        const NAV_ACTIVE_PAGE = 'aboutus.html';
-
-        const DESKTOP_LINK_BASE = 'tracking-tight hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900';
-        const DESKTOP_LINK_ACTIVE = 'text-amber-600 dark:text-amber-400 font-semibold';
-        const DESKTOP_LINK_IDLE = 'text-slate-900 dark:text-slate-300';
-
-        const MOBILE_LINK_BASE = 'block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500';
-        const MOBILE_LINK_ACTIVE = 'text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40';
-        const MOBILE_LINK_IDLE = 'text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800';
-
-        function isActiveNavPage(href)
-        {
-            return href === NAV_ACTIVE_PAGE;
-        }
-
-        function desktopNavLink(item)
-        {
-            const active = isActiveNavPage(item.href);
-            const tone = active ? DESKTOP_LINK_ACTIVE : DESKTOP_LINK_IDLE;
-            const current = active ? ' aria-current="page"' : '';
-            return `<a href="${item.href}" class="${DESKTOP_LINK_BASE} ${tone}"${current}>${item.label}</a>`;
-        }
-
-        function mobileNavLink(item)
-        {
-            const active = isActiveNavPage(item.href);
-            const tone = active ? MOBILE_LINK_ACTIVE : MOBILE_LINK_IDLE;
-            const current = active ? ' aria-current="page"' : '';
-            return `<a href="${item.href}" class="${MOBILE_LINK_BASE} ${tone}"${current}>${item.label}</a>`;
-        }
-
-        function guestNavItems()
-        {
-            return [
-                { href: 'index.html', label: 'Home' },
-                { href: 'plans.html', label: 'Pricing' },
-                { href: 'aboutus.html', label: 'Meet the Team' },
-                { href: 'index.html', label: 'Log In' },
-            ];
-        }
-
-        function roleNavItems()
-        {
-            return [
-                { href: 'index.html', label: 'Home' },
-                { href: 'plans.html', label: 'Pricing' },
-                { href: 'aboutus.html', label: 'Meet the Team' },
-            ];
-        }
-
-        // wires the hamburger button, its icon swap, and the mobile menu panel
-        function initResponsiveNav()
-        {
-            try
-            {
-                const toggle = document.getElementById('nav-toggle');
-                const menu = document.getElementById('mobile-menu');
-                if (!toggle || !menu) return;
-
-                const iconOpen = document.getElementById('nav-toggle-open');
-                const iconClose = document.getElementById('nav-toggle-close');
-                const desktopQuery = window.matchMedia('(min-width: 640px)');
-
-                const hiddenMenuClasses = ['max-h-0', 'opacity-0', 'pointer-events-none'];
-                const shownMenuClasses = ['max-h-[480px]', 'opacity-100'];
-
-                function setExpanded(expanded)
-                {
-                    toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-                    toggle.setAttribute('aria-label', expanded ? 'Close main menu' : 'Open main menu');
-                    if (iconOpen) iconOpen.classList.toggle('hidden', expanded);
-                    if (iconClose) iconClose.classList.toggle('hidden', !expanded);
-
-                    hiddenMenuClasses.forEach((className) => menu.classList.toggle(className, !expanded));
-                    shownMenuClasses.forEach((className) => menu.classList.toggle(className, expanded));
-
-                    menu.inert = !expanded;
-                }
-
-                function collapseOnDesktop(event)
-                {
-                    if (event.matches) setExpanded(false);
-                }
-
-                toggle.addEventListener('click', function ()
-                {
-                    setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
-                });
-
-                // close after following any link inside the panel
-                menu.addEventListener('click', function (event)
-                {
-                    if (event.target.closest('a')) setExpanded(false);
-                });
-
-                // close when clicking outside the panel
-                document.addEventListener('click', function (event)
-                {
-                    if (toggle.getAttribute('aria-expanded') !== 'true') return;
-                    if (menu.contains(event.target) || toggle.contains(event.target)) return;
-                    setExpanded(false);
-                });
-
-                // close on Escape and return focus to the toggle
-                document.addEventListener('keydown', function (event)
-                {
-                    if (event.key !== 'Escape') return;
-                    if (toggle.getAttribute('aria-expanded') !== 'true') return;
-                    setExpanded(false);
-                    toggle.focus();
-                });
-
-                if (typeof desktopQuery.addEventListener === 'function')
-                {
-                    desktopQuery.addEventListener('change', collapseOnDesktop);
-                }
-                else if (typeof desktopQuery.addListener === 'function')
-                {
-                    desktopQuery.addListener(collapseOnDesktop);
-                }
-
-                setExpanded(false);
-            }
-            catch (navError)
-            {
-                console.error('Responsive navigation failed to start:', navError);
-            }
-        }
-
-        function toggleDarkMode()
-        {
-            try
-            {
-                const htmlElement = document.documentElement;
-                if (htmlElement.classList.contains('dark'))
-                {
-                    htmlElement.classList.remove('dark');
-                    localStorage.setItem('scamazon_theme', 'light');
-                }
-                else
-                {
-                    htmlElement.classList.add('dark');
-                    localStorage.setItem('scamazon_theme', 'dark');
-                }
-            }
-            catch (toggleErr)
-            {
-                console.error('Dark mode toggle failed:', toggleErr);
-            }
-        }
-
-        function readCookie(name)
-        {
-            try
-            {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2)
-                {
-                    return parts.pop().split(';').shift();
-                }
-                return null;
-            }
-            catch (cookieErr)
-            {
-                console.error('Cookie read failed:', cookieErr);
-                return null;
-            }
-        }
-
-        function readSessionCookie()
-        {
-            const baseKey = 'sb-wtcqblyyprofjocksdij-auth-token';
-            return readCookie(baseKey) || readCookie(`${baseKey}.0`);
-        }
-
-        // load navbar from the cookie session so the first paint is already the correct nav
-        (function ()
-        {
-            try
-            {
-                const navbar = document.getElementById('navbar');
-                if (!navbar) return;
-
-                const sessionCookie = readSessionCookie();
-                const cachedRole = localStorage.getItem('scamazon_user_role');
-
-                if (sessionCookie && cachedRole)
-                {
-                    renderRoleNav(navbar, cachedRole);
-                }
-                else if (sessionCookie)
-                {
-                    renderRoleNav(navbar, 'customer');
-                }
-                else
-                {
-                    renderGuestNav(navbar);
-                }
-            }
-            catch (instantErr)
-            {
-                console.error('Instant render error:', instantErr);
-            }
-        })();
-
-        async function initialize()
-        {
-            try
-            {
-                const { client } = await import('./supaBase.js');
-                const navbar = document.getElementById('navbar');
-                if (!navbar) return;
-
-                const { data: { session }, error } = await client.auth.getSession();
-
-                if (error) throw error;
-
-                if (!session)
-                {
-                    localStorage.removeItem('scamazon_user_role');
-                    renderGuestNav(navbar);
-                    return;
-                }
-
-                const email = session.user.email;
-
-                try
-                {
-                    const { data: userRecord, error: userErr } = await client
-                        .from('users')
-                        .select('role')
-                        .eq('email', email)
-                        .single();
-
-                    if (userErr || !userRecord)
-                    {
-                        console.error('Error fetching role:', userErr);
-                        renderGuestNav(navbar);
-                        return;
-                    }
-
-                    localStorage.setItem('scamazon_user_role', userRecord.role);
-                    renderRoleNav(navbar, userRecord.role);
-                }
-                catch (fetchErr)
-                {
-                    console.error('Failed to load user state:', fetchErr);
-                    renderGuestNav(navbar);
-                }
-
-            }
-            catch (authError)
-            {
-                console.error('Authentication failed: ', authError.message || authError);
-            }
-        }
-
-        function renderGuestNav(navbar)
-        {
-            const mobileList = document.getElementById('mobile-menu-list');
-            const items = guestNavItems();
-
-            if (navbar)
-            {
-                navbar.innerHTML = items.map(desktopNavLink).join('') + `
-                    <a href="index.html" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200">
-                        Sign Up
-                    </a>
-                `;
-            }
-
-            if (mobileList)
-            {
-                mobileList.innerHTML = items.map(mobileNavLink).join('') + `
-                    <a href="index.html" class="mt-2 flex w-full items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all duration-200">
-                        Sign Up
-                    </a>
-                `;
-            }
-        }
-
-        function renderRoleNav(navbar, role)
-        {
-            const dashboardMap =
-            {
-                owner: 'owner.html',
-                customer: 'index.html',
-                worker: 'worker.html'
-            };
-            const dashPage = dashboardMap[role] || 'storefront.html';
-            const mobileList = document.getElementById('mobile-menu-list');
-            const items = roleNavItems();
-
-            const roleBadge = `
-                <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
-                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
-                </div>
-            `;
-
-            const desktopDashboard = `
-                <a href="${dashPage}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all">
-                    Dashboard
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                </a>
-            `;
-
-            const desktopLogout = `
-                <button type="button" data-logout class="inline-flex items-center justify-center p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Sign Out" aria-label="Sign Out">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                </button>
-            `;
-
-            const mobileRoleBadge = `
-                <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full w-fit mb-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
-                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
-                </div>
-            `;
-
-            const mobileDashboard = `
-                <a href="${dashPage}" class="mt-2 flex w-full items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all">
-                    Dashboard
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                </a>
-            `;
-
-            const mobileLogout = `
-                <button type="button" data-logout class="mt-2 flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 dark:hover:text-rose-400 transition-colors">
-                    Sign Out
-                </button>
-            `;
-
-            if (navbar)
-            {
-                navbar.innerHTML = roleBadge + items.map(desktopNavLink).join('') + desktopDashboard + desktopLogout;
-            }
-
-            if (mobileList)
-            {
-                mobileList.innerHTML = mobileRoleBadge + items.map(mobileNavLink).join('') + mobileDashboard + mobileLogout;
-            }
-        }
+    <script type="module">
+        import { setupNav } from './shared-nav.js';
+        setupNav('aboutus.html');
 
         const CONTRIBUTORS_ENDPOINT = './contributors.json';
         const FETCH_TIMEOUT_MS = 8000;
@@ -719,7 +370,7 @@
             {
                 const avatar = makeElement('img', 'absolute inset-0 w-20 h-20 rounded-full object-cover ring-4 ring-slate-200 dark:ring-slate-700');
                 avatar.src = entry.avatarUrl;
-                avatar.alt = '';
+                avatar.alt = displayName ? displayName + ' avatar' : 'Contributor avatar';
                 avatar.loading = 'lazy';
                 avatar.decoding = 'async';
                 avatar.addEventListener('error', () => avatar.classList.add('hidden'));
@@ -956,8 +607,7 @@
                 loadContributors();
             }
 
-            initialize();
-            initResponsiveNav();
+            
         })();
     </script>
 </body>

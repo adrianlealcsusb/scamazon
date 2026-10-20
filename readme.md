@@ -1,65 +1,87 @@
-* **Website**
-  * **Owner**
-    * AI overview🔴
-    * Listings
-      * Add 🟢
-      * Remove 🟢
-      * Edit 🟢
-      * Manage coupons/discounts 🔴
-    * Manage Storefronts
-      * Add 🟢
-      * Edit 🟢
-      * Remove 🟢
-      * Set status 🟢
-    * Workers
-      * Add 🟢
-      * Revoke 🟢
-      * Set status 🟢
-    * Orders 
-      * View 🟢
-      * Set status 🟢
-      * Receipts/invoice 🔴
-      * Tracking 🔴
-  * **Storefront**
-    * AI Overview 🔴
-    * Listings
-      * Add 🟢
-      * Remove 🟢
-      * Edit 🟢
-      * Manage coupons/discounts 🔴
-    * Workers
-      * Add 🟢
-      * Revoke 🟢
-      * Set status 🟢
-    * Orders 
-      * View 🟢
-      * Set status 🟢
-      * Receipts/invoice 🔴
-      * Tracking 🔴
-  * **Worker**
-    * Listings
-      * Add 🟢
-      * Remove 🟢
-      * Edit 🟢
-    * Orders 
-      * View 🟢
-      * Set status 🟢
-      * Receipts/invoice 🔴
-      * Tracking 🔴
-    * Scanner (camera QR/barcode scan) 🟢
-  * **Customer**
-    * AI assistant / chat support 🔴
-    * Listings
-      * Sort 🔴
-      * Filters 🔴
-      * Add to cart 🟡
-      * Coupons/discounts 🔴
-    * Orders
-      * View history 🔴
-      * Receipts/invoices 🟡
-      * Track 🟡
-      * Refund/cancel 🔴
-   
-🟢: implemented  
-🟡: partially implemented  
-🔴: not implemented
+# Scamazon WMS (Warehouse Management System)
+
+A multi-tenant Warehouse Management System and Direct-to-Customer Storefront powered by Supabase Auth, PostgreSQL, and modern Tailwind CSS with full light/dark theme support.
+
+---
+
+## 🚀 Feature Checklist & Implementation Status
+
+- [ ] **Authentication & User Management**
+  - [x] Built-in Customer Sign In & Sign Up Modal
+  - [x] Role-based Portal Redirection (Owner, Storefront, Worker, Customer)
+  - [x] Password Reset / Forgot Password Email Delivery via Custom SMTP (Resend)
+  - [x] Supabase Recovery Listener & Password Update Flow
+  - [x] Session Persistence & Guest Browsing Mode
+
+- [ ] **Website Portals**
+  - [ ] **Owner Dashboard (`owner.html`)**
+    - [x] Overview & Real-time Metrics
+    - [ ] AI Overview
+    - [x] Listings
+      - [x] Add
+      - [x] Remove
+      - [x] Edit
+      - [x] Manage coupons/discounts
+    - [x] Manage Storefronts
+      - [x] Add
+      - [x] Edit
+      - [x] Remove
+      - [x] Set status
+    - [x] Workers
+      - [x] Add
+      - [x] Revoke
+      - [x] Set status
+    - [x] Orders 
+      - [x] View
+      - [x] Set status
+      - [x] Receipts / Invoices
+      - [x] Live Tracking
+  - [ ] **Storefront Manager Portal (`storefront.html`)**
+    - [x] Branch Overview & Inventory Management
+    - [ ] AI Overview
+    - [x] Listings
+      - [x] Add
+      - [x] Remove
+      - [x] Edit
+      - [ ] Manage coupons/discounts
+    - [x] Workers
+      - [x] Add
+      - [x] Revoke
+      - [x] Set status
+    - [x] Orders 
+      - [x] View
+      - [x] Set status
+      - [x] Receipts / Invoices
+      - [x] Live Tracking
+  - [x] **Worker Portal (`worker.html`)**
+    - [x] Listings
+      - [x] Add
+      - [x] Remove
+      - [x] Edit
+    - [x] Orders 
+      - [x] View
+      - [x] Set status
+      - [x] Receipts / Invoices
+      - [x] Live Tracking
+    - [x] Scanner (Live camera QR/barcode scan)
+  - [ ] **Customer Storefront (`index.html`)**
+    - [ ] AI Assistant / Support Chat
+    - [x] Listings & Catalog
+      - [x] Search with Keyboard Shortcut (`/`)
+      - [x] Storefront Branch Filter
+      - [x] Sort (Price Low/High, Name, Stock)
+      - [x] In-stock only filter
+      - [x] Lazy loading images
+      - [x] Add to cart (Interactive slide-over drawer)
+      - [x] Coupons / discounts
+    - [ ] Orders & Fulfillment
+      - [x] Direct Courier Dispatch Checkout
+      - [x] Real-time Multi-step Delivery Tracking
+      - [x] Verified Line-item Printable Invoices & Receipts
+      - [x] View order history
+      - [ ] Refund / cancel
+  - [x] **Global Platform UI & Experience**
+    - [x] Responsive Mobile Navigation Drawers (Owner, Storefront, Worker)
+    - [x] Full Light / Dark Mode Toggle across all pages
+    - [x] Modern Manrope Typography & Slate/Amber Design System
+    - [x] Informational Marketing Pages (`plans.html`, `aboutus.html`)
