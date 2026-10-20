@@ -570,15 +570,15 @@
                     <span>Subtotal</span>
                     <span id="cart-total-price" class="text-xl text-amber-600 dark:text-amber-400 font-mono">$0.00</span>
                 </div>
-                <div id="cart-guest-notice" class="hidden p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300 flex items-start gap-2.5">
-                    <svg class="w-4 h-4 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div id="cart-guest-notice" class="hidden p-3 rounded-xl bg-red-100 dark:bg-red-950/60 border border-red-300 dark:border-red-800 text-xs text-red-900 dark:text-red-300 flex items-start gap-2.5 shadow-xs">
+                    <svg class="w-4 h-4 text-red-600 dark:text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <div>
-                        <span class="font-bold block text-white">Guest Session</span>
-                        <span>Items saved in local storage. <button type="button" onclick="openBuiltInAuth('signin')" class="underline font-bold text-amber-400 hover:text-amber-300 focus:outline-none">Sign in</button> to confirm delivery address and reserve inventory.</span>
+                        <span class="font-bold block text-red-900 dark:text-red-100">Guest Session</span>
+                        <span>Items saved in local storage. <button type="button" onclick="openBuiltInAuth('signin')" class="underline font-bold text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-white focus:outline-none">Sign in</button> to confirm delivery address and reserve inventory.</span>
                     </div>
                 </div>
-                <div id="cart-multidepot-notice" class="hidden p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-[11px] text-slate-300">
-                    <span class="font-bold text-amber-400 block mb-0.5">Multi-Depot Fulfillment</span>
+                <div id="cart-multidepot-notice" class="hidden p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-[11px] text-slate-600 dark:text-slate-300">
+                    <span class="font-bold text-amber-600 dark:text-amber-400 block mb-0.5">Multi-Depot Fulfillment</span>
                     <span>Items will be split into separate shipments per warehouse branch.</span>
                 </div>
                 <button id="order-btn" onclick="handleCheckoutClick()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-40 disabled:cursor-not-allowed">
