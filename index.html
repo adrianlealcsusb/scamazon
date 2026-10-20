@@ -619,6 +619,10 @@
                         <span>Items Subtotal</span>
                         <span id="cart-subtotal-price" class="font-mono font-medium text-slate-900 dark:text-slate-200">$0.00</span>
                     </div>
+                    <div id="cart-discount-row" class="hidden flex justify-between text-emerald-600 dark:text-emerald-400">
+                        <span id="cart-discount-label">Discount</span>
+                        <span id="cart-discount-price" class="font-mono font-medium">-$0.00</span>
+                    </div>
                     <div class="flex justify-between text-slate-600 dark:text-slate-400">
                         <span>Estimated State Tax (8.25%)</span>
                         <span id="cart-tax-price" class="font-mono font-medium text-slate-900 dark:text-slate-200">$0.00</span>
@@ -633,6 +637,7 @@
                     <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">Coupon or Promo Code</label>
                     <div class="flex gap-2">
                         <input id="cart-coupon-input" type="text" placeholder="e.g. SAVE20"
+                            onkeydown="if(event.key==='Enter'){event.preventDefault(); applyCartCoupon();}"
                             class="flex-1 uppercase bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white font-mono placeholder:normal-case placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-amber-500">
                         <button id="apply-coupon-btn" type="button" onclick="applyCartCoupon()"
                             class="px-3.5 py-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-slate-700/60 transition-all">
@@ -1729,13 +1734,15 @@
             updateCartUI();
         }
 
-        function updateCartUI() {
-            saveCartToStorage();
+function updateCartUI() {
             const count = cart.reduce((sum, i) => sum + i.qty, 0);
-            const counterEl = document.getElementById('cart-counter');
-            if (counterEl) counterEl.textContent = count;
+            
+            const badge = document.getElementById('cart-badge');
+            if (badge) badge.textContent = count;
+            const counter = document.getElementById('cart-counter');
+            if (counter) counter.textContent = count;
 
-            // Partition by storefront depot
+            // Partition items by branch
             const branchMap = {};
             cart.forEach(item => {
                 const b = item.storefront || 'Main Depot';
@@ -1779,6 +1786,13 @@
             if (!container || !totalEl || !orderBtn) return;
 
             if (cart.length === 0) {
+                appliedCoupon = null;
+                const discountRow = document.getElementById('cart-discount-row');
+                if (discountRow) discountRow.classList.add('hidden');
+                syncCouponUI();
+                const feedback = document.getElementById('coupon-feedback');
+                if (feedback) { feedback.textContent = ''; feedback.classList.add('hidden'); }
+
                 container.innerHTML = `
                     <div class="py-16 text-center space-y-2">
                         <svg class="w-10 h-10 mx-auto text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1868,8 +1882,47 @@
             }).join('');
 
             const subtotal = total;
-            const tax = subtotal * 0.0825;
-            const totalWithTax = subtotal + tax;
+            let discountAmount = 0;
+
+            const discountRow = document.getElementById('cart-discount-row');
+            const discountPriceEl = document.getElementById('cart-discount-price');
+            const discountLabelEl = document.getElementById('cart-discount-label');
+
+            if (appliedCoupon && cart.length > 0) {
+                const eligibleItems = cart.filter(i => 
+                    !appliedCoupon.storefront || 
+                    appliedCoupon.storefront === 'All' || 
+                    appliedCoupon.storefront === 'All Storefronts' || 
+                    i.storefront === appliedCoupon.storefront
+                );
+                const eligibleSubtotal = eligibleItems.reduce((sum, i) => sum + (i.qty * (parseFloat(i.price) || 0)), 0);
+
+                if (eligibleItems.length > 0 && eligibleSubtotal > 0) {
+                    if (appliedCoupon.discountType === 'percent') {
+                        discountAmount = eligibleSubtotal * (appliedCoupon.discountValue / 100);
+                    } else {
+                        discountAmount = Math.min(eligibleSubtotal, appliedCoupon.discountValue);
+                    }
+                    if (discountRow) discountRow.classList.remove('hidden');
+                    if (discountPriceEl) discountPriceEl.textContent = `-$${discountAmount.toFixed(2)}`;
+                    if (discountLabelEl) {
+                        const discountDesc = appliedCoupon.discountType === 'percent'
+                            ? `${appliedCoupon.discountValue}%`
+                            : `$${appliedCoupon.discountValue.toFixed(2)}`;
+                        discountLabelEl.textContent = `Discount (${appliedCoupon.code} - ${discountDesc})`;
+                    }
+                } else {
+                    appliedCoupon = null;
+                    if (discountRow) discountRow.classList.add('hidden');
+                    syncCouponUI();
+                }
+            } else {
+                if (discountRow) discountRow.classList.add('hidden');
+            }
+
+            const netSubtotal = Math.max(0, subtotal - discountAmount);
+            const tax = netSubtotal * 0.0825;
+            const totalWithTax = netSubtotal + tax;
 
             if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
             if (taxEl) taxEl.textContent = `$${tax.toFixed(2)}`;
@@ -1877,10 +1930,30 @@
             orderBtn.disabled = false;
         }
 
-        
+        function syncCouponUI() {
+            const input = document.getElementById('cart-coupon-input');
+            const applyBtn = document.getElementById('apply-coupon-btn');
+            if (!input || !applyBtn) return;
+
+            if (appliedCoupon) {
+                input.value = appliedCoupon.code;
+                input.disabled = true;
+                applyBtn.textContent = 'Remove';
+                applyBtn.onclick = removeCartCoupon;
+                applyBtn.className = 'px-3.5 py-2 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 text-xs font-bold rounded-xl border border-rose-200 dark:border-rose-800 transition-all cursor-pointer';
+            } else {
+                input.disabled = false;
+                applyBtn.textContent = 'Apply';
+                applyBtn.onclick = applyCartCoupon;
+                applyBtn.className = 'px-3.5 py-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-slate-700/60 transition-all cursor-pointer';
+            }
+        }
+        window.syncCouponUI = syncCouponUI;
+
         async function applyCartCoupon() {
             const input = document.getElementById('cart-coupon-input');
             const feedback = document.getElementById('coupon-feedback');
+            const applyBtn = document.getElementById('apply-coupon-btn');
             if (!input || !feedback) return;
 
             const code = input.value.trim().toUpperCase();
@@ -1888,22 +1961,20 @@
             feedback.classList.remove('hidden', 'text-rose-600', 'text-emerald-600', 'dark:text-rose-400', 'dark:text-emerald-400');
 
             if (!code) {
-                appliedCoupon = null;
-                updateCartUI();
+                removeCartCoupon();
                 feedback.textContent = 'Please enter a coupon code.';
                 feedback.classList.add('text-rose-600', 'dark:text-rose-400');
+                feedback.classList.remove('hidden');
                 return;
             }
 
             if (cart.length === 0) {
-                appliedCoupon = null;
-                updateCartUI();
                 feedback.textContent = 'Add items to your cart before applying a coupon.';
                 feedback.classList.add('text-rose-600', 'dark:text-rose-400');
+                feedback.classList.remove('hidden');
                 return;
             }
 
-            const applyBtn = document.getElementById('apply-coupon-btn');
             if (applyBtn) {
                 applyBtn.disabled = true;
                 applyBtn.textContent = '...';
@@ -1925,7 +1996,9 @@
                         feedback.textContent = 'Could not validate coupon: ' + error.message;
                     }
                     feedback.classList.add('text-rose-600', 'dark:text-rose-400');
+                    feedback.classList.remove('hidden');
                     appliedCoupon = null;
+                    syncCouponUI();
                     updateCartUI();
                     return;
                 }
@@ -1933,16 +2006,25 @@
                 if (!data) {
                     feedback.textContent = `Coupon "${code}" is invalid or expired.`;
                     feedback.classList.add('text-rose-600', 'dark:text-rose-400');
+                    feedback.classList.remove('hidden');
                     appliedCoupon = null;
+                    syncCouponUI();
                     updateCartUI();
                     return;
                 }
 
-                const eligibleItems = cart.filter(i => !data.storefront || i.storefront === data.storefront);
+                const eligibleItems = cart.filter(i => 
+                    !data.storefront || 
+                    data.storefront === 'All' || 
+                    data.storefront === 'All Storefronts' || 
+                    i.storefront === data.storefront
+                );
                 if (eligibleItems.length === 0) {
                     feedback.textContent = `Coupon "${code}" is only valid for items from "${data.storefront}".`;
                     feedback.classList.add('text-rose-600', 'dark:text-rose-400');
+                    feedback.classList.remove('hidden');
                     appliedCoupon = null;
+                    syncCouponUI();
                     updateCartUI();
                     return;
                 }
@@ -1956,24 +2038,44 @@
 
                 const discountDesc = data.discount_type === 'percent'
                     ? `${Number(data.discount_value)}%`
-                    : `${Number(data.discount_value).toFixed(2)}`;
+                    : `$${Number(data.discount_value).toFixed(2)}`;
 
                 feedback.textContent = `Coupon applied! Saved ${discountDesc} on eligible items.`;
                 feedback.classList.add('text-emerald-600', 'dark:text-emerald-400');
+                feedback.classList.remove('hidden');
+
+                syncCouponUI();
                 updateCartUI();
             } catch (err) {
                 feedback.textContent = 'Error verifying coupon: ' + err.message;
                 feedback.classList.add('text-rose-600', 'dark:text-rose-400');
+                feedback.classList.remove('hidden');
             } finally {
                 if (applyBtn) {
                     applyBtn.disabled = false;
-                    applyBtn.textContent = 'Apply';
                 }
             }
         }
         window.applyCartCoupon = applyCartCoupon;
 
-        function removeFromCart(id) {
+        function removeCartCoupon() {
+            appliedCoupon = null;
+            const input = document.getElementById('cart-coupon-input');
+            const feedback = document.getElementById('coupon-feedback');
+
+            if (input) {
+                input.value = '';
+            }
+            if (feedback) {
+                feedback.textContent = 'Coupon removed.';
+                feedback.className = 'text-xs text-slate-500 dark:text-slate-400 mt-1 block';
+            }
+            syncCouponUI();
+            updateCartUI();
+        }
+        window.removeCartCoupon = removeCartCoupon;
+
+                function removeFromCart(id) {
             cart = cart.filter(c => c.id !== id);
             saveCartToStorage();
             updateCartUI();
@@ -2003,11 +2105,19 @@
 
                 for (const [branch, items] of Object.entries(branchMap)) {
                     const orderNum = `Order #${Math.floor(1000 + Math.random() * 9000)}`;
-                    const itemString = items.map(i => `${i.qty}x ${i.title} (${i.sku})`).join(', ');
+                    let itemString = items.map(i => `${i.qty}x ${i.title} (${i.sku})`).join(', ');
                     const branchSubtotal = items.reduce((sum, i) => sum + (i.qty * i.price), 0);
-                    const branchTax = branchSubtotal * 0.0825;
-                    const branchTotal = (branchSubtotal + branchTax).toFixed(2);
-                    const branchSubtotalStr = branchSubtotal.toFixed(2);
+                    let branchDiscount = 0;
+                    if (appliedCoupon && (!appliedCoupon.storefront || appliedCoupon.storefront === 'All' || appliedCoupon.storefront === 'All Storefronts' || appliedCoupon.storefront === branch)) {
+                        branchDiscount = appliedCoupon.discountType === 'percent'
+                            ? branchSubtotal * (appliedCoupon.discountValue / 100)
+                            : Math.min(branchSubtotal, appliedCoupon.discountValue);
+                        itemString += ` [Coupon: ${appliedCoupon.code} (-$${branchDiscount.toFixed(2)})]`;
+                    }
+                    const netBranchSubtotal = Math.max(0, branchSubtotal - branchDiscount);
+                    const branchTax = netBranchSubtotal * 0.0825;
+                    const branchTotal = (netBranchSubtotal + branchTax).toFixed(2);
+                    const branchSubtotalStr = netBranchSubtotal.toFixed(2);
                     const branchTaxStr = branchTax.toFixed(2);
 
                     const { error: orderErr } = await client.from('orders').insert([{
@@ -2084,7 +2194,9 @@
                 document.getElementById('confirmation-modal').classList.remove('hidden');
 
                 cart = [];
+                appliedCoupon = null;
                 saveCartToStorage();
+                syncCouponUI();
                 updateCartUI();
                 toggleCartDrawer(false);
                 await fetchListings();
