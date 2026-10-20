@@ -432,7 +432,7 @@
     </div>
 
     <!-- ================= BUILT-IN AUTH MODAL ================= -->
-    <div id="auth-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div id="auth-modal" class="hidden fixed inset-0 z-[60] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
         <!-- Backdrop -->
         <div class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm transition-opacity" onclick="closeAuthModal()" aria-hidden="true"></div>
 
@@ -633,7 +633,7 @@
     </div>
 
     <!-- ================= ORDER CONFIRMATION MODAL ================= -->
-    <div id="confirmation-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Confirmed">
+    <div id="confirmation-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Confirmed">
         <div class="bg-white dark:bg-slate-900 max-w-md w-full rounded-2xl shadow-2xl p-6 sm:p-8 text-center space-y-4 border border-slate-200 dark:border-slate-800">
             <div class="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -654,7 +654,7 @@
     </div>
 
     <!-- ================= INVOICE / RECEIPT MODAL ================= -->
-    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Receipt &amp; Invoice">
+    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Receipt &amp; Invoice">
         <div class="bg-white dark:bg-slate-900 max-w-lg w-full rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 border border-slate-200 dark:border-slate-800 font-sans">
             <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
@@ -944,6 +944,9 @@
         window.toggleAuthPasswordVisibility = toggleAuthPasswordVisibility;
 
         function openBuiltInAuth(mode = 'signin', contextMessage = null) {
+            if (typeof toggleCartDrawer === 'function') {
+                toggleCartDrawer(false);
+            }
             currentAuthMode = mode;
             const modal = document.getElementById('auth-modal');
             const banner = document.getElementById('auth-context-banner');
@@ -1001,6 +1004,9 @@
         function handleCheckoutClick() {
             if (!currentUser) {
                 pendingPostAuthAction = 'checkout';
+                if (typeof toggleCartDrawer === 'function') {
+                    toggleCartDrawer(false);
+                }
                 openBuiltInAuth('signin', 'Sign in or create an account to complete your checkout.');
                 return;
             }
@@ -2035,6 +2041,9 @@ function updateCartUI() {
 
         async function placeOrder() {
             if (!currentUser) {
+                if (typeof toggleCartDrawer === 'function') {
+                    toggleCartDrawer(false);
+                }
                 openAuthModal('Sign in to your account to complete checkout.');
                 return;
             }
