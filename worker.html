@@ -83,7 +83,7 @@
                 <span>Scamazon</span><span class="text-amber-500">.</span>
             </a>
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-bold uppercase tracking-wider bg-slate-800 text-amber-400 px-2 py-0.5 rounded-md border border-slate-700/80 font-mono">Worker</span>
+                <span class="text-xs font-semibold bg-slate-800 text-amber-400 px-2.5 py-0.5 rounded-md border border-slate-700/80">Worker</span>
                 <button onclick="toggleMobileSidebar(false)" type="button" class="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" aria-label="Close navigation sidebar">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
@@ -93,11 +93,11 @@
         <nav class="flex-1 p-3 space-y-1.5 text-sm font-semibold overflow-y-auto" id="sidebar-nav">
             <button onclick="switchTab('listings')" data-tab="listings" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between bg-amber-500 text-slate-950 font-bold shadow-sm transition-all">
                 Listings
-                <span id="badge-listings" class="text-xs bg-slate-950/20 text-slate-950 px-2 py-0.5 rounded-md font-mono font-bold">0</span>
+                <span id="badge-listings" class="text-xs bg-slate-950/20 text-slate-950 px-2 py-0.5 rounded-md">0</span>
             </button>
             <button onclick="switchTab('orders')" data-tab="orders" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Orders
-                <span id="badge-orders" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
+                <span id="badge-orders" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">0</span>
             </button>
             <button onclick="switchTab('sales')" data-tab="sales" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Sales & Analytics
@@ -116,13 +116,13 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
                 <h1 id="page-heading" class="text-lg sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white truncate">Manage Listings</h1>
-                <span id="worker-pill" class="text-xs font-mono font-semibold bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 px-2.5 sm:px-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700/80 flex items-center gap-1.5 sm:gap-2 max-w-[120px] sm:max-w-none truncate shrink-0">
+                <span id="worker-pill" class="text-xs font-semibold bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 px-2.5 sm:px-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700/80 flex items-center gap-1.5 sm:gap-2 max-w-[120px] sm:max-w-none truncate shrink-0">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-500/20 shrink-0"></span>
                     <span class="truncate">Loading...</span>
                 </span>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-4 shrink-0">
-                <span id="user-display" class="hidden sm:inline text-xs text-slate-500 dark:text-slate-400 font-mono font-medium"></span>
+                <span id="user-display" class="hidden sm:inline text-xs text-slate-500 dark:text-slate-400 font-medium"></span>
                 <button onclick="toggleDarkMode()" type="button" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" title="Toggle Dark Mode">
                     <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                     <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
@@ -137,15 +137,15 @@
             <section id="pane-listings" class="tab-pane space-y-6">
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Branch Listings</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Branch Listings</p>
                         <p id="stat-total" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Low Stock (&lt; 10)</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Low Stock (&lt; 10)</p>
                         <p id="stat-low" class="text-2xl sm:text-3xl font-black tracking-tight text-amber-600 dark:text-amber-400 mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Units</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Units</p>
                         <p id="stat-units" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 tabular-nums">0</p>
                     </div>
                 </div>
@@ -185,15 +185,15 @@
             <section id="pane-orders" class="tab-pane hidden space-y-6" hidden>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Branch Orders</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Branch Orders</p>
                         <p id="stat-ord-total" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Processing</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Processing</p>
                         <p id="stat-ord-processing" class="text-2xl sm:text-3xl font-black tracking-tight text-amber-600 dark:text-amber-400 mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Dispatched</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Dispatched</p>
                         <p id="stat-ord-ready" class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">0</p>
                     </div>
                 </div>
@@ -236,15 +236,15 @@
             <section id="pane-sales" class="tab-pane hidden space-y-6" hidden>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Estimated Revenue</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Estimated Revenue</p>
                         <p id="stat-sales-rev" class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 mt-1 tabular-nums">$0.00</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Orders</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Orders</p>
                         <p id="stat-sales-orders" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 tabular-nums">0</p>
                     </div>
                     <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Units Sold</p>
+                        <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Units Sold</p>
                         <p id="stat-sales-units" class="text-2xl sm:text-3xl font-black tracking-tight text-amber-600 dark:text-amber-400 mt-1 tabular-nums">0</p>
                     </div>
                 </div>
@@ -469,13 +469,13 @@
                 </div>
 
                 <div>
-                    <p class="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Date & Time Placed</p>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Date & Time Placed</p>
                     <p id="receipt-date-time" class="font-medium text-slate-800 dark:text-slate-200 mt-1">-</p>
                 </div>
 
                 <div class="border-y border-slate-200 dark:border-slate-800 overflow-x-auto">
                     <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider text-[10px]">
+                        <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-semibold text-xs">
                             <tr>
                                 <th class="py-2.5 px-3">Item Description</th>
                                 <th class="py-2.5 px-3 text-center">Qty</th>
@@ -516,35 +516,11 @@
     </div>
     </div>
 
+    <script type="module" src="./shared-portal.js"></script>
     <script>
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Uncaught Async Error:', event.reason);
         });
-
-        function toggleDarkMode() 
-        {
-            try 
-            {
-                const htmlElement = document.documentElement;
-                if (htmlElement.classList.contains('dark')) 
-                {
-                    htmlElement.classList.remove('dark');
-                    localStorage.setItem('scamazon_theme', 'light');
-                } 
-                else 
-                {
-                    htmlElement.classList.add('dark');
-                    localStorage.setItem('scamazon_theme', 'dark');
-                }
-            } 
-            catch (toggleErr) 
-            {
-                console.error('Dark mode toggle failed:', toggleErr);
-            }
-        }
-        window.toggleDarkMode = toggleDarkMode;
-
-        let currentWorker = null;
 
         const state = {
             listings: [],
@@ -602,22 +578,6 @@
             }
         });
 
-        function toggleMobileSidebar(open) {
-            const sidebar = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebar-backdrop');
-            if (!sidebar || !backdrop) return;
-            const shouldOpen = open !== undefined ? open : sidebar.classList.contains('-translate-x-full');
-            if (shouldOpen) {
-                sidebar.classList.remove('-translate-x-full');
-                backdrop.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                backdrop.classList.add('hidden');
-                document.body.classList.remove('overflow-hidden');
-            }
-        }
-
         function switchTab(tab) {
             toggleMobileSidebar(false);
             // Stop the camera if the worker leaves the scanner tab
@@ -644,7 +604,7 @@
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/80 font-semibold'
                 }`;
                 if (badge) {
-                    badge.className = `text-xs px-2 py-0.5 rounded-md font-mono ${
+                    badge.className = `text-xs px-2 py-0.5 rounded-md ${
                         isSelected 
                             ? 'bg-slate-950/20 text-slate-950 font-bold' 
                             : 'bg-slate-800 text-slate-400'
@@ -1275,7 +1235,7 @@
                 renderSales();
             } catch (err) {
                 console.error('Failed to update order status:', err);
-                alert('Could not update order status: ' + (err.message || 'Unknown error'));
+                showToast('Could not update order status: ' + (err.message || 'Unknown error'), 'error');
                 renderOrders();
             }
         }
