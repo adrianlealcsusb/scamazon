@@ -160,7 +160,7 @@
                 <div id="nav-user-block" class="hidden flex items-center gap-2 sm:gap-3">
                     <div class="flex flex-col text-left text-xs leading-tight">
                         <span class="text-slate-400">Signed in as</span>
-                        <span id="user-display" class="font-bold text-slate-100 max-w-[130px] truncate font-mono"></span>
+                        <span id="user-display" class="font-bold text-slate-100 max-w-[130px] truncate"></span>
                     </div>
                     <div id="dashboard-link-container"></div>
                 </div>
@@ -179,7 +179,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                         </svg>
-                        <span id="cart-counter" class="absolute -top-2 -right-2 min-w-[1.25rem] h-5 px-1 rounded-full bg-slate-950 text-amber-400 text-[11px] font-black flex items-center justify-center font-mono ring-2 ring-amber-500">0</span>
+                        <span id="cart-counter" class="absolute -top-2 -right-2 min-w-[1.25rem] h-5 px-1 rounded-full bg-slate-950 text-amber-400 text-[11px] font-black flex items-center justify-center ring-2 ring-amber-500">0</span>
                     </div>
                     <span class="hidden sm:inline">Cart</span>
                 </button>
@@ -206,7 +206,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
                     </svg>
                     <span>Store Catalog</span>
-                    <span id="badge-listings" class="ml-1 text-[11px] bg-amber-500 text-slate-950 font-bold px-1.5 py-0.2 rounded-full font-mono">0</span>
+                    <span id="badge-listings" class="ml-1 text-[11px] bg-amber-500 text-slate-950 font-bold px-1.5 py-0.2 rounded-full">0</span>
                 </button>
 
                 <!-- Tab: Tracking & Invoices -->
@@ -261,17 +261,17 @@
                     <!-- Operational Commitments -->
                     <div class="grid grid-cols-3 gap-6 sm:gap-8 border-t lg:border-t-0 lg:border-l border-slate-800 pt-4 lg:pt-0 lg:pl-8 shrink-0">
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Fast Dispatch</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Fast Dispatch</span>
                             <span class="text-base font-bold text-white block mt-0.5">Same-Day Out</span>
                             <span class="text-xs text-slate-400">From local depot</span>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Doorstep Drop</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Doorstep Drop</span>
                             <span class="text-base font-bold text-white block mt-0.5">Live Tracking</span>
                             <span class="text-xs text-slate-400">Direct courier route</span>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Pricing</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Direct Pricing</span>
                             <span class="text-base font-bold text-white block mt-0.5">Direct Rates</span>
                             <span class="text-xs text-slate-400">Zero markups</span>
                         </div>
@@ -352,7 +352,7 @@
             <!-- Manual Order Number Lookup (Collapsible / Direct Access) -->
             <div class="max-w-4xl pt-4 border-t border-slate-200/80 dark:border-slate-800 space-y-3">
                 <div>
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Search By Order Number</h3>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">Search By Order Number</h3>
                     <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                         Have a specific reference or order tracking number? Enter it below to look up any shipment directly.
                     </p>
@@ -361,7 +361,7 @@
                 <form onsubmit="event.preventDefault(); trackOrder();" class="flex flex-col sm:flex-row gap-2 max-w-xl">
                     <div class="relative flex-1">
                         <input id="tracking-input" type="text" placeholder="e.g. Order #1042 or 1042" 
-                            class="w-full border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white dark:bg-slate-900 font-mono transition-all">
+                            class="w-full border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white dark:bg-slate-900 transition-all">
                     </div>
                     <button type="submit" class="inline-flex items-center justify-center px-5 py-2.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 text-xs sm:text-sm font-bold rounded-xl shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 shrink-0">
                         Track Shipment
@@ -396,36 +396,36 @@
 
                 <!-- Visual Timeline Stepper (Aligned with Processing, Shipped, Out for Delivery, Delivered) -->
                 <div class="space-y-4">
-                    <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Fulfillment Timeline</p>
+                    <h4 class="text-xs font-bold text-slate-700 dark:text-slate-300">Fulfillment Timeline</h4>
                     <div class="relative flex items-center justify-between w-full pt-2">
                         <div class="absolute left-6 right-6 top-6 h-1 bg-slate-200 dark:bg-slate-800 -z-0"></div>
                         
                         <!-- Step 1: Processing -->
                         <div class="relative z-10 flex flex-col items-center text-center">
-                            <span id="step-processing-dot" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">1</span>
+                            <span id="step-processing-dot" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Processing"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span>
                             <p class="text-xs font-bold text-slate-900 dark:text-white mt-2">Processing</p>
-                            <span id="time-processing" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Floor Queue</span>
+                            <span id="time-processing" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Floor Queue</span>
                         </div>
 
                         <!-- Step 2: Shipped -->
                         <div class="relative z-10 flex flex-col items-center text-center">
-                            <span id="step-shipped-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">2</span>
+                            <span id="step-shipped-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Shipped"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></span>
                             <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Shipped</p>
-                            <span id="time-shipped" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Dispatched</span>
+                            <span id="time-shipped" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Dispatched</span>
                         </div>
 
                         <!-- Step 3: Out for Delivery -->
                         <div class="relative z-10 flex flex-col items-center text-center">
-                            <span id="step-out-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">3</span>
+                            <span id="step-out-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Out for Delivery"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg></span>
                             <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Out for Delivery</p>
-                            <span id="time-out" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Courier En Route</span>
+                            <span id="time-out" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Courier En Route</span>
                         </div>
 
                         <!-- Step 4: Delivered -->
                         <div class="relative z-10 flex flex-col items-center text-center">
-                            <span id="step-delivered-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all">4</span>
+                            <span id="step-delivered-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Delivered"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></span>
                             <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Delivered</p>
-                            <span id="time-delivered" class="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">Package Arrived</span>
+                            <span id="time-delivered" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Package Arrived</span>
                         </div>
                     </div>
                 </div>
@@ -433,11 +433,11 @@
                 <!-- Order Content Breakdown -->
                 <div class="pt-6 border-t border-slate-200/80 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div class="space-y-1">
-                        <span class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Reserved Items</span>
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Reserved Items</span>
                         <p id="track-items" class="font-mono text-sm text-slate-900 dark:text-white font-medium">2x Brake Pads (SKU-102)</p>
                     </div>
                     <div class="space-y-1">
-                        <span class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Current Processing Status</span>
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Current Status</span>
                         <p id="track-status-text" class="font-mono text-sm font-bold text-amber-600 dark:text-amber-400">Processing</p>
                     </div>
                 </div>
@@ -682,19 +682,19 @@
 
             <div class="grid grid-cols-2 gap-4 text-xs">
                 <div>
-                    <p class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">Fulfillment Depot</p>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Fulfillment Depot</p>
                     <p id="receipt-branch-name" class="font-bold text-slate-900 dark:text-white mt-1">Downtown Auto Storefront</p>
                     <p id="receipt-branch-address" class="text-slate-500 dark:text-slate-400 mt-0.5">100 Main St, Downtown</p>
                 </div>
                 <div>
-                    <p class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">Dispatch Method</p>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Dispatch Method</p>
                     <p class="font-bold text-slate-900 dark:text-white mt-1">Direct Courier Delivery</p>
                     <p id="receipt-date" class="text-slate-500 dark:text-slate-400 mt-0.5">Date Placed</p>
                 </div>
             </div>
 
             <div class="border-t border-b border-slate-200 dark:border-slate-800 py-4 text-xs space-y-2">
-                <p class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">Verified Line Items</p>
+                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Verified Line Items</p>
                 <div id="receipt-items-list" class="space-y-1.5 text-slate-800 dark:text-slate-200 font-mono py-1">
                     2x Brake Pads (SKU-102)
                 </div>
@@ -2187,12 +2187,12 @@
 
                         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 text-xs">
                             <div class="space-y-0.5">
-                                <span class="font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider text-[11px] block">Reserved Items</span>
+                                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Reserved Items</span>
                                 <p class="font-mono text-xs text-slate-800 dark:text-slate-200 line-clamp-1">${sanitizeHtml(order.items)}</p>
                             </div>
                             ${order.total ? `
                                 <div class="text-left sm:text-right shrink-0">
-                                    <span class="font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider text-[11px] block">Order Total</span>
+                                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Order Total</span>
                                     <span class="font-mono font-bold text-sm text-slate-900 dark:text-white">$${order.total}</span>
                                     <span class="text-[10px] text-slate-500 dark:text-slate-400 block font-normal mt-0.5">incl. 8.25% state tax</span>
                                 </div>
