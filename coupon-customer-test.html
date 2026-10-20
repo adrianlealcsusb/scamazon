@@ -167,20 +167,56 @@
             <div class="border-t border-slate-200 pt-4 space-y-3">
                 <div class="flex justify-between text-sm">
                     <span class="text-slate-500">Pickup Storefront</span>
-                    <span id="cart-storefront-name" class="font-semibold text-slate-900">All Storefronts</span>
+                    <span id="cart-storefront-name" class="font-semibold text-slate-900">
+                        All Storefronts
+                    </span>
                 </div>
+
+                <div class="space-y-2">
+                    <label for="coupon-input"
+                        class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                        Coupon Code
+                    </label>
+
+                    <div class="flex gap-2">
+                        <input
+                            id="coupon-input"
+                            type="text"
+                            placeholder="Enter coupon code"
+                            maxlength="32"
+                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 uppercase placeholder:normal-case placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent">
+
+                        <button
+                            id="apply-coupon-btn"
+                            type="button"
+                            onclick="applyCoupon()"
+                            class="px-4 py-2 bg-slate-100 text-slate-700 text-sm font-semibold rounded-lg border border-slate-300 hover:bg-slate-200 transition">
+                            Apply
+                        </button>
+                    </div>
+
+                    <p id="coupon-feedback" class="text-xs"></p>
+                </div>
+
                 <div class="flex justify-between text-base font-bold text-slate-900">
                     <span>Total</span>
                     <span id="cart-total-price">$0.00</span>
                 </div>
-                <p class="text-[11px] text-slate-400">Items are held for 48 hours upon order placement.</p>
-                <button id="order-btn" onclick="placeOrder()" disabled class="w-full py-2.5 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
+
+                <p class="text-[11px] text-slate-400">
+                    Items are held for 48 hours upon order placement.
+                </p>
+
+                <button
+                    id="order-btn"
+                    onclick="placeOrder()"
+                    disabled
+                    class="w-full py-2.5 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
                     Place Order
                 </button>
             </div>
         </div>
     </div>
-
     <!-- ================= CONFIRMATION MODAL ================= -->
     <div id="confirmation-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white max-w-sm w-full rounded-xl shadow-2xl p-6 text-center space-y-4 border border-slate-200">
@@ -242,6 +278,7 @@
         let activeStorefronts = [];
         let allListings = [];
         let cart = [];
+        let appliedCoupon = null;
         let trackedOrderCache = null;
 
         async function checkSession() {
@@ -374,37 +411,52 @@
                     existing.qty += 1;
                 } else {
                     alert('Cannot add more units than are physically in stock.');
+                    return;
                 }
             } else {
                 cart.push({ ...item, qty: 1 });
             }
 
-            updateCartUI();
+            updateCartUI(true);
         }
 
-        function updateCartUI() {
+        function updateCartUI(cartChanged = false) {
             const count = cart.reduce((sum, i) => sum + i.qty, 0);
             document.getElementById('cart-counter').textContent = count;
             document.getElementById('cart-badge').textContent = count;
 
             const selectedBranch = document.getElementById('catalog-storefront').value;
-            document.getElementById('cart-storefront-name').textContent = selectedBranch || (cart.length > 0 ? cart[0].storefront : 'All Storefronts');
+            document.getElementById('cart-storefront-name').textContent =
+                selectedBranch ||
+                (cart.length > 0 ? cart[0].storefront : 'All Storefronts');
 
             const container = document.getElementById('cart-items-container');
             const totalEl = document.getElementById('cart-total-price');
             const orderBtn = document.getElementById('order-btn');
+            const feedback = document.getElementById('coupon-feedback');
 
             if (cart.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-10">Cart is empty.</p>`;
+                appliedCoupon = null;
+                feedback.textContent = '';
+                container.innerHTML =
+                    `<p class="text-xs text-slate-400 text-center py-10">Cart is empty.</p>`;
                 totalEl.textContent = '$0.00';
                 orderBtn.disabled = true;
                 return;
             }
 
+            if (cartChanged && appliedCoupon) {
+                appliedCoupon = null;
+                feedback.textContent = 'Cart changed. Reapply your coupon.';
+                feedback.className = 'text-xs text-amber-600';
+            }
+            
             let total = 0;
+
             container.innerHTML = cart.map(item => {
                 const sub = item.qty * item.price;
                 total += sub;
+
                 return `
                     <div class="flex justify-between items-center p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs">
                         <div>
@@ -426,51 +478,151 @@
 
         function removeFromCart(id) {
             cart = cart.filter(c => c.id !== id);
-            updateCartUI();
+            updateCartUI(true);
         }
 
         function toggleCartDrawer() {
             document.getElementById('cart-drawer').classList.toggle('hidden');
         }
+        
+        async function applyCoupon() {
+            const input = document.getElementById('coupon-input');
+            const feedback = document.getElementById('coupon-feedback');
+            const totalEl = document.getElementById('cart-total-price');
+
+            const code = input.value.trim().toUpperCase();
+
+            if (!code) {
+                appliedCoupon = null;
+
+                const subtotal = cart.reduce(
+                    (sum, item) => sum + (item.qty * Number(item.price)),
+                    0
+                );
+
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+                feedback.textContent = 'Enter a coupon code.';
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            if (cart.length === 0) {
+                appliedCoupon = null;
+                feedback.textContent = 'Add an item to your cart first.';
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            const subtotal = cart.reduce(
+                (sum, item) => sum + (item.qty * Number(item.price)),
+                0
+            );
+
+            const storefronts = [...new Set(cart.map(item => item.storefront))];
+
+            if (storefronts.length !== 1) {
+                appliedCoupon = null;
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+                feedback.textContent =
+                    'Coupons can only be applied to items from one storefront.';
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            const storefront = storefronts[0];
+
+            const { data, error } = await client.rpc('validate_coupon', {
+                p_code: code,
+                p_storefront: storefront,
+                p_subtotal: subtotal
+            });
+
+            if (error) {
+                appliedCoupon = null;
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+                feedback.textContent =
+                    `Unable to validate coupon: ${error.message}`;
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            const result = data?.[0];
+
+            if (!result || !result.is_valid) {
+                appliedCoupon = null;
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+                feedback.textContent =
+                    result?.message || 'Coupon is not valid.';
+                feedback.className = 'text-xs text-rose-600';
+                return;
+            }
+
+            const discountAmount = Number(result.discount_amount);
+            const finalTotal = Number(result.final_total);
+
+            appliedCoupon = {
+                code,
+                storefront,
+                discountType: result.discount_type,
+                discountValue: Number(result.discount_value),
+                discountAmount,
+                finalTotal
+            };
+
+            totalEl.textContent = `$${finalTotal.toFixed(2)}`;
+            feedback.textContent =
+                `${result.message} You saved $${discountAmount.toFixed(2)}.`;
+            feedback.className = 'text-xs text-emerald-600';
+        }
 
         async function placeOrder() {
+            if (cart.length === 0) return;
+
             const orderBtn = document.getElementById('order-btn');
             orderBtn.disabled = true;
             orderBtn.textContent = 'Processing Order...';
 
-            const selectedBranch = document.getElementById('catalog-storefront').value || (cart[0] ? cart[0].storefront : 'Main Depot');
-            const orderNum = `Order #${Math.floor(1000 + Math.random() * 9000)}`;
-            const itemString = cart.map(i => `${i.qty}x ${i.title} (${i.sku})`).join(', ');
-            const total = cart.reduce((sum, i) => sum + (i.qty * i.price), 0).toFixed(2);
-
             try {
-                for (const item of cart) {
-                    const newStock = Math.max(0, item.stock - item.qty);
-                    await client.from('listings').update({ stock: newStock }).eq('id', item.id);
-                }
+                const items = cart.map(item => ({
+                    id: item.id,
+                    qty: item.qty
+                }));
 
-                const { error: orderErr } = await client.from('orders').insert([{
-                    order_number: orderNum,
-                    storefront: selectedBranch,
-                    items: itemString,
-                    status: 'Processing'
-                }]);
+                const couponCode = appliedCoupon
+                    ? appliedCoupon.code
+                    : null;
 
-                if (orderErr) throw orderErr;
+                const { data, error } = await client.rpc('place_order', {
+                    p_items: items,
+                    p_coupon_code: couponCode
+                });
 
-                document.getElementById('confirmation-message').textContent = 
-                    `${orderNum} confirmed. Held for 48 hours. Total: $${total}.`;
-                document.getElementById('confirmation-modal').classList.remove('hidden');
+                if (error) throw error;
+
+                const total = Number(data.total);
+
+                document.getElementById('confirmation-message').textContent =
+                    `${data.order_number} confirmed. Held for 48 hours. Total: $${total.toFixed(2)}.`;
+
+                document
+                    .getElementById('confirmation-modal')
+                    .classList.remove('hidden');
 
                 cart = [];
+                appliedCoupon = null;
+
+                document.getElementById('coupon-input').value = '';
+
                 updateCartUI();
                 toggleCartDrawer();
+
                 await fetchListings();
                 renderCatalog();
+
             } catch (err) {
                 alert('Failed to place order: ' + err.message);
-            } finally {
                 orderBtn.disabled = false;
+            } finally {
                 orderBtn.textContent = 'Place Order';
             }
         }

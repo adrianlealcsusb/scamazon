@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Meet the Scamazon team - the students behind the warehouse management platform, with contributor profiles read from the committed project snapshot.">
+    <title>Meet the Team | Scamazon</title>
+    <link rel="icon" type="image/jpg" href="/img/scamazon.jpg">
+
+    <!-- Preconnect to Google Fonts for performance optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme:
+            {
+                extend:
+                {
+                    fontFamily:
+                    {
+                        sans: ['Manrope', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <script>
+        // load theme
+        try
+        {
+            const savedTheme = localStorage.getItem('scamazon_theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches))
+            {
+                document.documentElement.classList.add('dark');
+            }
+            else
+            {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        catch (err)
+        {
+            console.error('Theme loader error:', err);
+        }
+    </script>
+
+    <!-- type scale: declared once, referenced by the role classes below -->
+    <style>
+        .type-display,
+        .type-section,
+        .type-title
+        {
+            text-wrap: balance;
+        }
+
+        .type-display
+        {
+            font-size: clamp(2.75rem, 1.9rem + 3.6vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+
+        .type-section
+        {
+            font-size: clamp(1.875rem, 1.5rem + 1.2vw, 2.5rem);
+            line-height: 1.12;
+            letter-spacing: -0.025em;
+        }
+
+        .type-title
+        {
+            font-size: 1.25rem;
+            line-height: 1.35;
+            letter-spacing: -0.015em;
+        }
+
+        /* browser surface theming */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.7); }
+        .dark ::-webkit-scrollbar-thumb { background: rgba(71, 85, 105, 0.5); }
+        .dark ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.7); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950 transition-colors duration-300">
+
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex justify-between items-center" aria-label="Main Navigation">
+            <!-- logo -->
+            <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-sm">
+                Scamazon<span class="text-amber-600 dark:text-amber-400">.</span>
+            </a>
+
+            <!-- right side nav -->
+            <div class="flex items-center space-x-6 sm:space-x-8">
+                <!-- desktop links -->
+                <div id="navbar" class="hidden sm:flex items-center space-x-6 sm:space-x-8">
+                    <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
+                        Home
+                    </a>
+                    <a href="plans.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
+                        Pricing
+                    </a>
+                    <a href="aboutus.html" class="tracking-tight text-amber-600 dark:text-amber-400 font-semibold hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900" aria-current="page">
+                        Meet the Team
+                    </a>
+                    <a href="index.html" class="tracking-tight text-slate-900 dark:text-slate-300 hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
+                        Log In
+                    </a>
+                    <a href="index.html" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200">
+                        Sign Up
+                    </a>
+                </div>
+
+                <!-- dark mode toggle button -->
+                <button onclick="toggleDarkMode()" type="button" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" title="Toggle Dark Mode">
+                    <!-- sun icon -->
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    <!-- moon icon -->
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+
+                <!-- mobile menu toggle button -->
+                <button id="nav-toggle" type="button" class="sm:hidden inline-flex items-center justify-center p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" aria-label="Open main menu" aria-controls="mobile-menu" aria-expanded="false">
+                    <!-- hamburger icon -->
+                    <svg id="nav-toggle-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <!-- close icon -->
+                    <svg id="nav-toggle-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- mobile menu panel -->
+            <div id="mobile-menu" class="sm:hidden absolute left-0 right-0 top-full overflow-hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 shadow-lg transition-all duration-300 ease-out max-h-0 opacity-0 pointer-events-none">
+                <div id="mobile-menu-list" class="px-4 sm:px-6 py-4 flex flex-col space-y-1">
+                    <a href="index.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        Home
+                    </a>
+                    <a href="plans.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        Pricing
+                    </a>
+                    <a href="aboutus.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" aria-current="page">
+                        Meet the Team
+                    </a>
+                    <a href="index.html" class="block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        Log In
+                    </a>
+                    <a href="index.html" class="mt-2 flex w-full items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all duration-200">
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col">
+
+        <!-- Hero Section -->
+        <section class="relative px-4 sm:px-6 py-12 sm:py-16 lg:py-20 flex-grow flex flex-col items-center justify-center text-center overflow-hidden" aria-label="Meet the team">
+            <!-- background -->
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100/90 via-slate-50 to-slate-100 dark:from-slate-900/60 dark:via-slate-950 dark:to-slate-900 transition-colors"></div>
+
+            <div class="max-w-3xl mx-auto space-y-6">
+                <h1 class="type-display font-extrabold text-slate-900 dark:text-white">
+                    Meet the
+                    <span class="text-amber-600 dark:text-amber-400">
+                        Team
+                    </span>
+                </h1>
+
+                <p class="text-lg text-pretty text-slate-600 dark:text-slate-300 leading-relaxed">
+                    Scamazon is built by a small student team for our software engineering course.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                    <a href="https://github.com/Laura-pez/team-project" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-xl hover:bg-slate-800 dark:hover:bg-amber-400 hover:-translate-y-0.5 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200">
+                        View Repository
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                    <a href="index.html" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-base font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-200">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- stats -->
+        <section class="border-y border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm py-6 sm:py-8 px-4 sm:px-6 transition-colors" aria-label="Snapshot statistics">
+            <div class="max-w-3xl mx-auto grid grid-cols-2 gap-3 sm:gap-6 text-center">
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-700 transition-colors">
+                    <p id="stat-contributors" class="text-2xl sm:text-3xl font-extrabold tabular-nums text-slate-900 dark:text-white">&mdash;</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Contributors</p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-700 transition-colors">
+                    <p id="stat-month-commits" class="text-2xl sm:text-3xl font-extrabold tabular-nums text-amber-600 dark:text-amber-400">&mdash;</p>
+                    <p class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Commits This Month</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contributors Section -->
+        <section class="relative px-4 sm:px-6 py-12 sm:py-20 flex-grow flex flex-col items-center justify-center overflow-hidden" aria-label="Contributors">
+            <!-- background -->
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-slate-100 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 transition-colors"></div>
+
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Contributors</h2>
+                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300">Each team member did their due diligence in this project.</p>
+            </div>
+
+            <div class="w-full max-w-6xl mx-auto">
+
+                <!-- if failed to load -->
+                <div id="status-banner" class="hidden mb-10" role="status" aria-live="polite"></div>
+
+                <noscript>
+                    <p class="mb-10 text-center text-sm font-medium text-amber-800 dark:text-amber-300">JavaScript is required to load the contributor snapshot.</p>
+                </noscript>
+
+                <div id="contributors-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 w-full items-stretch" aria-busy="true" aria-label="Contributor list"></div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="relative px-4 sm:px-6 py-12 sm:py-20 flex flex-col items-center justify-center text-center overflow-hidden bg-slate-900 dark:bg-slate-950 text-white border-t border-slate-800" aria-label="CTA">
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800 via-slate-900 to-slate-950"></div>
+
+            <div class="max-w-4xl mx-auto space-y-6">
+                <h2 class="type-section font-extrabold">Want to see what we built?</h2>
+                <p class="text-lg text-slate-300 max-w-2xl mx-auto">Explore the warehouse management platform our team designed, or view our pricing plans per tier.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                    <a href="index.html" class="rounded-xl px-8 py-3.5 text-sm font-semibold text-slate-950 bg-amber-500 hover:bg-amber-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200">
+                        Back to Home
+                    </a>
+                    <a href="plans.html" class="rounded-xl px-8 py-3.5 text-sm font-semibold text-white bg-slate-800 border border-slate-700 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-700 transition-all duration-200">
+                        View Pricing Plans
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 transition-colors" aria-label="Site Footer">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-sm text-slate-500 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 Scamazon WMS. All rights reserved.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Privacy Policy</a>
+                <a href="#" class="underline-offset-4 hover:text-slate-900 dark:hover:text-white transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Uncaught Async Error:', event.reason);
+        });
+
+        /* ---------- responsive navigation ---------- */
+
+        // page-specific active link, shared by the desktop and mobile navbar renders below
+        const NAV_ACTIVE_PAGE = 'aboutus.html';
+
+        const DESKTOP_LINK_BASE = 'tracking-tight hover:opacity-80 transition-opacity rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900';
+        const DESKTOP_LINK_ACTIVE = 'text-amber-600 dark:text-amber-400 font-semibold';
+        const DESKTOP_LINK_IDLE = 'text-slate-900 dark:text-slate-300';
+
+        const MOBILE_LINK_BASE = 'block w-full rounded-lg px-3 py-2 text-base font-medium tracking-tight transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500';
+        const MOBILE_LINK_ACTIVE = 'text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40';
+        const MOBILE_LINK_IDLE = 'text-slate-900 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800';
+
+        function isActiveNavPage(href)
+        {
+            return href === NAV_ACTIVE_PAGE;
+        }
+
+        function desktopNavLink(item)
+        {
+            const active = isActiveNavPage(item.href);
+            const tone = active ? DESKTOP_LINK_ACTIVE : DESKTOP_LINK_IDLE;
+            const current = active ? ' aria-current="page"' : '';
+            return `<a href="${item.href}" class="${DESKTOP_LINK_BASE} ${tone}"${current}>${item.label}</a>`;
+        }
+
+        function mobileNavLink(item)
+        {
+            const active = isActiveNavPage(item.href);
+            const tone = active ? MOBILE_LINK_ACTIVE : MOBILE_LINK_IDLE;
+            const current = active ? ' aria-current="page"' : '';
+            return `<a href="${item.href}" class="${MOBILE_LINK_BASE} ${tone}"${current}>${item.label}</a>`;
+        }
+
+        function guestNavItems()
+        {
+            return [
+                { href: 'index.html', label: 'Home' },
+                { href: 'plans.html', label: 'Pricing' },
+                { href: 'aboutus.html', label: 'Meet the Team' },
+                { href: 'index.html', label: 'Log In' },
+            ];
+        }
+
+        function roleNavItems()
+        {
+            return [
+                { href: 'index.html', label: 'Home' },
+                { href: 'plans.html', label: 'Pricing' },
+                { href: 'aboutus.html', label: 'Meet the Team' },
+            ];
+        }
+
+        // wires the hamburger button, its icon swap, and the mobile menu panel
+        function initResponsiveNav()
+        {
+            try
+            {
+                const toggle = document.getElementById('nav-toggle');
+                const menu = document.getElementById('mobile-menu');
+                if (!toggle || !menu) return;
+
+                const iconOpen = document.getElementById('nav-toggle-open');
+                const iconClose = document.getElementById('nav-toggle-close');
+                const desktopQuery = window.matchMedia('(min-width: 640px)');
+
+                const hiddenMenuClasses = ['max-h-0', 'opacity-0', 'pointer-events-none'];
+                const shownMenuClasses = ['max-h-[480px]', 'opacity-100'];
+
+                function setExpanded(expanded)
+                {
+                    toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                    toggle.setAttribute('aria-label', expanded ? 'Close main menu' : 'Open main menu');
+                    if (iconOpen) iconOpen.classList.toggle('hidden', expanded);
+                    if (iconClose) iconClose.classList.toggle('hidden', !expanded);
+
+                    hiddenMenuClasses.forEach((className) => menu.classList.toggle(className, !expanded));
+                    shownMenuClasses.forEach((className) => menu.classList.toggle(className, expanded));
+
+                    menu.inert = !expanded;
+                }
+
+                function collapseOnDesktop(event)
+                {
+                    if (event.matches) setExpanded(false);
+                }
+
+                toggle.addEventListener('click', function ()
+                {
+                    setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
+                });
+
+                // close after following any link inside the panel
+                menu.addEventListener('click', function (event)
+                {
+                    if (event.target.closest('a')) setExpanded(false);
+                });
+
+                // close when clicking outside the panel
+                document.addEventListener('click', function (event)
+                {
+                    if (toggle.getAttribute('aria-expanded') !== 'true') return;
+                    if (menu.contains(event.target) || toggle.contains(event.target)) return;
+                    setExpanded(false);
+                });
+
+                // close on Escape and return focus to the toggle
+                document.addEventListener('keydown', function (event)
+                {
+                    if (event.key !== 'Escape') return;
+                    if (toggle.getAttribute('aria-expanded') !== 'true') return;
+                    setExpanded(false);
+                    toggle.focus();
+                });
+
+                if (typeof desktopQuery.addEventListener === 'function')
+                {
+                    desktopQuery.addEventListener('change', collapseOnDesktop);
+                }
+                else if (typeof desktopQuery.addListener === 'function')
+                {
+                    desktopQuery.addListener(collapseOnDesktop);
+                }
+
+                setExpanded(false);
+            }
+            catch (navError)
+            {
+                console.error('Responsive navigation failed to start:', navError);
+            }
+        }
+
+        function toggleDarkMode()
+        {
+            try
+            {
+                const htmlElement = document.documentElement;
+                if (htmlElement.classList.contains('dark'))
+                {
+                    htmlElement.classList.remove('dark');
+                    localStorage.setItem('scamazon_theme', 'light');
+                }
+                else
+                {
+                    htmlElement.classList.add('dark');
+                    localStorage.setItem('scamazon_theme', 'dark');
+                }
+            }
+            catch (toggleErr)
+            {
+                console.error('Dark mode toggle failed:', toggleErr);
+            }
+        }
+
+        function readCookie(name)
+        {
+            try
+            {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2)
+                {
+                    return parts.pop().split(';').shift();
+                }
+                return null;
+            }
+            catch (cookieErr)
+            {
+                console.error('Cookie read failed:', cookieErr);
+                return null;
+            }
+        }
+
+        function readSessionCookie()
+        {
+            const baseKey = 'sb-wtcqblyyprofjocksdij-auth-token';
+            return readCookie(baseKey) || readCookie(`${baseKey}.0`);
+        }
+
+        // load navbar from the cookie session so the first paint is already the correct nav
+        (function ()
+        {
+            try
+            {
+                const navbar = document.getElementById('navbar');
+                if (!navbar) return;
+
+                const sessionCookie = readSessionCookie();
+                const cachedRole = localStorage.getItem('scamazon_user_role');
+
+                if (sessionCookie && cachedRole)
+                {
+                    renderRoleNav(navbar, cachedRole);
+                }
+                else if (sessionCookie)
+                {
+                    renderRoleNav(navbar, 'customer');
+                }
+                else
+                {
+                    renderGuestNav(navbar);
+                }
+            }
+            catch (instantErr)
+            {
+                console.error('Instant render error:', instantErr);
+            }
+        })();
+
+        async function initialize()
+        {
+            try
+            {
+                const { client } = await import('./supaBase.js');
+                const navbar = document.getElementById('navbar');
+                if (!navbar) return;
+
+                const { data: { session }, error } = await client.auth.getSession();
+
+                if (error) throw error;
+
+                if (!session)
+                {
+                    localStorage.removeItem('scamazon_user_role');
+                    renderGuestNav(navbar);
+                    return;
+                }
+
+                const email = session.user.email;
+
+                try
+                {
+                    const { data: userRecord, error: userErr } = await client
+                        .from('users')
+                        .select('role')
+                        .eq('email', email)
+                        .single();
+
+                    if (userErr || !userRecord)
+                    {
+                        console.error('Error fetching role:', userErr);
+                        renderGuestNav(navbar);
+                        return;
+                    }
+
+                    localStorage.setItem('scamazon_user_role', userRecord.role);
+                    renderRoleNav(navbar, userRecord.role);
+                }
+                catch (fetchErr)
+                {
+                    console.error('Failed to load user state:', fetchErr);
+                    renderGuestNav(navbar);
+                }
+
+            }
+            catch (authError)
+            {
+                console.error('Authentication failed: ', authError.message || authError);
+            }
+        }
+
+        function renderGuestNav(navbar)
+        {
+            const mobileList = document.getElementById('mobile-menu-list');
+            const items = guestNavItems();
+
+            if (navbar)
+            {
+                navbar.innerHTML = items.map(desktopNavLink).join('') + `
+                    <a href="index.html" class="hidden sm:inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200">
+                        Sign Up
+                    </a>
+                `;
+            }
+
+            if (mobileList)
+            {
+                mobileList.innerHTML = items.map(mobileNavLink).join('') + `
+                    <a href="index.html" class="mt-2 flex w-full items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all duration-200">
+                        Sign Up
+                    </a>
+                `;
+            }
+        }
+
+        function renderRoleNav(navbar, role)
+        {
+            const dashboardMap =
+            {
+                owner: 'owner.html',
+                customer: 'index.html',
+                worker: 'worker.html'
+            };
+            const dashPage = dashboardMap[role] || 'storefront.html';
+            const mobileList = document.getElementById('mobile-menu-list');
+            const items = roleNavItems();
+
+            const roleBadge = `
+                <div class="hidden sm:flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
+                </div>
+            `;
+
+            const desktopDashboard = `
+                <a href="${dashPage}" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all">
+                    Dashboard
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+            `;
+
+            const desktopLogout = `
+                <button type="button" data-logout class="inline-flex items-center justify-center p-2 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40" title="Sign Out" aria-label="Sign Out">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </button>
+            `;
+
+            const mobileRoleBadge = `
+                <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full w-fit mb-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-mono">${role}</span>
+                </div>
+            `;
+
+            const mobileDashboard = `
+                <a href="${dashPage}" class="mt-2 flex w-full items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-white bg-slate-900 dark:bg-amber-500 dark:text-slate-950 rounded-lg hover:bg-slate-800 dark:hover:bg-amber-400 shadow-sm transition-all">
+                    Dashboard
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </a>
+            `;
+
+            const mobileLogout = `
+                <button type="button" data-logout class="mt-2 flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 dark:hover:text-rose-400 transition-colors">
+                    Sign Out
+                </button>
+            `;
+
+            if (navbar)
+            {
+                navbar.innerHTML = roleBadge + items.map(desktopNavLink).join('') + desktopDashboard + desktopLogout;
+            }
+
+            if (mobileList)
+            {
+                mobileList.innerHTML = mobileRoleBadge + items.map(mobileNavLink).join('') + mobileDashboard + mobileLogout;
+            }
+        }
+
+        const CONTRIBUTORS_ENDPOINT = './contributors.json';
+        const FETCH_TIMEOUT_MS = 8000;
+        const SKELETON_COUNT = 6;
+        const EMPTY_STAT = '\u2014';
+        const AVATAR_HOST_PREFIX = 'https://avatars.githubusercontent.com/';
+        const PROFILE_URL_PATTERN = /^https:\/\/github\.com\/[A-Za-z0-9._-]+$/;
+        const REPO_URL_FALLBACK = 'https://github.com/Laura-pez/team-project';
+
+        function makeElement(tagName, className, text)
+        {
+            const element = document.createElement(tagName);
+            if (className) element.className = className;
+            if (typeof text === 'string') element.textContent = text;
+            return element;
+        }
+
+        // only load avatars from GitHub's own avatar host
+        function isAllowedAvatarUrl(url)
+        {
+            return typeof url === 'string' && url.startsWith(AVATAR_HOST_PREFIX);
+        }
+
+        // only link out to GitHub profile URLs over HTTPS
+        function isAllowedProfileUrl(url)
+        {
+            return typeof url === 'string' && PROFILE_URL_PATTERN.test(url);
+        }
+
+        function initialsFor(name)
+        {
+            const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+            if (parts.length === 0) return '?';
+            if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+            return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        }
+
+        function isRenderableContributor(entry)
+        {
+            if (!entry || typeof entry !== 'object') return false;
+            const hasLogin = typeof entry.login === 'string' && entry.login.trim().length > 0;
+            const hasDisplayName = typeof entry.displayName === 'string' && entry.displayName.trim().length > 0;
+            return hasLogin || hasDisplayName;
+        }
+
+        function normalizeSnapshot(payload)
+        {
+            if (!payload || typeof payload !== 'object' || !Array.isArray(payload.contributors))
+            {
+                throw new Error('The snapshot does not match the expected format.');
+            }
+
+            const list = payload.contributors
+                .filter(isRenderableContributor)
+                .map((entry) =>
+                {
+                    const login = typeof entry.login === 'string' && entry.login.trim() ? entry.login.trim() : null;
+                    const displayName = typeof entry.displayName === 'string' && entry.displayName.trim()
+                        ? entry.displayName.trim()
+                        : (login || 'Team member');
+                    const role = typeof entry.role === 'string' && entry.role.trim() ? entry.role.trim() : null;
+
+                    return {
+                        login,
+                        displayName,
+                        avatarUrl: isAllowedAvatarUrl(entry.avatar_url) ? entry.avatar_url : null,
+                        profileUrl: isAllowedProfileUrl(entry.html_url) ? entry.html_url : null,
+                        role,
+                        key: login || displayName,
+                    };
+                });
+
+            return {
+                list,
+                profiles: (payload.profiles && typeof payload.profiles === 'object') ? payload.profiles : {},
+                generatedAt: typeof payload.generatedAt === 'string' ? payload.generatedAt : null,
+                commitsThisMonth: (payload.commitsThisMonth === null || payload.commitsThisMonth === undefined)
+                    ? null
+                    : (Number.isFinite(Number(payload.commitsThisMonth)) ? Math.max(0, Math.round(Number(payload.commitsThisMonth))) : null),
+                repoUrl: isAllowedProfileUrl(payload.repoUrl) ? payload.repoUrl : REPO_URL_FALLBACK,
+            };
+        }
+
+        function buildCard(entry, profiles)
+        {
+            const override = (entry.key && profiles[entry.key] && typeof profiles[entry.key] === 'object')
+                ? profiles[entry.key]
+                : null;
+
+            const displayName = (override && typeof override.displayName === 'string' && override.displayName.trim())
+                ? override.displayName.trim()
+                : entry.displayName;
+
+            const loginText = entry.login ? '@' + entry.login : '';
+
+            const roleText = (override && typeof override.role === 'string' && override.role.trim())
+                ? override.role.trim()
+                : (entry.role || '');
+
+            const card = makeElement('article', 'p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-700 flex flex-col items-center text-center');
+
+            const avatarWrapper = makeElement('div', 'relative w-20 h-20');
+            avatarWrapper.appendChild(makeElement('div', 'absolute inset-0 rounded-full flex items-center justify-center text-xl font-bold bg-slate-100 dark:bg-slate-800 text-amber-600 dark:text-amber-400 ring-4 ring-amber-50 dark:ring-amber-950/40', initialsFor(displayName)));
+
+            if (entry.avatarUrl)
+            {
+                const avatar = makeElement('img', 'absolute inset-0 w-20 h-20 rounded-full object-cover ring-4 ring-slate-200 dark:ring-slate-700');
+                avatar.src = entry.avatarUrl;
+                avatar.alt = '';
+                avatar.loading = 'lazy';
+                avatar.decoding = 'async';
+                avatar.addEventListener('error', () => avatar.classList.add('hidden'));
+                avatarWrapper.appendChild(avatar);
+            }
+
+            card.appendChild(avatarWrapper);
+            card.appendChild(makeElement('h3', 'mt-5 type-title font-bold text-slate-900 dark:text-white', displayName));
+
+            if (loginText)
+            {
+                card.appendChild(makeElement('p', 'mt-1 text-xs font-medium text-slate-500 dark:text-slate-400', loginText));
+            }
+
+            if (roleText)
+            {
+                card.appendChild(makeElement('p', 'mt-1 text-xs text-slate-500 dark:text-slate-400', roleText));
+            }
+
+            if (entry.profileUrl)
+            {
+                const profileLink = makeElement('a', 'mt-auto pt-6 inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:opacity-80 transition-opacity rounded-sm', 'View profile');
+                profileLink.href = entry.profileUrl;
+                profileLink.target = '_blank';
+                profileLink.rel = 'noopener noreferrer';
+                card.appendChild(profileLink);
+            }
+            else
+            {
+                card.appendChild(makeElement('span', 'mt-auto pt-6 text-xs font-medium text-slate-500 dark:text-slate-400', 'Private repo member'));
+            }
+
+            return card;
+        }
+
+        function renderCards(grid, list, profiles)
+        {
+            const fragment = document.createDocumentFragment();
+            list.forEach((entry) => fragment.appendChild(buildCard(entry, profiles)));
+            grid.replaceChildren(fragment);
+        }
+
+        function renderSkeletons(grid)
+        {
+            const skeletonCard = `
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col items-center animate-pulse" aria-hidden="true">
+                    <div class="w-20 h-20 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+                    <div class="mt-5 h-4 w-32 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+                    <div class="mt-2.5 h-3 w-20 rounded-full bg-slate-100 dark:bg-slate-800/70"></div>
+                </div>
+            `;
+            grid.innerHTML = skeletonCard.repeat(SKELETON_COUNT);
+        }
+
+        function renderEmptyState(grid)
+        {
+            const panel = makeElement('div', 'sm:col-span-2 lg:col-span-3 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/60 dark:bg-slate-900/60 p-10 text-center');
+            panel.appendChild(makeElement('p', 'text-sm font-semibold text-slate-700 dark:text-slate-200', 'No contributors recorded yet'));
+            panel.appendChild(makeElement('p', 'mt-1 text-xs text-slate-500 dark:text-slate-400', 'Add entries to contributors.json, then reload this page.'));
+            grid.replaceChildren(panel);
+        }
+
+        function setStats(contributorCount, commitsThisMonth)
+        {
+            const contributorsEl = document.getElementById('stat-contributors');
+            const monthEl = document.getElementById('stat-month-commits');
+
+            if (contributorsEl) contributorsEl.textContent = Number.isFinite(contributorCount) ? contributorCount.toLocaleString() : EMPTY_STAT;
+            if (monthEl) monthEl.textContent = Number.isFinite(commitsThisMonth) ? commitsThisMonth.toLocaleString() : EMPTY_STAT;
+        }
+
+        function hideStatus()
+        {
+            const banner = document.getElementById('status-banner');
+            if (!banner) return;
+            banner.classList.add('hidden');
+            banner.replaceChildren();
+        }
+
+        function showStatus(kind, message)
+        {
+            const banner = document.getElementById('status-banner');
+            if (!banner) return;
+
+            const isError = kind === 'error';
+            const containerTone = isError
+                ? 'border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/30 text-rose-800 dark:text-rose-200'
+                : 'border-amber-200 dark:border-amber-900/60 bg-amber-50 dark:bg-amber-950/30 text-amber-900 dark:text-amber-200';
+            const badgeTone = isError ? 'bg-rose-600 text-white' : 'bg-amber-500 text-slate-950 font-bold';
+            const buttonTone = isError
+                ? 'border-rose-300 dark:border-rose-800 hover:bg-rose-100 dark:hover:bg-rose-900/40'
+                : 'border-amber-300 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/40 text-amber-950 dark:text-amber-200';
+
+            banner.className = 'mb-10 rounded-2xl border p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4 justify-between ' + containerTone;
+
+            const messageRow = makeElement('div', 'flex items-start gap-3');
+            messageRow.appendChild(makeElement('span', 'mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ' + badgeTone, '!'));
+            messageRow.appendChild(makeElement('p', 'text-sm leading-relaxed', message));
+
+            const actionRow = makeElement('div', 'flex items-center gap-3 shrink-0');
+            const retryButton = makeElement('button', 'px-4 py-2 text-sm font-semibold rounded-lg border transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 ' + buttonTone, 'Try again');
+            retryButton.id = 'retry-btn';
+            retryButton.type = 'button';
+
+            const repoLink = makeElement('a', 'text-sm font-semibold underline underline-offset-4 hover:opacity-80 transition-opacity', 'View on GitHub');
+            repoLink.href = REPO_URL_FALLBACK;
+            repoLink.target = '_blank';
+            repoLink.rel = 'noopener noreferrer';
+
+            actionRow.append(retryButton, repoLink);
+            banner.replaceChildren(messageRow, actionRow);
+        }
+
+        async function loadContributors(options)
+        {
+            const force = Boolean(options && options.force);
+            const grid = document.getElementById('contributors-grid');
+            if (!grid) return;
+
+            hideStatus();
+            grid.setAttribute('aria-busy', 'true');
+            renderSkeletons(grid);
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+            try
+            {
+                const response = await fetch(CONTRIBUTORS_ENDPOINT, {
+                    cache: force ? 'reload' : 'no-cache',
+                    headers: { Accept: 'application/json' },
+                    signal: controller.signal,
+                });
+
+                if (!response.ok)
+                {
+                    throw new Error('The browser received HTTP ' + response.status + ' for the snapshot file.');
+                }
+
+                let payload;
+                try
+                {
+                    payload = await response.json();
+                }
+                catch (parseError)
+                {
+                    throw new Error('The snapshot file could not be parsed as JSON.');
+                }
+
+                const snapshot = normalizeSnapshot(payload);
+                setStats(snapshot.list.length, snapshot.commitsThisMonth);
+
+                if (snapshot.list.length === 0)
+                {
+                    renderEmptyState(grid);
+                    showStatus('info', 'The snapshot loaded successfully, but it does not list any contributors yet.');
+                    return;
+                }
+
+                renderCards(grid, snapshot.list, snapshot.profiles);
+                console.info('Rendered ' + snapshot.list.length + ' contributor(s) from the snapshot dated ' + (snapshot.generatedAt || 'unknown') + '.');
+            }
+            catch (error)
+            {
+                const timedOut = error && error.name === 'AbortError';
+                console.error('Contributor snapshot failed:', error);
+
+                grid.replaceChildren();
+                setStats(null, null);
+
+                if (timedOut)
+                {
+                    showStatus('error', 'Loading the contributor snapshot took too long to respond.');
+                }
+                else
+                {
+                    showStatus('error', 'Could not load the contributor snapshot. ' + (error && error.message ? error.message : ''));
+                }
+            }
+            finally
+            {
+                clearTimeout(timeoutId);
+                grid.setAttribute('aria-busy', 'false');
+            }
+        }
+
+        document.addEventListener('click', async (event) =>
+        {
+            const retryButton = event.target.closest('#retry-btn');
+            if (retryButton)
+            {
+                retryButton.disabled = true;
+                await loadContributors({ force: true });
+                return;
+            }
+
+            const logout = event.target.closest('[data-logout]');
+            if (!logout)
+            {
+                return;
+            }
+
+            try
+            {
+                logout.disabled = true;
+                const { client } = await import('./supaBase.js');
+                localStorage.removeItem('scamazon_user_role');
+                await client.auth.signOut();
+                window.location.reload();
+            }
+            catch (err)
+            {
+                console.error('Logout failed:', err);
+                logout.disabled = false;
+            }
+        });
+
+        (function boot()
+        {
+            const grid = document.getElementById('contributors-grid');
+
+            if (window.location.protocol === 'file:')
+            {
+                if (grid)
+                {
+                    grid.replaceChildren();
+                    grid.setAttribute('aria-busy', 'false');
+                }
+                setStats(null, null);
+                console.warn('aboutus.html was opened over file://, so the contributor snapshot cannot be fetched.');
+            }
+            else
+            {
+                loadContributors();
+            }
+
+            initialize();
+            initResponsiveNav();
+        })();
+    </script>
+</body>
+</html>
