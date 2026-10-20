@@ -1,0 +1,36 @@
+name: Deploy to Oracle Cloud
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Copy files to Oracle VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 129.153.122.178
+          username: ubuntu
+          key: ${{ secrets.ORACLE_SSH_KEY }}
+          source: "./*"
+          target: "/var/www/html/"
+          strip_components: 0
+          rm: false
+
+      - name: Set permissions
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 129.153.122.178
+          username: ubuntu
+          key: ${{ secrets.ORACLE_SSH_KEY }}
+          script: |
+            sudo chown -R ubuntu:ubuntu /var/www/html
+            sudo chmod -R a+rX /var/www/html
+
