@@ -6,89 +6,82 @@ A multi-tenant Warehouse Management System and Direct-to-Customer Storefront pow
 
 ## 🚀 Feature Checklist & Implementation Status
 
-* **Authentication & User Management**
-  * Built-in Customer Sign In & Sign Up Modal 🟢
-  * Role-based Portal Redirection (Owner, Storefront, Worker, Customer) 🟢
-  * Password Reset / Forgot Password Email Delivery via Custom SMTP (Resend) 🟢
-  * Supabase Recovery Listener & Password Update Flow 🟢
-  * Session Persistence & Guest Browsing Mode 🟢
+- [ ] **Authentication & User Management**
+  - [x] Built-in Customer Sign In & Sign Up Modal
+  - [x] Role-based Portal Redirection (Owner, Storefront, Worker, Customer)
+  - [x] Password Reset / Forgot Password Email Delivery via Custom SMTP (Resend)
+  - [x] Supabase Recovery Listener & Password Update Flow
+  - [x] Session Persistence & Guest Browsing Mode
 
-* **Website Portals**
-  * **Owner Dashboard (`owner.html`)**
-    * Overview & Real-time Metrics 🟢
-    * AI Overview 🔴
-    * Listings
-      * Add 🟢
-      * Remove 🟢
-      * Edit 🟢
-      * Manage coupons/discounts 🟡
-    * Manage Storefronts
-      * Add 🟢
-      * Edit 🟢
-      * Remove 🟢
-      * Set status 🟢
-    * Workers
-      * Add 🟢
-      * Revoke 🟢
-      * Set status 🟢
-    * Orders 
-      * View 🟢
-      * Set status 🟢
-      * Receipts / Packing Slips 🟢
-      * Live Tracking 🟢
-  * **Storefront Manager Portal (`storefront.html`)**
-    * Branch Overview & Inventory Management 🟢
-    * AI Overview 🔴
-    * Listings
-      * Add 🟢
-      * Remove 🟢
-      * Edit 🟢
-      * Manage coupons/discounts 🟡
-    * Workers
-      * Add 🟢
-      * Revoke 🟢
-      * Set status 🟢
-    * Orders 
-      * View 🟢
-      * Set status 🟢
-      * Receipts / Packing Slips 🟢
-      * Live Tracking 🟢
-  * **Worker Portal (`worker.html`)**
-    * Listings
-      * Add 🟢
-      * Remove 🟢
-      * Edit 🟢
-    * Orders 
-      * View 🟢
-      * Set status 🟢
-      * Receipts / Packing Slips 🟢
-      * Live Tracking 🟢
-    * Scanner (Live camera QR/barcode scan) 🟢
-  * **Customer Storefront (`index.html`)**
-    * AI Assistant / Support Chat 🔴
-    * Listings & Catalog
-      * Search with Keyboard Shortcut (`/`) 🟢
-      * Storefront Branch Filter 🟢
-      * Sort (Price Low/High, Name, Stock) 🟢
-      * In-stock only filter 🟢
-      * Lazy loading images 🟢
-      * Add to cart (Interactive slide-over drawer) 🟢
-      * Coupons / discounts 🟡
-    * Orders & Fulfillment
-      * Direct Courier Dispatch Checkout 🟢
-      * Real-time Multi-step Delivery Tracking 🟢
-      * Verified Line-item Printable Delivery Slips & Receipts 🟢
-      * View order history 🟢
-      * Refund / cancel 🔴
-  * **Global Platform UI & Experience**
-    * Responsive Mobile Navigation Drawers (Owner, Storefront, Worker) 🟢
-    * Full Light / Dark Mode Toggle across all pages 🟢
-    * Modern Manrope Typography & Slate/Amber Design System 🟢
-    * Informational Marketing Pages (`plans.html`, `aboutus.html`) 🟢
-
----
-
-### Legend
-- 🟢: Implemented & Verified
-- 🟡: In Progress / Partially Implemented
-- 🔴: Backlog / Not Yet Implemented
+- [ ] **Website Portals**
+  - [ ] **Owner Dashboard (`owner.html`)**
+    - [x] Overview & Real-time Metrics
+    - [ ] AI Overview
+    - [x] Listings
+      - [x] Add
+      - [x] Remove
+      - [x] Edit
+      - [ ] Manage coupons/discounts
+    - [x] Manage Storefronts
+      - [x] Add
+      - [x] Edit
+      - [x] Remove
+      - [x] Set status
+    - [x] Workers
+      - [x] Add
+      - [x] Revoke
+      - [x] Set status
+    - [x] Orders 
+      - [x] View
+      - [x] Set status
+      - [x] Receipts / Invoices
+      - [x] Live Tracking
+  - [ ] **Storefront Manager Portal (`storefront.html`)**
+    - [x] Branch Overview & Inventory Management
+    - [ ] AI Overview
+    - [x] Listings
+      - [x] Add
+      - [x] Remove
+      - [x] Edit
+      - [ ] Manage coupons/discounts
+    - [x] Workers
+      - [x] Add
+      - [x] Revoke
+      - [x] Set status
+    - [x] Orders 
+      - [x] View
+      - [x] Set status
+      - [x] Receipts / Invoices
+      - [x] Live Tracking
+  - [x] **Worker Portal (`worker.html`)**
+    - [x] Listings
+      - [x] Add
+      - [x] Remove
+      - [x] Edit
+    - [x] Orders 
+      - [x] View
+      - [x] Set status
+      - [x] Receipts / Invoices
+      - [x] Live Tracking
+    - [x] Scanner (Live camera QR/barcode scan)
+  - [ ] **Customer Storefront (`index.html`)**
+    - [ ] AI Assistant / Support Chat
+    - [x] Listings & Catalog
+      - [x] Search with Keyboard Shortcut (`/`)
+      - [x] Storefront Branch Filter
+      - [x] Sort (Price Low/High, Name, Stock)
+      - [x] In-stock only filter
+      - [x] Lazy loading images
+      - [x] Add to cart (Interactive slide-over drawer)
+      - [ ] Coupons / discounts
+    - [ ] Orders & Fulfillment
+      - [x] Direct Courier Dispatch Checkout
+      - [x] Real-time Multi-step Delivery Tracking
+      - [x] Verified Line-item Printable Invoices & Receipts
+      - [x] View order history
+      - [ ] Refund / cancel
+  - [x] **Global Platform UI & Experience**
+    - [x] Responsive Mobile Navigation Drawers (Owner, Storefront, Worker)
+    - [x] Full Light / Dark Mode Toggle across all pages
+    - [x] Modern Manrope Typography & Slate/Amber Design System
+    - [x] Informational Marketing Pages (`plans.html`, `aboutus.html`)
