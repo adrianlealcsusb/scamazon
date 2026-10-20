@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Scamazon - Industrial &amp; Retail Warehouse Storefront. Browse in-stock industrial supplies, tools, and materials across our branches.">
-    <title>Scamazon - Industrial &amp; Retail Warehouse Storefront</title>
+    <meta name="description" content="Scamazon - Shop quality electronics, gaming consoles, auto supplies, and everyday essentials with fast checkout and real-time order tracking.">
+    <title>Scamazon - Online Store</title>
     <link rel="icon" type="image/jpg" href="img/scamazon.jpg">
     
     <!-- Preconnect to Google Fonts for performance optimization -->
@@ -90,23 +90,13 @@
         <!-- Main Utility Bar -->
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-2.5 sm:gap-y-0 gap-x-3 sm:gap-x-6">
             
-            <!-- Left: Brand Logo & Fulfillment Depot Indicator -->
+            <!-- Left: Brand Logo -->
             <div class="flex items-center gap-4 sm:gap-6 shrink-0">
                 <a href="index.html" class="flex items-center gap-1.5 text-xl sm:text-2xl font-black tracking-tight text-white hover:text-amber-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-sm">
                     <span>Scamazon</span><span class="text-amber-500">.</span>
                 </a>
 
-                <!-- Location / Branch Pill -->
-                <button type="button" onclick="focusStorefrontDropdown()" class="hidden md:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-700/80 hover:border-amber-400/80 bg-slate-800/60 hover:bg-slate-800 transition-all text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500" title="Filter by fulfillment depot">
-                    <svg class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    <div class="text-[11px] leading-tight">
-                        <span class="text-slate-400 block font-medium">Delivering From</span>
-                        <span id="nav-selected-branch" class="font-bold text-slate-100 max-w-[120px] truncate block">All Depots</span>
-                    </div>
-                </button>
+
             </div>
 
             <!-- Center: Modern Amazon Multi-Select Search Bar -->
@@ -217,24 +207,6 @@
                     <span>Track Orders &amp; Invoices</span>
                 </button>
 
-                <div class="h-4 w-px bg-slate-700 mx-1"></div>
-
-                <!-- Quick Filter: In Stock Only -->
-                <button type="button" onclick="toggleStockFilter()" id="filter-stock-btn" class="inline-flex items-center gap-1 px-2.5 py-1 rounded text-slate-300 hover:text-white hover:bg-slate-700/50 transition-colors">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
-                    <span>Fast Dispatch Available</span>
-                </button>
-            </div>
-
-            <!-- Warehouse Guarantee Indicator -->
-            <div class="hidden md:flex items-center gap-2 text-slate-400 text-xs shrink-0 font-medium">
-                <span class="inline-flex items-center gap-1 text-amber-400 font-semibold">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                    </svg>
-                    Direct Delivery Guarantee
-                </span>
-                <span>&bull; Dispatched straight to your door</span>
             </div>
         </div>
     </header>
@@ -245,35 +217,35 @@
         <!-- ================= TAB 1: CATALOG VIEW ================= -->
         <section id="tab-catalog" class="tab-pane space-y-6">
 
-            <!-- Operational Header (Warehouse Logistics Bar) -->
+            <!-- Storefront Welcome Banner -->
             <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 text-white p-6 sm:p-7 transition-colors shadow-sm">
                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/20 pointer-events-none"></div>
                 <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                     <div class="space-y-2 max-w-xl">
                         <h1 id="page-heading" class="type-display font-black tracking-tight text-white leading-tight">
-                            Direct Warehouse Delivery to Your Door
+                            Shop Quality Brands &amp; Everyday Deals
                         </h1>
                         <p class="text-sm text-slate-300 leading-relaxed">
-                            Order genuine inventory dispatched straight from regional store depots to your doorstep. Fast courier delivery with live tracking.
+                            Explore gaming consoles, electronics, auto supplies, and games with instant checkout and real-time order tracking.
                         </p>
                     </div>
 
-                    <!-- Operational Commitments -->
+                    <!-- Value Highlights -->
                     <div class="grid grid-cols-3 gap-6 sm:gap-8 border-t lg:border-t-0 lg:border-l border-slate-800 pt-4 lg:pt-0 lg:pl-8 shrink-0">
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 block">Fast Dispatch</span>
-                            <span class="text-base font-bold text-white block mt-0.5">Same-Day Out</span>
-                            <span class="text-xs text-slate-400">From local depot</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Top Quality</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Verified Stock</span>
+                            <span class="text-xs text-slate-400">Authentic brands</span>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 block">Doorstep Drop</span>
-                            <span class="text-base font-bold text-white block mt-0.5">Live Tracking</span>
-                            <span class="text-xs text-slate-400">Direct courier route</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Live Tracking</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Real-Time</span>
+                            <span class="text-xs text-slate-400">Order to arrival</span>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 block">Direct Pricing</span>
-                            <span class="text-base font-bold text-white block mt-0.5">Direct Rates</span>
-                            <span class="text-xs text-slate-400">Zero markups</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Clear Pricing</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Best Rates</span>
+                            <span class="text-xs text-slate-400">No hidden fees</span>
                         </div>
                     </div>
                 </div>
@@ -282,7 +254,7 @@
             <!-- Active Filter Toolbar with Semantic Section Heading -->
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
                 <div class="flex items-baseline gap-3 w-full sm:w-auto">
-                    <h2 id="catalog-section-heading" class="type-section font-bold text-slate-900 dark:text-white">Active Warehouse Inventory</h2>
+                    <h2 id="catalog-section-heading" class="type-section font-bold text-slate-900 dark:text-white">Explore Products</h2>
                     <span id="results-count" class="text-xs font-semibold text-slate-500 dark:text-slate-400">Showing all available listings</span>
                 </div>
 
@@ -317,9 +289,9 @@
             
             <!-- Section Header -->
             <div class="max-w-4xl space-y-2">
-                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Your Delivery Orders &amp; Fulfillment</h2>
+                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Your Orders &amp; Tracking</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-300">
-                    Review your placed orders, track real-time courier milestones, and download official warehouse order receipts and invoices.
+                    Review your placed orders, track real-time delivery milestones, and download order receipts and invoices.
                 </p>
             </div>
 
@@ -404,21 +376,21 @@
                         <div class="relative z-10 flex flex-col items-center text-center">
                             <span id="step-processing-dot" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Processing"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span>
                             <p class="text-xs font-bold text-slate-900 dark:text-white mt-2">Processing</p>
-                            <span id="time-processing" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Floor Queue</span>
+                            <span id="time-processing" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Preparing</span>
                         </div>
 
                         <!-- Step 2: Shipped -->
                         <div class="relative z-10 flex flex-col items-center text-center">
                             <span id="step-shipped-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Shipped"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></span>
                             <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Shipped</p>
-                            <span id="time-shipped" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Dispatched</span>
+                            <span id="time-shipped" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">In Transit</span>
                         </div>
 
                         <!-- Step 3: Out for Delivery -->
                         <div class="relative z-10 flex flex-col items-center text-center">
                             <span id="step-out-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Out for Delivery"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg></span>
                             <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Out for Delivery</p>
-                            <span id="time-out" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Courier En Route</span>
+                            <span id="time-out" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Out for Delivery</span>
                         </div>
 
                         <!-- Step 4: Delivered -->
@@ -433,7 +405,7 @@
                 <!-- Order Content Breakdown -->
                 <div class="pt-6 border-t border-slate-200/80 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div class="space-y-1">
-                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Reserved Items</span>
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Ordered Items</span>
                         <p id="track-items" class="font-mono text-sm text-slate-900 dark:text-white font-medium">2x Brake Pads (SKU-102)</p>
                     </div>
                     <div class="space-y-1">
@@ -653,10 +625,6 @@
                         <span>Items saved in local storage. <button type="button" onclick="openBuiltInAuth('signin')" class="underline font-bold text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-white focus:outline-none">Sign in</button> to confirm delivery address and reserve inventory.</span>
                     </div>
                 </div>
-                <div id="cart-multidepot-notice" class="hidden p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-[11px] text-slate-600 dark:text-slate-300">
-                    <span class="font-bold text-amber-600 dark:text-amber-400 block mb-0.5">Multi-Depot Fulfillment</span>
-                    <span>Items will be split into separate shipments per warehouse branch.</span>
-                </div>
                 <button id="order-btn" onclick="handleCheckoutClick()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-40 disabled:cursor-not-allowed">
                     Proceed to Checkout &bull; Place Delivery Order
                 </button>
@@ -674,7 +642,7 @@
             </div>
             <h3 class="type-section font-bold text-slate-900 dark:text-white">Order Confirmed!</h3>
             <p id="confirmation-message" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Order confirmed. Dispatched via courier.
+                Your order is confirmed and will be delivered soon.
             </p>
             <div id="confirmation-orders-list" class="space-y-2 text-left pt-1"></div>
             <div class="pt-2">
@@ -700,13 +668,13 @@
 
             <div class="grid grid-cols-2 gap-4 text-xs">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Fulfillment Depot</p>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Fulfillment Storefront</p>
                     <p id="receipt-branch-name" class="font-bold text-slate-900 dark:text-white mt-1">Downtown Auto Storefront</p>
                     <p id="receipt-branch-address" class="text-slate-500 dark:text-slate-400 mt-0.5">100 Main St, Downtown</p>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Dispatch Method</p>
-                    <p class="font-bold text-slate-900 dark:text-white mt-1">Direct Courier Delivery</p>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Delivery Method</p>
+                    <p class="font-bold text-slate-900 dark:text-white mt-1">Standard Delivery</p>
                     <p id="receipt-date" class="text-slate-500 dark:text-slate-400 mt-0.5">Date Placed</p>
                 </div>
             </div>
@@ -752,7 +720,7 @@
     <!-- ================= FOOTER ================= -->
     <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 text-xs text-slate-500 dark:text-slate-400 transition-colors">
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; 2026 Scamazon WMS Customer Portal. All rights reserved.</p>
+            <p>&copy; 2026 Scamazon. All rights reserved.</p>
             <div class="flex items-center gap-6">
                 <a href="index.html" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Platform Home</a>
                 <a href="plans.html" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Pricing Plans</a>
@@ -895,7 +863,7 @@
                 if (pwdHint) pwdHint.textContent = 'Min 6 characters';
             } else if (currentAuthMode === 'signup') {
                 if (title) title.textContent = 'Create Account';
-                if (subtitle) subtitle.textContent = 'Register a new customer account to reserve warehouse items';
+                if (subtitle) subtitle.textContent = 'Register a new customer account to place orders';
                 if (tabsContainer) tabsContainer.classList.remove('hidden');
                 if (nameGroup) nameGroup.classList.remove('hidden');
                 if (nameInput) nameInput.required = true;
@@ -1033,7 +1001,7 @@
         function handleCheckoutClick() {
             if (!currentUser) {
                 pendingPostAuthAction = 'checkout';
-                openBuiltInAuth('signin', 'Sign in or create an account to complete checkout and reserve warehouse stock.');
+                openBuiltInAuth('signin', 'Sign in or create an account to complete your checkout.');
                 return;
             }
             placeOrder();
@@ -1467,8 +1435,8 @@
             };
 
             const headings = {
-                catalog: 'Order Direct from the Warehouse Floor',
-                tracking: 'Track Your Warehouse Order'
+                catalog: 'Shop Quality Brands & Everyday Deals',
+                tracking: 'Your Orders & Tracking'
             };
 
             Object.values(tabs).forEach(el => {
@@ -1520,19 +1488,6 @@
             renderCatalog();
         }
 
-        function toggleStockFilter() {
-            stockOnlyFilter = !stockOnlyFilter;
-            const btn = document.getElementById('filter-stock-btn');
-            if (btn) {
-                if (stockOnlyFilter) {
-                    btn.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded text-white bg-emerald-600/60 border border-emerald-500/80 transition-colors';
-                } else {
-                    btn.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded text-slate-300 hover:text-white hover:bg-slate-700/50 transition-colors';
-                }
-            }
-            renderCatalog();
-        }
-
         // ================= LISTINGS =================
         async function fetchStorefronts() {
             const { client } = await import('./supaBase.js');
@@ -1565,7 +1520,7 @@
             if (badge) badge.textContent = allListings.length;
 
             const navBranch = document.getElementById('nav-selected-branch');
-            if (navBranch) navBranch.textContent = selectedBranch || 'All Depots';
+            if (navBranch) navBranch.textContent = selectedBranch || 'All Storefronts';
 
             let branchItems = allListings.filter(l => {
                 const matchesBranch = !selectedBranch || l.storefront === selectedBranch;
@@ -1749,7 +1704,7 @@ function updateCartUI() {
             // Partition items by branch
             const branchMap = {};
             cart.forEach(item => {
-                const b = item.storefront || 'Main Depot';
+                const b = item.storefront || 'Storefront';
                 if (!branchMap[b]) branchMap[b] = [];
                 branchMap[b].push(item);
             });
@@ -1759,10 +1714,10 @@ function updateCartUI() {
             if (branchEl) {
                 branchEl.textContent = branchNames.length === 1 
                     ? branchNames[0] 
-                    : (branchNames.length > 1 ? `${branchNames.length} Warehouse Depots` : 'All Storefronts');
+                    : (branchNames.length > 1 ? `${branchNames.length} Storefronts` : 'All Storefronts');
             }
 
-            // Guest and multi-depot notices
+            // Guest notices
             const guestNotice = document.getElementById('cart-guest-notice');
             if (guestNotice) {
                 if (!currentUser && cart.length > 0) {
@@ -1772,14 +1727,7 @@ function updateCartUI() {
                 }
             }
 
-            const multiDepotNotice = document.getElementById('cart-multidepot-notice');
-            if (multiDepotNotice) {
-                if (branchNames.length > 1) {
-                    multiDepotNotice.classList.remove('hidden');
-                } else {
-                    multiDepotNotice.classList.add('hidden');
-                }
-            }
+
 
             const container = document.getElementById('cart-items-container');
             const totalEl = document.getElementById('cart-total-price');
@@ -2087,7 +2035,7 @@ function updateCartUI() {
 
         async function placeOrder() {
             if (!currentUser) {
-                openAuthModal('Sign in to your account to complete checkout and reserve inventory across your selected depots.');
+                openAuthModal('Sign in to your account to complete checkout.');
                 return;
             }
 
@@ -2099,7 +2047,7 @@ function updateCartUI() {
             // Partition items by branch
             const branchMap = {};
             cart.forEach(item => {
-                const b = item.storefront || 'Main Depot';
+                const b = item.storefront || 'Storefront';
                 if (!branchMap[b]) branchMap[b] = [];
                 branchMap[b].push(item);
             });
@@ -2172,7 +2120,7 @@ function updateCartUI() {
 
                 if (placedOrders.length === 1) {
                     const single = placedOrders[0];
-                    msgEl.innerHTML = `Your delivery order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed and queued for courier dispatch. Total: <strong>$${single.total}</strong> <span class="text-xs text-slate-500 dark:text-slate-400 font-normal">(incl. $${single.tax} tax)</span>.`;
+                    msgEl.innerHTML = `Your delivery order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed and being prepared for delivery. Total: <strong>$${single.total}</strong> <span class="text-xs text-slate-500 dark:text-slate-400 font-normal">(incl. $${single.tax} tax)</span>.`;
                     if (listEl) {
                         listEl.innerHTML = `
                             <button onclick="viewReceiptDirect('${sanitizeHtml(single.orderNum)}', '${sanitizeHtml(single.branch)}', '${sanitizeHtml(single.items)}', '${single.total}', '${single.subtotal}', '${single.tax}', '${single.discount}', '${sanitizeHtml(single.couponCode || '')}')" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors">
@@ -2182,7 +2130,7 @@ function updateCartUI() {
                         `;
                     }
                 } else {
-                    msgEl.innerHTML = `Successfully generated <strong class="text-slate-900 dark:text-white">${placedOrders.length} separate warehouse delivery shipments</strong>:`;
+                    msgEl.innerHTML = `Successfully generated <strong class="text-slate-900 dark:text-white">${placedOrders.length} separate delivery shipments</strong>:`;
                     if (listEl) {
                         listEl.innerHTML = placedOrders.map(o => `
                             <div class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-left flex justify-between items-center text-xs gap-3">
@@ -2275,7 +2223,7 @@ function updateCartUI() {
                         </div>
                         <p class="text-sm font-bold text-slate-900 dark:text-white">Sign In to View Your Order History</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-                            Connect your customer account to automatically view past warehouse orders, shipment milestones, and printable receipts.
+                            Connect your customer account to view past orders, delivery updates, and printable receipts.
                         </p>
                         <button onclick="openBuiltInAuth('signin')" class="mt-2 inline-flex items-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-xs transition-colors">
                             Sign In / Create Account
@@ -2305,10 +2253,10 @@ function updateCartUI() {
                         </div>
                         <p class="text-sm font-bold text-slate-900 dark:text-white">No Placed Orders Found Yet</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-                            You haven't placed any delivery orders under <span class="font-mono text-slate-700 dark:text-slate-300 font-semibold">${sanitizeHtml(currentUser.email)}</span>. Browse our active warehouse inventory to get started!
+                            You haven't placed any delivery orders under <span class="font-mono text-slate-700 dark:text-slate-300 font-semibold">${sanitizeHtml(currentUser.email)}</span>. Browse our catalog to get started!
                         </p>
                         <button onclick="switchTab('catalog')" class="mt-2 inline-flex items-center px-4 py-2 bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 font-bold text-xs rounded-xl hover:bg-slate-800 dark:hover:bg-amber-400 transition-colors">
-                            Explore Warehouse Catalog
+                            Explore Catalog
                         </button>
                     </div>
                 `;
@@ -2320,7 +2268,7 @@ function updateCartUI() {
 
             listContainer.innerHTML = `
                 <div class="p-4 text-center text-xs text-slate-500 dark:text-slate-400">
-                    Syncing live delivery statuses with warehouse dispatch...
+                    Syncing live delivery statuses...
                 </div>
             `;
 
@@ -2401,7 +2349,7 @@ function updateCartUI() {
                                     ${statusBadge}
                                 </div>
                                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                    Placed on ${placedDate} &bull; Depot: <span class="font-medium text-slate-700 dark:text-slate-300">${sanitizeHtml(order.storefront)}</span>
+                                    Placed on ${placedDate} &bull; Storefront: <span class="font-medium text-slate-700 dark:text-slate-300">${sanitizeHtml(order.storefront)}</span>
                                 </p>
                             </div>
                             <div class="flex items-center gap-2 self-start sm:self-auto">
@@ -2422,7 +2370,7 @@ function updateCartUI() {
 
                         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 text-xs">
                             <div class="space-y-0.5">
-                                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Reserved Items</span>
+                                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Ordered Items</span>
                                 <div class="space-y-1">
                                     <p class="font-mono text-xs text-slate-800 dark:text-slate-200 line-clamp-1">${sanitizeHtml((order.items || '').replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim())}</p>
                                 </div>
@@ -2554,7 +2502,7 @@ function updateCartUI() {
 
             document.getElementById('receipt-order-id').textContent = trackedOrderCache.order_number;
             document.getElementById('receipt-branch-name').textContent = trackedOrderCache.storefront;
-            document.getElementById('receipt-branch-address').textContent = branch ? branch.address : 'Storefront Depot';
+            document.getElementById('receipt-branch-address').textContent = branch ? branch.address : 'Storefront Location';
             document.getElementById('receipt-date').textContent = trackedOrderCache.created_at ? new Date(trackedOrderCache.created_at).toLocaleDateString() : 'Recent';
 
             const rawItemsStr = trackedOrderCache.items || '';
