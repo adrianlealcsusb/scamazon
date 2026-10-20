@@ -1196,15 +1196,7 @@
                         </button>
                     </td>
                     <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400">${sanitizeHtml(o.storefront)}</td>
-                    <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300">
-                        ${(() => {
-                            const raw = o.items || '';
-                            const cMatch = raw.match(/\[Coupon:\s*([^\]]+?)\s*\(-?\$?([\d\.]+)\)\]/i);
-                            const clean = raw.replace(/\s*\[Coupon:[^]]+]/gi, '').trim();
-                            const badge = cMatch ? ` <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 font-mono">Coupon: ${sanitizeHtml(cMatch[1])} (-${parseFloat(cMatch[2]).toFixed(2)})</span>` : '';
-                            return sanitizeHtml(clean) + badge;
-                        })()}
-                    </td>
+                    <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300">${sanitizeHtml((o.items || '').replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim())}</td>
                     <td class="py-3 px-4">
                         <select onchange="updateOrderStatus('${sanitizeHtml(o.id)}', this.value)" class="text-xs font-medium border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
                             <option value="Processing" ${currentStatus === 'Processing' ? 'selected' : ''}>Processing</option>
@@ -1293,7 +1285,7 @@
                 discount = parseFloat(couponMatch[2]) || 0;
             }
 
-            const cleanItemsStr = rawItemsStr.replace(/\s*\[Coupon:[^]]+]/gi, '').trim();
+            const cleanItemsStr = rawItemsStr.replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
 
             if (cleanItemsStr) {
                 const itemsArr = cleanItemsStr.split(/,\s*(?=\d+\s*x)/i);
@@ -1301,7 +1293,8 @@
                 itemsArr.forEach(rawItem => {
                     const countMatch = rawItem.match(/^(\d+)\s*x\s*(.*)$/i);
                     const qty = countMatch ? parseInt(countMatch[1], 10) : 1;
-                    const titleStr = countMatch ? countMatch[2].trim() : rawItem.trim();
+                    const rawTitle = countMatch ? countMatch[2].trim() : rawItem.trim();
+                    const titleStr = rawTitle.replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
 
                     const matchedListing = state.listings.find(l => 
                         (l.sku && titleStr.toLowerCase().includes(l.sku.toLowerCase())) || 
