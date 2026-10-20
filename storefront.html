@@ -92,6 +92,10 @@
                 Listings
                 <span id="badge-listings" class="text-xs bg-slate-950/20 text-slate-950 px-2 py-0.5 rounded-md">0</span>
             </button>
+            <button onclick="switchTab('coupons')" data-tab="coupons" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
+                Coupons & Discounts
+                <span id="badge-coupons" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
+            </button>
             <button onclick="switchTab('workers')" data-tab="workers" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Workers
                 <span id="badge-workers" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">0</span>
@@ -295,6 +299,43 @@
                             <tbody id="sales-storefronts-tbody" class="divide-y divide-slate-100 dark:divide-slate-800/80">
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COUPONS TAB -->
+            <section id="pane-coupons" class="tab-pane hidden space-y-6" hidden>
+                <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition-colors">
+                    <h2 class="text-lg font-black tracking-tight text-slate-900 dark:text-white mb-2">
+                        Manage Storefront Coupons
+                    </h2>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-6">
+                        Create and manage discount codes for this storefront (<span id="coupon-storefront-name" class="font-bold text-amber-500">Loading...</span>).
+                    </p>
+                    <form id="coupon-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input id="coupon-code" type="text" placeholder="Coupon Code (e.g. SAVE20)" maxlength="32" required class="border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all uppercase">
+                        <div>
+                            <input type="text" id="coupon-storefront-display" readonly disabled class="w-full border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/50 cursor-not-allowed">
+                        </div>
+                        <select id="coupon-type" class="border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
+                            <option value="percent">Percentage (%)</option>
+                            <option value="fixed">Fixed Amount ($)</option>
+                        </select>
+                        <input id="coupon-value" type="number" min="0.01" step="0.01" placeholder="Discount Value" required class="border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
+                        <div class="md:col-span-2 flex justify-start">
+                            <button type="submit" class="inline-flex items-center justify-center px-4 py-2.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 active:scale-95 disabled:opacity-50">
+                                Create Coupon
+                            </button>
+                        </div>
+                    </form>
+                    <p id="coupon-message" class="text-xs font-semibold mt-4"></p>
+                </div>
+                <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition-colors">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white mb-4">
+                        Existing Storefront Coupons
+                    </h2>
+                    <div id="coupons-list" class="space-y-3">
+                        <p class="text-xs text-slate-500 dark:text-slate-400">No coupons loaded.</p>
                     </div>
                 </div>
             </section>
@@ -601,11 +642,16 @@
 
             const titles = {
                 listings: 'Manage Listings',
+                coupons: 'Coupons & Discounts',
                 workers: 'Manage Workers',
                 orders: 'Orders & Fulfillment',
                 sales: 'Sales & Analytics'
             };
             document.getElementById('page-heading').textContent = titles[tab] || 'Storefront Panel';
+
+            if (tab === 'coupons') {
+                loadCoupons();
+            }
         }
 
         async function init() {
@@ -647,6 +693,10 @@
                 `;
                 document.getElementById('modal-storefront-display').value = branchStorefront;
                 document.getElementById('worker-storefront-display').value = branchStorefront;
+                const sfDisplay = document.getElementById('coupon-storefront-display');
+                if (sfDisplay) sfDisplay.value = branchStorefront;
+                const sfNameEl = document.getElementById('coupon-storefront-name');
+                if (sfNameEl) sfNameEl.textContent = branchStorefront;
 
                 await loadAll();
             } catch (err) {
@@ -672,6 +722,14 @@
             renderWorkers();
             renderOrders();
             renderSales();
+
+            try {
+                const { data: cData } = await client.from('coupons').select('id').eq('storefront', branchStorefront);
+                const cBadge = document.getElementById('badge-coupons');
+                if (cBadge) cBadge.textContent = cData ? cData.length : 0;
+            } catch (cErr) {
+                // Table might not exist yet
+            }
         }
 
         // ==========================================
@@ -1144,6 +1202,211 @@
             await client.auth.signOut();
             window.location.replace('index.html');
         });
+
+        // ==========================================
+        // COUPONS MANAGEMENT
+        // ==========================================
+
+        function getCouponFormData() {
+            const code = document.getElementById('coupon-code').value.trim().toUpperCase();
+            const discountType = document.getElementById('coupon-type').value;
+            const discountValue = Number(document.getElementById('coupon-value').value);
+
+            if (!/^[A-Z0-9_-]{3,32}$/.test(code)) {
+                throw new Error('Enter a valid coupon code (3-32 characters).');
+            }
+
+            if (!branchStorefront) {
+                throw new Error('No storefront linked to your account.');
+            }
+
+            if (!Number.isFinite(discountValue) || discountValue <= 0 || (discountType === 'percent' && discountValue > 100)) {
+                throw new Error('Enter a valid discount amount.');
+            }
+
+            return {
+                code,
+                storefront: branchStorefront,
+                discount_type: discountType,
+                discount_value: discountValue,
+                is_active: true
+            };
+        }
+
+        async function loadCoupons() {
+            const list = document.getElementById('coupons-list');
+            if (!list) return;
+
+            list.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400">Loading coupons...</p>';
+
+            try {
+                const { client } = await import('./supaBase.js');
+                const { data, error } = await client
+                    .from('coupons')
+                    .select('*')
+                    .eq('storefront', branchStorefront)
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    if (error.code === 'PGRST205' || (error.message && error.message.includes('public.coupons'))) {
+                        list.innerHTML = `<div class="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl text-xs text-amber-700 dark:text-amber-400">
+                            <strong>Notice:</strong> The <code>coupons</code> database table has not been initialized yet in the Supabase schema. Please create the table in Supabase SQL Editor.
+                        </div>`;
+                    } else {
+                        list.innerHTML = `<p class="text-xs text-rose-600 dark:text-rose-400">Error loading coupons: ${sanitizeHtml(error.message)}</p>`;
+                    }
+                    return;
+                }
+
+                const badge = document.getElementById('badge-coupons');
+                if (badge) {
+                    badge.textContent = data ? data.length : 0;
+                }
+
+                if (!data || data.length === 0) {
+                    list.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400">No coupons found for this storefront.</p>';
+                    return;
+                }
+
+                list.innerHTML = data.map(coupon => {
+                    const discount = coupon.discount_type === 'percent'
+                        ? `${Number(coupon.discount_value)}%`
+                        : `${Number(coupon.discount_value).toFixed(2)}`;
+
+                    return `
+                        <div class="border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between gap-4 transition-colors">
+                            <div>
+                                <div class="font-bold text-slate-900 dark:text-white text-sm font-mono tracking-tight">
+                                    ${sanitizeHtml(coupon.code)}
+                                </div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                    ${sanitizeHtml(coupon.storefront)} &bull; ${discount} off
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    onclick="toggleCouponStatus('${sanitizeHtml(coupon.id)}', ${coupon.is_active})"
+                                    class="text-xs font-semibold ${
+                                        coupon.is_active
+                                            ? 'text-amber-600 hover:text-amber-500 dark:text-amber-400 dark:hover:text-amber-300'
+                                            : 'text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300'
+                                    } transition">
+                                    ${coupon.is_active ? 'Disable' : 'Enable'}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onclick="deleteCoupon('${sanitizeHtml(coupon.id)}')"
+                                    class="text-xs font-semibold text-rose-600 hover:text-rose-500 dark:text-rose-400 dark:hover:text-rose-300 transition">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                list.innerHTML = `<p class="text-xs text-rose-600 dark:text-rose-400">Error loading coupons: ${sanitizeHtml(err.message)}</p>`;
+            }
+        }
+        window.loadCoupons = loadCoupons;
+
+        function deleteCoupon(id) {
+            askDelete(
+                'Delete Coupon',
+                'Delete this coupon? It cannot be undone.',
+                async () => {
+                    const { client } = await import('./supaBase.js');
+                    const { error } = await client
+                        .from('coupons')
+                        .delete()
+                        .eq('id', id)
+                        .eq('storefront', branchStorefront);
+
+                    if (error) {
+                        showToast('Failed to delete coupon: ' + error.message, 'error');
+                        throw error;
+                    }
+
+                    showToast('Coupon deleted successfully.');
+                    await loadCoupons();
+                }
+            );
+        }
+        window.deleteCoupon = deleteCoupon;
+
+        async function toggleCouponStatus(id, isActive) {
+            try {
+                const { client } = await import('./supaBase.js');
+                const { error } = await client
+                    .from('coupons')
+                    .update({ is_active: !isActive })
+                    .eq('id', id)
+                    .eq('storefront', branchStorefront);
+
+                if (error) throw error;
+
+                showToast(`Coupon ${!isActive ? 'enabled' : 'disabled'}.`);
+                await loadCoupons();
+            } catch (err) {
+                showToast('Failed to update coupon: ' + err.message, 'error');
+            }
+        }
+        window.toggleCouponStatus = toggleCouponStatus;
+
+        document.getElementById('coupon-form')
+            ?.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const form = event.currentTarget;
+                const message = document.getElementById('coupon-message');
+                const button = form.querySelector('button[type="submit"]');
+
+                if (message) {
+                    message.textContent = '';
+                }
+
+                try {
+                    const coupon = getCouponFormData();
+
+                    button.disabled = true;
+                    button.textContent = 'Creating...';
+
+                    const { client } = await import('./supaBase.js');
+                    const { error } = await client
+                        .from('coupons')
+                        .insert(coupon);
+
+                    if (error) throw error;
+
+                    showToast(`Coupon ${coupon.code} created successfully!`);
+                    if (message) {
+                        message.textContent = `Coupon ${coupon.code} created successfully!`;
+                        message.className = 'text-xs font-semibold mt-4 text-emerald-600 dark:text-emerald-400';
+                    }
+
+                    form.reset();
+                    const sfDisplay = document.getElementById('coupon-storefront-display');
+                    if (sfDisplay) sfDisplay.value = branchStorefront;
+                    await loadCoupons();
+
+                } catch (error) {
+                    const errMsg = error.code === '23505'
+                        ? 'This coupon code already exists for this storefront.'
+                        : (error.code === 'PGRST205' ? 'The coupons database table has not been initialized yet in Supabase.' : error.message);
+
+                    showToast(errMsg, 'error');
+                    if (message) {
+                        message.textContent = errMsg;
+                        message.className = 'text-xs font-semibold mt-4 text-rose-600 dark:text-rose-400';
+                    }
+
+                } finally {
+                    button.disabled = false;
+                    button.textContent = 'Create Coupon';
+                }
+            });
 
         init();
     </script>
