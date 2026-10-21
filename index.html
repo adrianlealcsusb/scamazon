@@ -1239,62 +1239,62 @@
             const iconWrapper = document.getElementById('toast-icon-wrapper');
             const iconEl = document.getElementById('toast-icon');
             const actionBtn = document.getElementById('toast-action-btn');
-        
+
             if (!toast) return;
-        
+
             if (titleEl) {
                 titleEl.textContent = title;
             }
-        
+
             if (subEl) {
                 subEl.textContent = subtitle;
             }
-        
+
             if (type === 'error') {
                 toast.className =
                     'fixed bottom-6 right-6 z-[70] transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-rose-500/80';
-        
+
                 if (iconWrapper) {
                     iconWrapper.className =
                         'w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0';
                 }
-        
+
                 if (iconEl) {
                     iconEl.innerHTML =
                         '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>';
                 }
-        
+
                 if (actionBtn) {
                     actionBtn.classList.add('hidden');
                 }
             } else {
                 toast.className =
                     'fixed bottom-6 right-6 z-[70] transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-slate-700/80';
-        
+
                 if (iconWrapper) {
                     iconWrapper.className =
                         'w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0';
                 }
-        
+
                 if (iconEl) {
                     iconEl.innerHTML =
                         '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>';
                 }
-        
+
                 if (actionBtn) {
                     actionBtn.classList.remove('hidden');
                 }
             }
-        
+
             clearTimeout(cartToastTimer);
-        
+
             const counterEl = document.getElementById('cart-counter');
-        
+
             if (counterEl && type === 'success') {
                 counterEl.classList.add('scale-125');
                 setTimeout(() => counterEl.classList.remove('scale-125'), 250);
             }
-        
+
             cartToastTimer = setTimeout(() => {
                 hideCartToast();
             }, 3200);
@@ -1729,7 +1729,7 @@
 
 function updateCartUI() {
             const count = cart.reduce((sum, i) => sum + i.qty, 0);
-            
+
             const badge = document.getElementById('cart-badge');
             if (badge) badge.textContent = count;
             const counter = document.getElementById('cart-counter');
@@ -1875,10 +1875,10 @@ function updateCartUI() {
             const discountLabelEl = document.getElementById('cart-discount-label');
 
             if (appliedCoupon && cart.length > 0) {
-                const eligibleItems = cart.filter(i => 
-                    !appliedCoupon.storefront || 
-                    appliedCoupon.storefront === 'All' || 
-                    appliedCoupon.storefront === 'All Storefronts' || 
+                const eligibleItems = cart.filter(i =>
+                    !appliedCoupon.storefront ||
+                    appliedCoupon.storefront === 'All' ||
+                    appliedCoupon.storefront === 'All Storefronts' ||
                     i.storefront === appliedCoupon.storefront
                 );
                 const eligibleSubtotal = eligibleItems.reduce((sum, i) => sum + (i.qty * (parseFloat(i.price) || 0)), 0);
@@ -1940,11 +1940,11 @@ function updateCartUI() {
             const input = document.getElementById('cart-coupon-input');
             const feedback = document.getElementById('coupon-feedback');
             const applyBtn = document.getElementById('apply-coupon-btn');
-        
+
             if (!input || !feedback) return;
-        
+
             const code = input.value.trim().toUpperCase();
-        
+
             feedback.classList.remove(
                 'hidden',
                 'text-rose-600',
@@ -1952,7 +1952,7 @@ function updateCartUI() {
                 'dark:text-rose-400',
                 'dark:text-emerald-400'
             );
-        
+
             if (!code) {
                 removeCartCoupon();
                 feedback.textContent = 'Please enter a coupon code.';
@@ -1960,22 +1960,22 @@ function updateCartUI() {
                 feedback.classList.remove('hidden');
                 return;
             }
-        
+
             if (cart.length === 0) {
                 feedback.textContent = 'Add items to your cart before applying a coupon.';
                 feedback.classList.add('text-rose-600', 'dark:text-rose-400');
                 feedback.classList.remove('hidden');
                 return;
             }
-        
+
             if (applyBtn) {
                 applyBtn.disabled = true;
                 applyBtn.textContent = '...';
             }
-        
+
             try {
                 const { client } = await import('./supaBase.js');
-        
+
                 // The redesigned cart may contain products from multiple storefronts.
                 // Validate this code securely against each storefront represented
                 // in the cart.
@@ -1986,10 +1986,10 @@ function updateCartUI() {
                             .filter(Boolean)
                     )
                 ];
-        
+
                 const validMatches = [];
                 const invalidMessages = [];
-        
+
                 for (const storefront of storefronts) {
                     const storefrontSubtotal = cart
                         .filter(item => item.storefront === storefront)
@@ -2002,7 +2002,7 @@ function updateCartUI() {
                                 ),
                             0
                         );
-        
+
                     const { data, error } = await client.rpc(
                         'validate_coupon',
                         {
@@ -2011,15 +2011,15 @@ function updateCartUI() {
                             p_subtotal: storefrontSubtotal
                         }
                     );
-        
+
                     if (error) {
                         throw error;
                     }
-        
+
                     const result = Array.isArray(data)
                         ? data[0]
                         : data;
-        
+
                     if (result?.is_valid) {
                         validMatches.push({
                             storefront,
@@ -2029,29 +2029,29 @@ function updateCartUI() {
                         invalidMessages.push(result.message);
                     }
                 }
-        
+
                 // Same coupon code existing for multiple storefronts in the same
                 // mixed cart would be ambiguous for the current UI.
                 if (validMatches.length > 1) {
                     appliedCoupon = null;
-        
+
                     feedback.textContent =
                         `Coupon "${code}" is valid for more than one storefront in your cart. ` +
                         'Please check out one storefront at a time when using this code.';
-        
+
                     feedback.classList.add(
                         'text-rose-600',
                         'dark:text-rose-400'
                     );
-        
+
                     syncCouponUI();
                     updateCartUI();
                     return;
                 }
-        
+
                 if (validMatches.length === 0) {
                     appliedCoupon = null;
-        
+
                     // Prefer a meaningful validation error such as expiration,
                     // minimum purchase, or usage limit over "Coupon not found."
                     const usefulMessage =
@@ -2060,68 +2060,68 @@ function updateCartUI() {
                         ) ||
                         invalidMessages[0] ||
                         'Coupon not found.';
-        
+
                     feedback.textContent = usefulMessage;
-        
+
                     feedback.classList.add(
                         'text-rose-600',
                         'dark:text-rose-400'
                     );
-        
+
                     syncCouponUI();
                     updateCartUI();
                     return;
                 }
-        
+
                 const match = validMatches[0];
                 const result = match.result;
-        
+
                 appliedCoupon = {
                     code,
                     storefront: match.storefront,
                     discountType: result.discount_type,
                     discountValue: Number(result.discount_value)
                 };
-        
+
                 const discountDesc =
                     result.discount_type === 'percent'
                         ? `${Number(result.discount_value)}%`
                         : `$${Number(result.discount_value).toFixed(2)}`;
-        
+
                 feedback.textContent =
                     `Coupon applied! ${discountDesc} off eligible items from ${match.storefront}.`;
-        
+
                 feedback.classList.add(
                     'text-emerald-600',
                     'dark:text-emerald-400'
                 );
-        
+
                 feedback.classList.remove('hidden');
-        
+
                 syncCouponUI();
                 updateCartUI();
-        
+
             } catch (err) {
                 appliedCoupon = null;
-        
+
                 feedback.textContent =
                     'Could not validate coupon: ' +
                     (err.message || 'Unknown error.');
-        
+
                 feedback.classList.add(
                     'text-rose-600',
                     'dark:text-rose-400'
                 );
-        
+
                 feedback.classList.remove('hidden');
-        
+
                 syncCouponUI();
                 updateCartUI();
-        
+
             } finally {
                 if (applyBtn) {
                     applyBtn.disabled = false;
-        
+
                     if (!appliedCoupon) {
                         applyBtn.textContent = 'Apply';
                     }
@@ -2158,41 +2158,41 @@ function updateCartUI() {
                 if (typeof toggleCartDrawer === 'function') {
                     toggleCartDrawer(false);
                 }
-        
+
                 openAuthModal('Sign in to your account to complete checkout.');
                 return;
             }
-        
+
             if (!cart.length) {
                 showToast('Your cart is empty.', 'error');
                 return;
             }
-        
+
             const { client } = await import('./supaBase.js');
-        
+
             const orderBtn = document.getElementById('order-btn');
             orderBtn.disabled = true;
             orderBtn.textContent = 'Processing Order...';
-        
+
             // Keep the redesigned multi-storefront behavior.
             // Each storefront becomes its own secure order.
             const branchMap = {};
-        
+
             cart.forEach(item => {
                 const branch = item.storefront || 'Storefront';
-        
+
                 if (!branchMap[branch]) {
                     branchMap[branch] = [];
                 }
-        
+
                 branchMap[branch].push(item);
             });
-        
+
             const placedOrders = [];
-        
+
             try {
                 for (const [branch, items] of Object.entries(branchMap)) {
-        
+
                     // Only send IDs + quantities.
                     // Price, stock, title, SKU, storefront and totals
                     // are loaded again by PostgreSQL.
@@ -2200,7 +2200,7 @@ function updateCartUI() {
                         id: item.id,
                         qty: parseInt(item.qty, 10)
                     }));
-        
+
                     // A coupon is sent only to the storefront
                     // for which it was securely validated.
                     const couponForBranch =
@@ -2208,7 +2208,7 @@ function updateCartUI() {
                         appliedCoupon.storefront === branch
                             ? appliedCoupon.code
                             : null;
-        
+
                     const { data, error } = await client.rpc(
                         'place_order',
                         {
@@ -2216,48 +2216,48 @@ function updateCartUI() {
                             p_coupon_code: couponForBranch
                         }
                     );
-        
+
                     if (error) {
                         throw error;
                     }
-        
+
                     const result =
                         typeof data === 'string'
                             ? JSON.parse(data)
                             : data;
-        
+
                     if (!result || !result.order_number) {
                         throw new Error(
                             'The server did not return a valid order confirmation.'
                         );
                     }
-        
+
                     const subtotal =
                         Number(result.subtotal || 0).toFixed(2);
-        
+
                     const discount =
                         Number(result.discount_amount || 0).toFixed(2);
-        
+
                     const tax =
                         Number(result.tax_amount || 0).toFixed(2);
-        
+
                     const total =
                         Number(result.total || 0).toFixed(2);
-        
+
                     const orderNumber =
                         String(result.order_number);
-        
+
                     const orderStorefront =
                         String(result.storefront || branch);
-        
+
                     const orderItems =
                         String(result.items || '');
-        
+
                     const couponCode =
                         result.coupon_code
                             ? String(result.coupon_code)
                             : '';
-        
+
                     placedOrders.push({
                         orderNum: orderNumber,
                         branch: orderStorefront,
@@ -2269,7 +2269,7 @@ function updateCartUI() {
                         discount,
                         couponCode
                     });
-        
+
                     storeCustomerOrderReference({
                         order_number: orderNumber,
                         storefront: orderStorefront,
@@ -2282,7 +2282,7 @@ function updateCartUI() {
                         created_at: new Date().toISOString(),
                         status: 'Processing'
                     });
-        
+
                     /*
                      * Remove this storefront from the local cart immediately
                      * after the database confirms it.
@@ -2295,23 +2295,23 @@ function updateCartUI() {
                     cart = cart.filter(
                         cartItem => cartItem.storefront !== branch
                     );
-        
+
                     saveCartToStorage();
                 }
-        
+
                 // ==========================================
                 // ORDER CONFIRMATION
                 // ==========================================
-        
+
                 const msgEl =
                     document.getElementById('confirmation-message');
-        
+
                 const listEl =
                     document.getElementById('confirmation-orders-list');
-        
+
                 if (placedOrders.length === 1) {
                     const single = placedOrders[0];
-        
+
                     msgEl.innerHTML =
                         `Your delivery order ` +
                         `<strong class="text-amber-500 font-mono">${sanitizeHtml(single.orderNum)}</strong> ` +
@@ -2321,7 +2321,7 @@ function updateCartUI() {
                         `<span class="text-xs text-slate-500 dark:text-slate-400 font-normal">` +
                         `(incl. $${single.tax} tax)` +
                         `</span>.`;
-        
+
                     if (listEl) {
                         listEl.innerHTML = `
                             <button
@@ -2351,47 +2351,47 @@ function updateCartUI() {
                                         d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
                                     />
                                 </svg>
-        
+
                                 <span>View Order Receipt</span>
                             </button>
                         `;
                     }
-        
+
                 } else {
                     msgEl.innerHTML =
                         `Successfully generated ` +
                         `<strong class="text-slate-900 dark:text-white">` +
                         `${placedOrders.length} separate delivery shipments` +
                         `</strong>:`;
-        
+
                     if (listEl) {
                         listEl.innerHTML = placedOrders.map(order => `
                             <div
                                 class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-left flex justify-between items-center text-xs gap-3"
                             >
                                 <div class="min-w-0 flex-1">
-        
+
                                     <span class="font-mono font-bold text-amber-500 text-sm">
                                         ${sanitizeHtml(order.orderNum)}
                                     </span>
-        
+
                                     <span class="block text-slate-700 dark:text-slate-300 font-semibold mt-0.5 truncate">
                                         ${sanitizeHtml(order.branch)}
                                         &bull;
                                         ${order.count}
                                         item${order.count === 1 ? '' : 's'}
                                     </span>
-        
+
                                     <span class="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">
                                         $${order.total}
-        
+
                                         <span class="text-[11px] font-normal text-slate-500 dark:text-slate-400">
                                             (incl. $${order.tax} tax)
                                         </span>
                                     </span>
-        
+
                                 </div>
-        
+
                                 <button
                                     onclick="viewReceiptDirect(
                                         '${sanitizeHtml(order.orderNum)}',
@@ -2411,25 +2411,25 @@ function updateCartUI() {
                         `).join('');
                     }
                 }
-        
+
                 document
                     .getElementById('confirmation-modal')
                     .classList.remove('hidden');
-        
+
                 appliedCoupon = null;
-        
+
                 saveCartToStorage();
                 syncCouponUI();
                 updateCartUI();
-        
+
                 toggleCartDrawer(false);
-        
+
                 // Reload trusted stock values from Supabase.
                 await fetchListings();
                 renderCatalog();
-        
+
             } catch (err) {
-        
+
                 /*
                  * A storefront that already succeeded has already
                  * been removed from the cart.
@@ -2439,14 +2439,14 @@ function updateCartUI() {
                  */
                 saveCartToStorage();
                 updateCartUI();
-        
+
                 await fetchListings();
                 renderCatalog();
-        
+
                 const message =
                     err?.message ||
                     'Unknown checkout error.';
-        
+
                 if (placedOrders.length > 0) {
                     showToast(
                         `${placedOrders.length} shipment(s) were placed successfully, ` +
@@ -2454,14 +2454,14 @@ function updateCartUI() {
                         `The remaining items are still in your cart.`,
                         'error'
                     );
-        
+
                 } else {
                     showToast(
                         'Failed to place order: ' + message,
                         'error'
                     );
                 }
-        
+
             } finally {
                 orderBtn.disabled = false;
                 orderBtn.textContent =
@@ -2576,35 +2576,35 @@ function updateCartUI() {
                 </div>
             `;
 
-            
+
             // Query live database orders that this customer is still allowed to see.
             // Because Supabase RLS now restricts customers to their own orders,
             // any deleted or inaccessible local order references are removed.
             try {
                 const { client } = await import('./supaBase.js');
                 const orderNumbers = storedOrders.map(o => o.order_number);
-            
+
                 const { data: liveOrders, error } = await client
                     .from('orders')
                     .select('*')
                     .in('order_number', orderNumbers);
-            
+
                 if (error) {
                     throw error;
                 }
-            
+
                 const liveMap = new Map(
                     (liveOrders || []).map(order => [
                         order.order_number,
                         order
                     ])
                 );
-            
+
                 storedOrders = storedOrders
                     .filter(order => liveMap.has(order.order_number))
                     .map(order => {
                         const liveOrder = liveMap.get(order.order_number);
-            
+
                         return {
                             ...order,
                             status: liveOrder.status || order.status,
@@ -2613,17 +2613,17 @@ function updateCartUI() {
                             created_at: liveOrder.created_at || order.created_at
                         };
                     });
-            
+
                 localStorage.setItem(
                     key,
                     JSON.stringify(storedOrders)
                 );
-                
+
                 if (countBadge) {
                     countBadge.textContent =
                         `${storedOrders.length} Order${storedOrders.length === 1 ? '' : 's'}`;
                 }
-                
+
             } catch (syncErr) {
                 console.warn(
                     'Live order status sync skipped:',
@@ -2745,9 +2745,9 @@ function updateCartUI() {
                 .replace(/[#%_]/g, '')
                 .trim()
                 .toUpperCase();
-            
+
             const normalizedOrderNumber = `Order #${cleanOrderId}`;
-            
+
             const { data, error } = await client
                 .from('orders')
                 .select('*')
