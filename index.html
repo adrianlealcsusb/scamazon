@@ -2618,7 +2618,12 @@ function updateCartUI() {
                     key,
                     JSON.stringify(storedOrders)
                 );
-            
+                
+                if (countBadge) {
+                    countBadge.textContent =
+                        `${storedOrders.length} Order${storedOrders.length === 1 ? '' : 's'}`;
+                }
+                
             } catch (syncErr) {
                 console.warn(
                     'Live order status sync skipped:',
