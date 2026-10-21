@@ -1570,15 +1570,7 @@
                     .eq('id', orderId);
 
                 if (error) {
-                    if (error.code === '23514' && newStatus === 'Delivered') {
-                        const { error: fallbackErr } = await client
-                            .from('orders')
-                            .update({ status: 'Out for Delivery' })
-                            .eq('id', orderId);
-                        if (fallbackErr) throw fallbackErr;
-                    } else {
-                        throw error;
-                    }
+                    throw error;
                 }
 
                 order.status = (newStatus === 'Shipped') ? 'Ready for Driver' : newStatus;
