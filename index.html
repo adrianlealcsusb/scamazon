@@ -2576,35 +2576,54 @@ function updateCartUI() {
                 </div>
             `;
 
-            // Query live database statuses for these orders from Supabase
+            
+            // Query live database orders that this customer is still allowed to see.
+            // Because Supabase RLS now restricts customers to their own orders,
+            // any deleted or inaccessible local order references are removed.
             try {
                 const { client } = await import('./supaBase.js');
                 const orderNumbers = storedOrders.map(o => o.order_number);
-                
-                const { data: liveOrders } = await client
+            
+                const { data: liveOrders, error } = await client
                     .from('orders')
                     .select('*')
                     .in('order_number', orderNumbers);
-
-                if (liveOrders && liveOrders.length > 0) {
-                    const liveMap = new Map(liveOrders.map(lo => [lo.order_number, lo]));
-                    storedOrders = storedOrders.map(so => {
-                        const match = liveMap.get(so.order_number);
-                        if (match) {
-                            return {
-                                ...so,
-                                status: match.status || so.status,
-                                storefront: match.storefront || so.storefront,
-                                items: match.items || so.items,
-                                created_at: match.created_at || so.created_at
-                            };
-                        }
-                        return so;
-                    });
-                    localStorage.setItem(key, JSON.stringify(storedOrders));
+            
+                if (error) {
+                    throw error;
                 }
+            
+                const liveMap = new Map(
+                    (liveOrders || []).map(order => [
+                        order.order_number,
+                        order
+                    ])
+                );
+            
+                storedOrders = storedOrders
+                    .filter(order => liveMap.has(order.order_number))
+                    .map(order => {
+                        const liveOrder = liveMap.get(order.order_number);
+            
+                        return {
+                            ...order,
+                            status: liveOrder.status || order.status,
+                            storefront: liveOrder.storefront || order.storefront,
+                            items: liveOrder.items || order.items,
+                            created_at: liveOrder.created_at || order.created_at
+                        };
+                    });
+            
+                localStorage.setItem(
+                    key,
+                    JSON.stringify(storedOrders)
+                );
+            
             } catch (syncErr) {
-                console.warn('Live order status sync skipped:', syncErr);
+                console.warn(
+                    'Live order status sync skipped:',
+                    syncErr
+                );
             }
 
             listContainer.innerHTML = storedOrders.map(order => {
