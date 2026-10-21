@@ -2716,13 +2716,18 @@ function updateCartUI() {
             if (!rawQuery) return;
 
             // Extract numeric digits if present (e.g., 'Order #5041' -> '5041'), else clean special chars
-            const digits = rawQuery.replace(/\D/g, '');
-            const cleanPattern = digits || rawQuery.replace(/[#%_]/g, '').trim();
-
+           const cleanOrderId = rawQuery
+                .replace(/^order\s*#?\s*/i, '')
+                .replace(/[#%_]/g, '')
+                .trim()
+                .toUpperCase();
+            
+            const normalizedOrderNumber = `Order #${cleanOrderId}`;
+            
             const { data, error } = await client
                 .from('orders')
                 .select('*')
-                .ilike('order_number', `%${cleanPattern}%`)
+                .eq('order_number', normalizedOrderNumber)
                 .maybeSingle();
 
             const errorContainer = document.getElementById('tracking-error');
