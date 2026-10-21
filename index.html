@@ -1239,34 +1239,62 @@
             const iconWrapper = document.getElementById('toast-icon-wrapper');
             const iconEl = document.getElementById('toast-icon');
             const actionBtn = document.getElementById('toast-action-btn');
+        
             if (!toast) return;
-
+        
             if (titleEl) {
                 titleEl.textContent = title;
             }
+        
             if (subEl) {
                 subEl.textContent = subtitle;
             }
-
+        
             if (type === 'error') {
-                toast.className = 'fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-rose-500/80';
-                if (iconWrapper) iconWrapper.className = 'w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0';
-                if (iconEl) iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>';
-                if (actionBtn) actionBtn.classList.add('hidden');
+                toast.className =
+                    'fixed bottom-6 right-6 z-[70] transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-rose-500/80';
+        
+                if (iconWrapper) {
+                    iconWrapper.className =
+                        'w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0';
+                }
+        
+                if (iconEl) {
+                    iconEl.innerHTML =
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>';
+                }
+        
+                if (actionBtn) {
+                    actionBtn.classList.add('hidden');
+                }
             } else {
-                toast.className = 'fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-slate-700/80';
-                if (iconWrapper) iconWrapper.className = 'w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0';
-                if (iconEl) iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>';
-                if (actionBtn) actionBtn.classList.remove('hidden');
+                toast.className =
+                    'fixed bottom-6 right-6 z-[70] transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-slate-700/80';
+        
+                if (iconWrapper) {
+                    iconWrapper.className =
+                        'w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0';
+                }
+        
+                if (iconEl) {
+                    iconEl.innerHTML =
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>';
+                }
+        
+                if (actionBtn) {
+                    actionBtn.classList.remove('hidden');
+                }
             }
-
+        
             clearTimeout(cartToastTimer);
+        
             const counterEl = document.getElementById('cart-counter');
+        
             if (counterEl && type === 'success') {
                 counterEl.classList.add('scale-125');
                 setTimeout(() => counterEl.classList.remove('scale-125'), 250);
             }
-
+        
             cartToastTimer = setTimeout(() => {
                 hideCartToast();
             }, 3200);
