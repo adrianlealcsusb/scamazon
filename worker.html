@@ -493,6 +493,10 @@
                         <span>Items Subtotal</span>
                         <span id="receipt-subtotal" class="font-mono text-slate-900 dark:text-white font-medium">$0.00</span>
                     </div>
+                    <div id="receipt-discount-row" class="hidden flex justify-between text-emerald-600 dark:text-emerald-400 font-medium">
+                        <span id="receipt-discount-label">Discount</span>
+                        <span id="receipt-discount" class="font-mono">-$0.00</span>
+                    </div>
                     <div class="flex justify-between text-slate-600 dark:text-slate-400">
                         <span>Estimated State Tax (8.25%)</span>
                         <span id="receipt-tax" class="font-mono text-slate-900 dark:text-white font-medium">$0.00</span>
@@ -696,6 +700,10 @@
                     
                     if (matchedItem) {
                         branchRev += (parseFloat(matchedItem.price) || 0) * count;
+                    }
+                    const cMatch = o.items.match(/\[Coupon:\s*([^\]]+?)\s*\(-?\$?([\d\.]+)\)\]/i);
+                    if (cMatch) {
+                        branchRev = Math.max(0, branchRev - (parseFloat(cMatch[2]) || 0));
                     }
                 }
             });
@@ -1188,7 +1196,7 @@
                         </button>
                     </td>
                     <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400">${sanitizeHtml(o.storefront)}</td>
-                    <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300">${sanitizeHtml(o.items)}</td>
+                    <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300">${sanitizeHtml((o.items || '').replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim())}</td>
                     <td class="py-3 px-4">
                         <select onchange="updateOrderStatus('${sanitizeHtml(o.id)}', this.value)" class="text-xs font-medium border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
                             <option value="Processing" ${currentStatus === 'Processing' ? 'selected' : ''}>Processing</option>
@@ -1267,14 +1275,26 @@
             const tbody = document.getElementById('receipt-items-tbody');
             let subtotal = 0;
             let itemRows = '';
+            let discount = 0;
+            let couponCode = '';
 
-            if (order.items && typeof order.items === 'string') {
-                const itemsArr = order.items.split(/,\s*(?=\d+\s*x)/i);
+            const rawItemsStr = (order.items && typeof order.items === 'string') ? order.items : '';
+            const couponMatch = rawItemsStr.match(/\[Coupon:\s*([^\]]+?)\s*\(-?\$?([\d\.]+)\)\]/i);
+            if (couponMatch) {
+                couponCode = couponMatch[1].trim();
+                discount = parseFloat(couponMatch[2]) || 0;
+            }
+
+            const cleanItemsStr = rawItemsStr.replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
+
+            if (cleanItemsStr) {
+                const itemsArr = cleanItemsStr.split(/,\s*(?=\d+\s*x)/i);
                 
                 itemsArr.forEach(rawItem => {
                     const countMatch = rawItem.match(/^(\d+)\s*x\s*(.*)$/i);
                     const qty = countMatch ? parseInt(countMatch[1], 10) : 1;
-                    const titleStr = countMatch ? countMatch[2].trim() : rawItem.trim();
+                    const rawTitle = countMatch ? countMatch[2].trim() : rawItem.trim();
+                    const titleStr = rawTitle.replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
 
                     const matchedListing = state.listings.find(l => 
                         (l.sku && titleStr.toLowerCase().includes(l.sku.toLowerCase())) || 
@@ -1289,8 +1309,8 @@
                         <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
                             <td class="py-2.5 px-3 text-slate-800 dark:text-slate-200 font-sans font-medium">${sanitizeHtml(titleStr)}</td>
                             <td class="py-2.5 px-3 text-center text-slate-600 dark:text-slate-400">${qty}</td>
-                            <td class="py-2.5 px-3 text-right text-slate-600 dark:text-slate-400">$${unitPrice.toFixed(2)}</td>
-                            <td class="py-2.5 px-3 text-right font-semibold text-slate-900 dark:text-white">$${lineTotal.toFixed(2)}</td>
+                            <td class="py-2.5 px-3 text-right text-slate-600 dark:text-slate-400">${unitPrice.toFixed(2)}</td>
+                            <td class="py-2.5 px-3 text-right font-semibold text-slate-900 dark:text-white">${lineTotal.toFixed(2)}</td>
                         </tr>
                     `;
                 });
@@ -1301,12 +1321,27 @@
             }
             tbody.innerHTML = itemRows;
 
-            const tax = subtotal * 0.0825;
-            const total = subtotal + tax;
+            const netSubtotal = Math.max(0, subtotal - discount);
+            const tax = netSubtotal * 0.0825;
+            const total = netSubtotal + tax;
 
-            document.getElementById('receipt-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('receipt-tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('receipt-total').textContent = `$${total.toFixed(2)}`;
+            const discountRow = document.getElementById('receipt-discount-row');
+            const discountLabel = document.getElementById('receipt-discount-label');
+            const discountEl = document.getElementById('receipt-discount');
+
+            if (discountRow) {
+                if (discount > 0) {
+                    discountRow.classList.remove('hidden');
+                    if (discountLabel) discountLabel.textContent = `Discount (${sanitizeHtml(couponCode)})`;
+                    if (discountEl) discountEl.textContent = `-${discount.toFixed(2)}`;
+                } else {
+                    discountRow.classList.add('hidden');
+                }
+            }
+
+            document.getElementById('receipt-subtotal').textContent = `${subtotal.toFixed(2)}`;
+            document.getElementById('receipt-tax').textContent = `${tax.toFixed(2)}`;
+            document.getElementById('receipt-total').textContent = `${total.toFixed(2)}`;
 
             showModal('receipt-modal');
         }
