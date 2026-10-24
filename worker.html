@@ -24,16 +24,22 @@
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        h1 { font-size: 1.75rem; line-height: 2.25rem; font-weight: 700; letter-spacing: -0.025em; }
+        h2 { font-size: 1.35rem; line-height: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
+        h3 { font-size: 1.1rem; line-height: 1.5rem; font-weight: 600; }
+        body { font-size: 0.875rem; line-height: 1.25rem; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden selection:bg-slate-900 selection:text-white">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex h-screen overflow-hidden selection:bg-amber-400 selection:text-slate-950">
     
     <!-- Sidebar -->
     <aside class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0">
         <div class="p-4 h-16 border-b border-slate-200 flex items-center justify-between">
             <a href="index.html" class="text-lg font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity">
-                Scamazon<span class="text-indigo-600">.</span>
+                Scamazon<span class="text-amber-500">.</span>
             </a>
-            <span class="text-[11px] font-semibold uppercase tracking-wider bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md border border-slate-200 font-mono">worker</span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider bg-amber-50 text-amber-800 px-2 py-0.5 rounded-md border border-amber-200 font-mono">worker</span>
         </div>
         <nav class="flex-1 p-3 space-y-1 text-sm font-medium overflow-y-auto" id="sidebar-nav">
             <button onclick="switchTab('listings')" data-tab="listings" class="nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between bg-slate-900 text-white shadow-sm shadow-slate-900/10 transition-all">
@@ -87,9 +93,9 @@
                 <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
                     <div class="flex flex-1 flex-col sm:flex-row gap-2">
                         <input id="search-input" type="text" placeholder="Search title or SKU..." 
-                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all">
+                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all">
                     </div>
-                    <button onclick="showModal('listing-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">
+                    <button onclick="showModal('listing-modal')" class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-150">
                         Add Listing
                     </button>
                 </div>
@@ -124,7 +130,7 @@
                     </div>
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                         <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Processing</p>
-                        <p id="stat-ord-processing" class="text-2xl font-bold tracking-tight text-indigo-600 mt-1">0</p>
+                        <p id="stat-ord-processing" class="text-2xl font-bold tracking-tight text-amber-600 mt-1">0</p>
                     </div>
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                         <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Dispatched</p>
@@ -135,12 +141,13 @@
                 <div class="flex flex-col sm:flex-row justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
                     <div class="flex flex-1 flex-col sm:flex-row gap-2">
                         <input id="orders-search-input" type="text" placeholder="Search order # or items..." 
-                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all">
-                        <select id="orders-filter-status" class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent bg-white transition-all">
+                            class="flex-1 border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all">
+                        <select id="orders-filter-status" class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white transition-all">
                             <option value="">All Statuses</option>
                             <option value="Processing">Processing</option>
-                            <option value="Ready for Driver">Ready for Driver</option>
+                            <option value="Shipped">Shipped</option>
                             <option value="Out for Delivery">Out for Delivery</option>
+                            <option value="Delivered">Delivered</option>
                         </select>
                     </div>
                 </div>
@@ -213,22 +220,22 @@
                 <div id="listingError" class="hidden p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200"></div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Item Title</label>
-                    <input type="text" id="modal-title-input" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <input type="text" id="modal-title-input" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">SKU</label>
-                        <input type="text" id="modal-sku" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                        <input type="text" id="modal-sku" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Price ($)</label>
-                        <input type="number" step="0.01" id="modal-price" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                        <input type="number" step="0.01" id="modal-price" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Stock</label>
-                        <input type="number" id="modal-stock" required min="0" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                        <input type="number" id="modal-stock" required min="0" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Storefront</label>
@@ -237,11 +244,11 @@
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Image URL (Optional)</label>
-                    <input type="url" id="modal-image" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
+                    <input type="url" id="modal-image" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-amber-500 focus:border-transparent focus:outline-none transition-all placeholder:text-slate-400">
                 </div>
                 <div class="pt-3 flex justify-end gap-2 border-t border-slate-200">
                     <button type="button" onclick="hideModal('listing-modal')" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Cancel</button>
-                    <button type="submit" id="modal-submit-btn" class="px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-150">Save</button>
+                    <button type="submit" id="modal-submit-btn" class="px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-sm shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-150">Save</button>
                 </div>
             </form>
         </div>
@@ -271,21 +278,21 @@
         <div class="bg-white max-w-lg w-full rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-6 bg-slate-900 text-white flex justify-between items-start shrink-0">
                 <div>
-                    <span class="text-xl font-black tracking-tight">Scamazon<span class="text-indigo-400">.</span></span>
+                    <span class="text-xl font-black tracking-tight">Scamazon<span class="text-amber-400">.</span></span>
                     <p id="receipt-order-id" class="text-sm font-mono text-slate-300 mt-1 font-semibold">Order #0000</p>
                 </div>
                 <button onclick="hideModal('receipt-modal')" class="text-slate-400 hover:text-white text-2xl leading-none focus:outline-none">&times;</button>
             </div>
 
             <div class="p-6 overflow-y-auto space-y-6 text-sm">
-                <div class="flex flex-wrap justify-between items-center gap-3 p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="flex flex-wrap justify-between items-center gap-3 pb-4 border-b border-slate-200">
                     <div>
                         <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Storefront Branch</p>
                         <p id="receipt-branch-name" class="font-bold text-slate-900 mt-0.5">-</p>
                     </div>
                     <div class="text-right">
                         <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Status</p>
-                        <span id="receipt-status-badge" class="inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border bg-indigo-50 text-indigo-700 border-indigo-200">Processing</span>
+                        <span id="receipt-status-badge" class="inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border bg-slate-100 text-slate-900 border-slate-200">Processing</span>
                     </div>
                 </div>
 
@@ -294,7 +301,7 @@
                     <p id="receipt-date-time" class="font-medium text-slate-800 mt-1">-</p>
                 </div>
 
-                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs">
                         <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-[10px]">
                             <tr>
@@ -320,7 +327,7 @@
                     </div>
                     <div class="flex justify-between items-center text-sm font-bold text-slate-900 pt-2 border-t border-slate-200">
                         <span class="text-base">Total Cost</span>
-                        <span id="receipt-total" class="text-base font-mono text-indigo-600">$0.00</span>
+                        <span id="receipt-total" class="text-base font-mono text-slate-900">$0.00</span>
                     </div>
                 </div>
             </div>
@@ -565,7 +572,7 @@
                         <td class="py-3 px-4 text-sm font-semibold text-slate-900">$${(parseFloat(item.price) || 0).toFixed(2)}</td>
                         <td class="py-3 px-4">${badge}</td>
                         <td class="py-3 px-4 text-right space-x-2">
-                            <button onclick="editListing('${sanitizeHtml(item.id)}')" class="text-xs font-medium text-indigo-600 hover:text-indigo-800 transition">Edit</button>
+                            <button onclick="editListing('${sanitizeHtml(item.id)}')" class="text-xs font-medium text-slate-900 hover:text-slate-950 transition">Edit</button>
                             <button onclick="removeListing('${sanitizeHtml(item.id)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 transition">Delete</button>
                         </td>
                     </tr>
@@ -644,13 +651,14 @@
                 const orderNum = (o.order_number || '').toLowerCase();
                 const itemsStr = (o.items || '').toLowerCase();
                 const matchSearch = orderNum.includes(search) || itemsStr.includes(search);
-                const matchStatus = !status || o.status === status;
+                const currentStatus = o.status === 'Ready for Driver' ? 'Shipped' : (o.status || 'Processing');
+                const matchStatus = !status || o.status === status || currentStatus === status;
                 return matchSearch && matchStatus;
             });
 
             document.getElementById('stat-ord-total').textContent = state.orders.length;
             document.getElementById('stat-ord-processing').textContent = state.orders.filter(o => o.status === 'Processing').length;
-            document.getElementById('stat-ord-ready').textContent = state.orders.filter(o => ['Ready for Driver', 'Out for Delivery'].includes(o.status)).length;
+            document.getElementById('stat-ord-ready').textContent = state.orders.filter(o => ['Ready for Driver', 'Shipped', 'Out for Delivery', 'Delivered'].includes(o.status)).length;
             document.getElementById('badge-orders').textContent = state.orders.length;
             
             tbody.innerHTML = '';
@@ -660,39 +668,69 @@
                 return;
             }
 
-            const getStatusBadge = (statusStr) => {
-                switch(statusStr) {
-                    case 'Processing': 
-                        return '<span class="px-2 py-0.5 bg-indigo-50 text-indigo-700 text-[10px] font-bold uppercase tracking-wider rounded-md border border-indigo-200">Processing</span>';
-                    case 'Ready for Driver': 
-                        return '<span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider rounded-md border border-emerald-200">Ready</span>';
-                    case 'Out for Delivery': 
-                        return '<span class="px-2 py-0.5 bg-purple-50 text-purple-700 text-[10px] font-bold uppercase tracking-wider rounded-md border border-purple-200">Dispatched</span>';
-                    default: 
-                        return `<span class="px-2 py-0.5 bg-slate-100 text-slate-700 text-[10px] font-bold uppercase tracking-wider rounded-md border border-slate-200">${sanitizeHtml(statusStr)}</span>`;
-                }
-            };
-
             rows.forEach(o => {
                 const tr = document.createElement('tr');
                 tr.className = 'border-b border-slate-100 last:border-0 hover:bg-slate-50/80 transition-colors';
                 
                 const formattedDate = o.created_at ? new Date(o.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '-';
+                const currentStatus = o.status === 'Ready for Driver' ? 'Shipped' : (o.status || 'Processing');
                 
                 tr.innerHTML = `
                     <td class="py-3 px-4">
-                        <button onclick="viewOrderReceipt('${sanitizeHtml(o.id)}')" class="font-mono font-semibold text-sm text-indigo-600 hover:text-indigo-800 hover:underline transition-colors focus:outline-none">
+                        <button onclick="viewOrderReceipt('${sanitizeHtml(o.id)}')" class="font-mono font-semibold text-sm text-amber-600 hover:text-amber-700 hover:underline transition-colors focus:outline-none">
                             ${sanitizeHtml(o.order_number)}
                         </button>
                     </td>
                     <td class="py-3 px-4 text-sm text-slate-600">${sanitizeHtml(o.storefront)}</td>
                     <td class="py-3 px-4 text-sm text-slate-700">${sanitizeHtml(o.items)}</td>
-                    <td class="py-3 px-4">${getStatusBadge(o.status)}</td>
+                    <td class="py-3 px-4">
+                        <select onchange="updateOrderStatus('${sanitizeHtml(o.id)}', this.value)" class="text-xs font-medium border border-slate-300 rounded-lg px-2.5 py-1 text-slate-700 bg-white hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
+                            <option value="Processing" ${currentStatus === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Shipped" ${currentStatus === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Out for Delivery" ${currentStatus === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
+                            <option value="Delivered" ${currentStatus === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                        </select>
+                    </td>
                     <td class="py-3 px-4 text-right text-sm text-slate-400">${formattedDate}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            const order = state.orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const dbStatus = newStatus === 'Shipped' ? 'Ready for Driver' : newStatus;
+
+            try {
+                const { error } = await client
+                    .from('orders')
+                    .update({ status: dbStatus })
+                    .eq('id', orderId);
+
+                if (error) {
+                    if (error.code === '23514' && newStatus === 'Delivered') {
+                        const { error: fallbackErr } = await client
+                            .from('orders')
+                            .update({ status: 'Out for Delivery' })
+                            .eq('id', orderId);
+                        if (fallbackErr) throw fallbackErr;
+                    } else {
+                        throw error;
+                    }
+                }
+
+                order.status = (newStatus === 'Shipped') ? 'Ready for Driver' : newStatus;
+                renderOrders();
+                renderSales();
+            } catch (err) {
+                console.error('Failed to update order status:', err);
+                alert('Could not update order status: ' + (err.message || 'Unknown error'));
+                renderOrders();
+            }
+        }
+        window.updateOrderStatus = updateOrderStatus;
 
         function viewOrderReceipt(orderId) {
             const order = state.orders.find(o => o.id === orderId);
@@ -708,12 +746,14 @@
 
             const badge = document.getElementById('receipt-status-badge');
             if (badge) {
-                badge.textContent = order.status || 'Processing';
+                const displayStatus = order.status === 'Ready for Driver' ? 'Shipped' : (order.status || 'Processing');
+                badge.textContent = displayStatus;
                 badge.className = 'inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border ' + 
-                    (order.status === 'Ready for Driver' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                    (order.status === 'Shipped' || order.status === 'Ready for Driver' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
                      order.status === 'Out for Delivery' ? 'bg-purple-50 text-purple-700 border-purple-200' :
+                     order.status === 'Delivered' ? 'bg-teal-50 text-teal-700 border-teal-200' :
                      order.status === 'Pick' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                     'bg-indigo-50 text-indigo-700 border-indigo-200');
+                     'bg-slate-100 text-slate-900 border-slate-200');
             }
 
             const tbody = document.getElementById('receipt-items-tbody');
@@ -781,5 +821,6 @@
 
         init();
     </script>
+    <script src="branch-switcher.js" defer></script>
 </body>
 </html>

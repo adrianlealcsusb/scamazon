@@ -24,14 +24,18 @@
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        h1 { font-size: 1.75rem; line-height: 2.25rem; font-weight: 700; letter-spacing: -0.025em; }
+        body { font-size: 0.875rem; line-height: 1.25rem; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-slate-900 selection:text-white">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-950">
 
     <!-- Navigation -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center" aria-label="Main Navigation">
-            <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-slate-900 rounded-sm">
-                Scamazon<span class="text-indigo-600">.</span>
+            <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-sm">
+                Scamazon<span class="text-amber-500">.</span>
             </a>
         </nav>
     </header>
@@ -39,7 +43,7 @@
     <!-- Main Content -->
     <main class="relative flex-grow flex items-center justify-center py-12 px-6 overflow-hidden">
         <!-- Subtle background gradient -->
-        <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/50 via-slate-50 to-slate-50"></div>
+        <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100/60 via-slate-50 to-slate-50"></div>
 
         <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-xl shadow-slate-900/5 w-full max-w-md">
             <div class="text-center mb-6">
@@ -55,20 +59,20 @@
             <form id="auth-form" class="space-y-4">
                 <div id="name-container" class="hidden">
                     <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-                    <input id="name" type="text" class="w-full border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all placeholder:text-slate-400" placeholder="Jane Doe">
+                    <input id="name" type="text" class="w-full border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all placeholder:text-slate-400" placeholder="Jane Doe">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                    <input id="email" type="email" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all placeholder:text-slate-400" placeholder="you@example.com">
+                    <input id="email" type="email" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all placeholder:text-slate-400" placeholder="you@example.com">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-                    <input id="password" type="password" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all placeholder:text-slate-400" placeholder="••••••••">
+                    <input id="password" type="password" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all placeholder:text-slate-400" placeholder="••••••••">
                 </div>
 
-                <button type="submit" id="submit-btn" class="w-full inline-flex items-center justify-center py-2.5 px-4 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-md shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                <button type="submit" id="submit-btn" class="w-full inline-flex items-center justify-center py-2.5 px-4 text-sm font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 hover:-translate-y-0.5 shadow-md shadow-slate-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
                     Sign In
                 </button>
             </form>
@@ -76,7 +80,7 @@
             <!-- Toggle -->
             <div class="mt-6 text-center text-sm text-slate-600">
                 <span id="toggle-text">Don't have an account?</span>
-                <button id="toggle-btn" type="button" class="text-indigo-600 font-semibold hover:text-indigo-500 hover:underline ml-1 focus:outline-none focus:ring-2 focus:ring-indigo-600 rounded-sm">Sign Up</button>
+                <button id="toggle-btn" type="button" class="text-slate-900 font-bold hover:underline ml-1 focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-sm">Sign Up</button>
             </div>
         </div>
     </main>
@@ -162,20 +166,18 @@
                     const { data, error } = await client.auth.signInWithPassword({ email, password });
                     if (error) throw error;
 
-                    const { data: userRecord, error: userErr } = await client
+                    const { data: userRecord } = await client
                         .from('users')
                         .select('role')
                         .eq('email', email)
-                        .single();
+                        .maybeSingle();
 
-                    if (userErr || !userRecord) {
-                        throw new Error('User record could not be retrieved.');
-                    }
+                    const role = userRecord?.role || data?.user?.user_metadata?.role || 'customer';
 
-                    if (userRecord.role === 'storefront_owner') {
+                    if (role === 'storefront_owner') {
                         window.location.href = 'storefront.html';
                     } else {
-                        window.location.href = `${userRecord.role}.html`;
+                        window.location.href = `${role}.html`;
                     }
                 }
             } catch (err) {
@@ -187,5 +189,6 @@
             }
         });
     </script>
+    <script src="branch-switcher.js" defer></script>
 </body>
 </html>
