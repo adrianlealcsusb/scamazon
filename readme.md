@@ -21,7 +21,7 @@ A multi-tenant Warehouse Management System and Direct-to-Customer Storefront pow
       - [x] Add
       - [x] Remove
       - [x] Edit
-      - [ ] Manage coupons/discounts
+      - [x] Manage coupons/discounts
     - [x] Manage Storefronts
       - [x] Add
       - [x] Edit
@@ -73,7 +73,7 @@ A multi-tenant Warehouse Management System and Direct-to-Customer Storefront pow
       - [x] In-stock only filter
       - [x] Lazy loading images
       - [x] Add to cart (Interactive slide-over drawer)
-      - [ ] Coupons / discounts
+      - [x] Coupons / discounts
     - [ ] Orders & Fulfillment
       - [x] Direct Courier Dispatch Checkout
       - [x] Real-time Multi-step Delivery Tracking

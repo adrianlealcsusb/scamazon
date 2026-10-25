@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Scamazon - Industrial &amp; Retail Warehouse Storefront. Browse in-stock industrial supplies, tools, and materials across our branches.">
-    <title>Scamazon - Industrial &amp; Retail Warehouse Storefront</title>
+    <meta name="description" content="Scamazon - Shop quality electronics, gaming consoles, auto supplies, and everyday essentials with fast checkout and real-time order tracking.">
+    <title>Scamazon - Online Store</title>
     <link rel="icon" type="image/jpg" href="img/scamazon.jpg">
     
     <!-- Preconnect to Google Fonts for performance optimization -->
@@ -90,23 +90,13 @@
         <!-- Main Utility Bar -->
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-2.5 sm:gap-y-0 gap-x-3 sm:gap-x-6">
             
-            <!-- Left: Brand Logo & Fulfillment Depot Indicator -->
+            <!-- Left: Brand Logo -->
             <div class="flex items-center gap-4 sm:gap-6 shrink-0">
                 <a href="index.html" class="flex items-center gap-1.5 text-xl sm:text-2xl font-black tracking-tight text-white hover:text-amber-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-sm">
                     <span>Scamazon</span><span class="text-amber-500">.</span>
                 </a>
 
-                <!-- Location / Branch Pill -->
-                <button type="button" onclick="focusStorefrontDropdown()" class="hidden md:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-700/80 hover:border-amber-400/80 bg-slate-800/60 hover:bg-slate-800 transition-all text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500" title="Filter by fulfillment depot">
-                    <svg class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    <div class="text-[11px] leading-tight">
-                        <span class="text-slate-400 block font-medium">Delivering From</span>
-                        <span id="nav-selected-branch" class="font-bold text-slate-100 max-w-[120px] truncate block">All Depots</span>
-                    </div>
-                </button>
+
             </div>
 
             <!-- Center: Modern Amazon Multi-Select Search Bar -->
@@ -217,24 +207,6 @@
                     <span>Track Orders &amp; Invoices</span>
                 </button>
 
-                <div class="h-4 w-px bg-slate-700 mx-1"></div>
-
-                <!-- Quick Filter: In Stock Only -->
-                <button type="button" onclick="toggleStockFilter()" id="filter-stock-btn" class="inline-flex items-center gap-1 px-2.5 py-1 rounded text-slate-300 hover:text-white hover:bg-slate-700/50 transition-colors">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
-                    <span>Fast Dispatch Available</span>
-                </button>
-            </div>
-
-            <!-- Warehouse Guarantee Indicator -->
-            <div class="hidden md:flex items-center gap-2 text-slate-400 text-xs shrink-0 font-medium">
-                <span class="inline-flex items-center gap-1 text-amber-400 font-semibold">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                    </svg>
-                    Direct Delivery Guarantee
-                </span>
-                <span>&bull; Dispatched straight to your door</span>
             </div>
         </div>
     </header>
@@ -245,35 +217,35 @@
         <!-- ================= TAB 1: CATALOG VIEW ================= -->
         <section id="tab-catalog" class="tab-pane space-y-6">
 
-            <!-- Operational Header (Warehouse Logistics Bar) -->
+            <!-- Storefront Welcome Banner -->
             <div class="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 text-white p-6 sm:p-7 transition-colors shadow-sm">
                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/20 pointer-events-none"></div>
                 <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                     <div class="space-y-2 max-w-xl">
                         <h1 id="page-heading" class="type-display font-black tracking-tight text-white leading-tight">
-                            Direct Warehouse Delivery to Your Door
+                            Shop Quality Brands &amp; Everyday Deals
                         </h1>
                         <p class="text-sm text-slate-300 leading-relaxed">
-                            Order genuine inventory dispatched straight from regional store depots to your doorstep. Fast courier delivery with live tracking.
+                            Explore gaming consoles, electronics, auto supplies, and games with instant checkout and real-time order tracking.
                         </p>
                     </div>
 
-                    <!-- Operational Commitments -->
+                    <!-- Value Highlights -->
                     <div class="grid grid-cols-3 gap-6 sm:gap-8 border-t lg:border-t-0 lg:border-l border-slate-800 pt-4 lg:pt-0 lg:pl-8 shrink-0">
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 block">Fast Dispatch</span>
-                            <span class="text-base font-bold text-white block mt-0.5">Same-Day Out</span>
-                            <span class="text-xs text-slate-400">From local depot</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Top Quality</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Verified Stock</span>
+                            <span class="text-xs text-slate-400">Authentic brands</span>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 block">Doorstep Drop</span>
-                            <span class="text-base font-bold text-white block mt-0.5">Live Tracking</span>
-                            <span class="text-xs text-slate-400">Direct courier route</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Live Tracking</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Real-Time</span>
+                            <span class="text-xs text-slate-400">Order to arrival</span>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold text-slate-400 block">Direct Pricing</span>
-                            <span class="text-base font-bold text-white block mt-0.5">Direct Rates</span>
-                            <span class="text-xs text-slate-400">Zero markups</span>
+                            <span class="text-xs font-semibold text-slate-400 block">Clear Pricing</span>
+                            <span class="text-base font-bold text-white block mt-0.5">Best Rates</span>
+                            <span class="text-xs text-slate-400">No hidden fees</span>
                         </div>
                     </div>
                 </div>
@@ -282,7 +254,7 @@
             <!-- Active Filter Toolbar with Semantic Section Heading -->
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors">
                 <div class="flex items-baseline gap-3 w-full sm:w-auto">
-                    <h2 id="catalog-section-heading" class="type-section font-bold text-slate-900 dark:text-white">Active Warehouse Inventory</h2>
+                    <h2 id="catalog-section-heading" class="type-section font-bold text-slate-900 dark:text-white">Explore Products</h2>
                     <span id="results-count" class="text-xs font-semibold text-slate-500 dark:text-slate-400">Showing all available listings</span>
                 </div>
 
@@ -317,9 +289,9 @@
             
             <!-- Section Header -->
             <div class="max-w-4xl space-y-2">
-                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Your Delivery Orders &amp; Fulfillment</h2>
+                <h2 class="type-section font-extrabold text-slate-900 dark:text-white">Your Orders &amp; Tracking</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-300">
-                    Review your placed orders, track real-time courier milestones, and download official warehouse order receipts and invoices.
+                    Review your placed orders, track real-time delivery milestones, and download order receipts and invoices.
                 </p>
             </div>
 
@@ -404,21 +376,21 @@
                         <div class="relative z-10 flex flex-col items-center text-center">
                             <span id="step-processing-dot" class="w-10 h-10 rounded-full bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Processing"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span>
                             <p class="text-xs font-bold text-slate-900 dark:text-white mt-2">Processing</p>
-                            <span id="time-processing" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Floor Queue</span>
+                            <span id="time-processing" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Preparing</span>
                         </div>
 
                         <!-- Step 2: Shipped -->
                         <div class="relative z-10 flex flex-col items-center text-center">
                             <span id="step-shipped-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Shipped"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></span>
                             <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Shipped</p>
-                            <span id="time-shipped" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Dispatched</span>
+                            <span id="time-shipped" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">In Transit</span>
                         </div>
 
                         <!-- Step 3: Out for Delivery -->
                         <div class="relative z-10 flex flex-col items-center text-center">
                             <span id="step-out-dot" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-sm font-bold ring-4 ring-white dark:ring-slate-900 transition-all" title="Out for Delivery"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg></span>
                             <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">Out for Delivery</p>
-                            <span id="time-out" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Courier En Route</span>
+                            <span id="time-out" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Out for Delivery</span>
                         </div>
 
                         <!-- Step 4: Delivered -->
@@ -433,7 +405,7 @@
                 <!-- Order Content Breakdown -->
                 <div class="pt-6 border-t border-slate-200/80 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                     <div class="space-y-1">
-                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Reserved Items</span>
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Ordered Items</span>
                         <p id="track-items" class="font-mono text-sm text-slate-900 dark:text-white font-medium">2x Brake Pads (SKU-102)</p>
                     </div>
                     <div class="space-y-1">
@@ -460,7 +432,7 @@
     </div>
 
     <!-- ================= BUILT-IN AUTH MODAL ================= -->
-    <div id="auth-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div id="auth-modal" class="hidden fixed inset-0 z-[60] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
         <!-- Backdrop -->
         <div class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm transition-opacity" onclick="closeAuthModal()" aria-hidden="true"></div>
 
@@ -619,6 +591,10 @@
                         <span>Items Subtotal</span>
                         <span id="cart-subtotal-price" class="font-mono font-medium text-slate-900 dark:text-slate-200">$0.00</span>
                     </div>
+                    <div id="cart-discount-row" class="hidden flex justify-between text-emerald-600 dark:text-emerald-400">
+                        <span id="cart-discount-label">Discount</span>
+                        <span id="cart-discount-price" class="font-mono font-medium">-$0.00</span>
+                    </div>
                     <div class="flex justify-between text-slate-600 dark:text-slate-400">
                         <span>Estimated State Tax (8.25%)</span>
                         <span id="cart-tax-price" class="font-mono font-medium text-slate-900 dark:text-slate-200">$0.00</span>
@@ -628,16 +604,26 @@
                         <span id="cart-total-price" class="text-xl text-amber-600 dark:text-amber-400 font-mono font-bold">$0.00</span>
                     </div>
                 </div>
+                <!-- Coupon Code Input -->
+                <div class="pt-2 border-t border-slate-200/80 dark:border-slate-800 space-y-2">
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">Coupon or Promo Code</label>
+                    <div class="flex gap-2">
+                        <input id="cart-coupon-input" type="text" placeholder="e.g. SAVE20"
+                            onkeydown="if(event.key==='Enter'){event.preventDefault(); applyCartCoupon();}"
+                            class="flex-1 uppercase bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white font-mono placeholder:normal-case placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <button id="apply-coupon-btn" type="button" onclick="applyCartCoupon()"
+                            class="px-3.5 py-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-slate-700/60 transition-all">
+                            Apply
+                        </button>
+                    </div>
+                    <p id="coupon-feedback" class="text-xs hidden"></p>
+                </div>
                 <div id="cart-guest-notice" class="hidden p-3 rounded-xl bg-red-100 dark:bg-red-950/60 border border-red-300 dark:border-red-800 text-xs text-red-900 dark:text-red-300 flex items-start gap-2.5 shadow-xs">
                     <svg class="w-4 h-4 text-red-600 dark:text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <div>
                         <span class="font-bold block text-red-900 dark:text-red-100">Guest Session</span>
                         <span>Items saved in local storage. <button type="button" onclick="openBuiltInAuth('signin')" class="underline font-bold text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-white focus:outline-none">Sign in</button> to confirm delivery address and reserve inventory.</span>
                     </div>
-                </div>
-                <div id="cart-multidepot-notice" class="hidden p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-[11px] text-slate-600 dark:text-slate-300">
-                    <span class="font-bold text-amber-600 dark:text-amber-400 block mb-0.5">Multi-Depot Fulfillment</span>
-                    <span>Items will be split into separate shipments per warehouse branch.</span>
                 </div>
                 <button id="order-btn" onclick="handleCheckoutClick()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-40 disabled:cursor-not-allowed">
                     Proceed to Checkout &bull; Place Delivery Order
@@ -647,7 +633,7 @@
     </div>
 
     <!-- ================= ORDER CONFIRMATION MODAL ================= -->
-    <div id="confirmation-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Confirmed">
+    <div id="confirmation-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Confirmed">
         <div class="bg-white dark:bg-slate-900 max-w-md w-full rounded-2xl shadow-2xl p-6 sm:p-8 text-center space-y-4 border border-slate-200 dark:border-slate-800">
             <div class="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -656,7 +642,7 @@
             </div>
             <h3 class="type-section font-bold text-slate-900 dark:text-white">Order Confirmed!</h3>
             <p id="confirmation-message" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Order confirmed. Dispatched via courier.
+                Your order is confirmed and will be delivered soon.
             </p>
             <div id="confirmation-orders-list" class="space-y-2 text-left pt-1"></div>
             <div class="pt-2">
@@ -668,7 +654,7 @@
     </div>
 
     <!-- ================= INVOICE / RECEIPT MODAL ================= -->
-    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Receipt &amp; Invoice">
+    <div id="receipt-modal" class="hidden fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Order Receipt &amp; Invoice">
         <div class="bg-white dark:bg-slate-900 max-w-lg w-full rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 border border-slate-200 dark:border-slate-800 font-sans">
             <div class="flex justify-between items-start border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
@@ -682,13 +668,13 @@
 
             <div class="grid grid-cols-2 gap-4 text-xs">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Fulfillment Depot</p>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Fulfillment Storefront</p>
                     <p id="receipt-branch-name" class="font-bold text-slate-900 dark:text-white mt-1">Downtown Auto Storefront</p>
                     <p id="receipt-branch-address" class="text-slate-500 dark:text-slate-400 mt-0.5">100 Main St, Downtown</p>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Dispatch Method</p>
-                    <p class="font-bold text-slate-900 dark:text-white mt-1">Direct Courier Delivery</p>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Delivery Method</p>
+                    <p class="font-bold text-slate-900 dark:text-white mt-1">Standard Delivery</p>
                     <p id="receipt-date" class="text-slate-500 dark:text-slate-400 mt-0.5">Date Placed</p>
                 </div>
             </div>
@@ -705,6 +691,10 @@
                 <div class="flex justify-between text-slate-600 dark:text-slate-400">
                     <span>Items Subtotal</span>
                     <span id="receipt-subtotal" class="font-mono text-slate-900 dark:text-slate-200 font-medium">$0.00</span>
+                </div>
+                <div id="receipt-discount-row" class="hidden flex justify-between text-emerald-600 dark:text-emerald-400 font-medium">
+                    <span id="receipt-discount-label">Discount</span>
+                    <span id="receipt-discount" class="font-mono">-$0.00</span>
                 </div>
                 <div class="flex justify-between text-slate-600 dark:text-slate-400">
                     <span>Estimated State Tax (8.25%)</span>
@@ -730,7 +720,7 @@
     <!-- ================= FOOTER ================= -->
     <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 text-xs text-slate-500 dark:text-slate-400 transition-colors">
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; 2026 Scamazon WMS Customer Portal. All rights reserved.</p>
+            <p>&copy; 2026 Scamazon. All rights reserved.</p>
             <div class="flex items-center gap-6">
                 <a href="index.html" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Platform Home</a>
                 <a href="plans.html" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Pricing Plans</a>
@@ -767,6 +757,7 @@
         let activeStorefronts = [];
         let allListings = [];
         let cart = [];
+        let appliedCoupon = null;
         let trackedOrderCache = null;
         let cartToastTimer = null;
         let sortMode = 'featured';
@@ -872,7 +863,7 @@
                 if (pwdHint) pwdHint.textContent = 'Min 6 characters';
             } else if (currentAuthMode === 'signup') {
                 if (title) title.textContent = 'Create Account';
-                if (subtitle) subtitle.textContent = 'Register a new customer account to reserve warehouse items';
+                if (subtitle) subtitle.textContent = 'Register a new customer account to place orders';
                 if (tabsContainer) tabsContainer.classList.remove('hidden');
                 if (nameGroup) nameGroup.classList.remove('hidden');
                 if (nameInput) nameInput.required = true;
@@ -953,6 +944,9 @@
         window.toggleAuthPasswordVisibility = toggleAuthPasswordVisibility;
 
         function openBuiltInAuth(mode = 'signin', contextMessage = null) {
+            if (typeof toggleCartDrawer === 'function') {
+                toggleCartDrawer(false);
+            }
             currentAuthMode = mode;
             const modal = document.getElementById('auth-modal');
             const banner = document.getElementById('auth-context-banner');
@@ -1010,7 +1004,10 @@
         function handleCheckoutClick() {
             if (!currentUser) {
                 pendingPostAuthAction = 'checkout';
-                openBuiltInAuth('signin', 'Sign in or create an account to complete checkout and reserve warehouse stock.');
+                if (typeof toggleCartDrawer === 'function') {
+                    toggleCartDrawer(false);
+                }
+                openBuiltInAuth('signin', 'Sign in or create an account to complete your checkout.');
                 return;
             }
             placeOrder();
@@ -1242,29 +1239,57 @@
             const iconWrapper = document.getElementById('toast-icon-wrapper');
             const iconEl = document.getElementById('toast-icon');
             const actionBtn = document.getElementById('toast-action-btn');
+
             if (!toast) return;
 
             if (titleEl) {
                 titleEl.textContent = title;
             }
+
             if (subEl) {
                 subEl.textContent = subtitle;
             }
 
             if (type === 'error') {
-                toast.className = 'fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-rose-500/80';
-                if (iconWrapper) iconWrapper.className = 'w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0';
-                if (iconEl) iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>';
-                if (actionBtn) actionBtn.classList.add('hidden');
+                toast.className =
+                    'fixed bottom-6 right-6 z-[70] transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-rose-500/80';
+
+                if (iconWrapper) {
+                    iconWrapper.className =
+                        'w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0';
+                }
+
+                if (iconEl) {
+                    iconEl.innerHTML =
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>';
+                }
+
+                if (actionBtn) {
+                    actionBtn.classList.add('hidden');
+                }
             } else {
-                toast.className = 'fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-slate-700/80';
-                if (iconWrapper) iconWrapper.className = 'w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0';
-                if (iconEl) iconEl.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>';
-                if (actionBtn) actionBtn.classList.remove('hidden');
+                toast.className =
+                    'fixed bottom-6 right-6 z-[70] transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-slate-700/80';
+
+                if (iconWrapper) {
+                    iconWrapper.className =
+                        'w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0';
+                }
+
+                if (iconEl) {
+                    iconEl.innerHTML =
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>';
+                }
+
+                if (actionBtn) {
+                    actionBtn.classList.remove('hidden');
+                }
             }
 
             clearTimeout(cartToastTimer);
+
             const counterEl = document.getElementById('cart-counter');
+
             if (counterEl && type === 'success') {
                 counterEl.classList.add('scale-125');
                 setTimeout(() => counterEl.classList.remove('scale-125'), 250);
@@ -1444,8 +1469,8 @@
             };
 
             const headings = {
-                catalog: 'Order Direct from the Warehouse Floor',
-                tracking: 'Track Your Warehouse Order'
+                catalog: 'Shop Quality Brands & Everyday Deals',
+                tracking: 'Your Orders & Tracking'
             };
 
             Object.values(tabs).forEach(el => {
@@ -1497,19 +1522,6 @@
             renderCatalog();
         }
 
-        function toggleStockFilter() {
-            stockOnlyFilter = !stockOnlyFilter;
-            const btn = document.getElementById('filter-stock-btn');
-            if (btn) {
-                if (stockOnlyFilter) {
-                    btn.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded text-white bg-emerald-600/60 border border-emerald-500/80 transition-colors';
-                } else {
-                    btn.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded text-slate-300 hover:text-white hover:bg-slate-700/50 transition-colors';
-                }
-            }
-            renderCatalog();
-        }
-
         // ================= LISTINGS =================
         async function fetchStorefronts() {
             const { client } = await import('./supaBase.js');
@@ -1542,7 +1554,7 @@
             if (badge) badge.textContent = allListings.length;
 
             const navBranch = document.getElementById('nav-selected-branch');
-            if (navBranch) navBranch.textContent = selectedBranch || 'All Depots';
+            if (navBranch) navBranch.textContent = selectedBranch || 'All Storefronts';
 
             let branchItems = allListings.filter(l => {
                 const matchesBranch = !selectedBranch || l.storefront === selectedBranch;
@@ -1715,16 +1727,18 @@
             updateCartUI();
         }
 
-        function updateCartUI() {
-            saveCartToStorage();
+function updateCartUI() {
             const count = cart.reduce((sum, i) => sum + i.qty, 0);
-            const counterEl = document.getElementById('cart-counter');
-            if (counterEl) counterEl.textContent = count;
 
-            // Partition by storefront depot
+            const badge = document.getElementById('cart-badge');
+            if (badge) badge.textContent = count;
+            const counter = document.getElementById('cart-counter');
+            if (counter) counter.textContent = count;
+
+            // Partition items by branch
             const branchMap = {};
             cart.forEach(item => {
-                const b = item.storefront || 'Main Depot';
+                const b = item.storefront || 'Storefront';
                 if (!branchMap[b]) branchMap[b] = [];
                 branchMap[b].push(item);
             });
@@ -1734,10 +1748,10 @@
             if (branchEl) {
                 branchEl.textContent = branchNames.length === 1 
                     ? branchNames[0] 
-                    : (branchNames.length > 1 ? `${branchNames.length} Warehouse Depots` : 'All Storefronts');
+                    : (branchNames.length > 1 ? `${branchNames.length} Storefronts` : 'All Storefronts');
             }
 
-            // Guest and multi-depot notices
+            // Guest notices
             const guestNotice = document.getElementById('cart-guest-notice');
             if (guestNotice) {
                 if (!currentUser && cart.length > 0) {
@@ -1747,14 +1761,7 @@
                 }
             }
 
-            const multiDepotNotice = document.getElementById('cart-multidepot-notice');
-            if (multiDepotNotice) {
-                if (branchNames.length > 1) {
-                    multiDepotNotice.classList.remove('hidden');
-                } else {
-                    multiDepotNotice.classList.add('hidden');
-                }
-            }
+
 
             const container = document.getElementById('cart-items-container');
             const totalEl = document.getElementById('cart-total-price');
@@ -1765,6 +1772,13 @@
             if (!container || !totalEl || !orderBtn) return;
 
             if (cart.length === 0) {
+                appliedCoupon = null;
+                const discountRow = document.getElementById('cart-discount-row');
+                if (discountRow) discountRow.classList.add('hidden');
+                syncCouponUI();
+                const feedback = document.getElementById('coupon-feedback');
+                if (feedback) { feedback.textContent = ''; feedback.classList.add('hidden'); }
+
                 container.innerHTML = `
                     <div class="py-16 text-center space-y-2">
                         <svg class="w-10 h-10 mx-auto text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1854,14 +1868,284 @@
             }).join('');
 
             const subtotal = total;
-            const tax = subtotal * 0.0825;
-            const totalWithTax = subtotal + tax;
+            let discountAmount = 0;
+
+            const discountRow = document.getElementById('cart-discount-row');
+            const discountPriceEl = document.getElementById('cart-discount-price');
+            const discountLabelEl = document.getElementById('cart-discount-label');
+
+            if (appliedCoupon && cart.length > 0) {
+                const eligibleItems = cart.filter(i =>
+                    !appliedCoupon.storefront ||
+                    appliedCoupon.storefront === 'All' ||
+                    appliedCoupon.storefront === 'All Storefronts' ||
+                    i.storefront === appliedCoupon.storefront
+                );
+                const eligibleSubtotal = eligibleItems.reduce((sum, i) => sum + (i.qty * (parseFloat(i.price) || 0)), 0);
+
+                if (eligibleItems.length > 0 && eligibleSubtotal > 0) {
+                    if (appliedCoupon.discountType === 'percent') {
+                        discountAmount = eligibleSubtotal * (appliedCoupon.discountValue / 100);
+                    } else {
+                        discountAmount = Math.min(eligibleSubtotal, appliedCoupon.discountValue);
+                    }
+                    if (discountRow) discountRow.classList.remove('hidden');
+                    if (discountPriceEl) discountPriceEl.textContent = `-$${discountAmount.toFixed(2)}`;
+                    if (discountLabelEl) {
+                        const discountDesc = appliedCoupon.discountType === 'percent'
+                            ? `${appliedCoupon.discountValue}%`
+                            : `$${appliedCoupon.discountValue.toFixed(2)}`;
+                        discountLabelEl.textContent = `Discount (${appliedCoupon.code} - ${discountDesc})`;
+                    }
+                } else {
+                    appliedCoupon = null;
+                    if (discountRow) discountRow.classList.add('hidden');
+                    syncCouponUI();
+                }
+            } else {
+                if (discountRow) discountRow.classList.add('hidden');
+            }
+
+            const netSubtotal = Math.max(0, subtotal - discountAmount);
+            const tax = netSubtotal * 0.0825;
+            const totalWithTax = netSubtotal + tax;
 
             if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
             if (taxEl) taxEl.textContent = `$${tax.toFixed(2)}`;
             totalEl.textContent = `$${totalWithTax.toFixed(2)}`;
             orderBtn.disabled = false;
         }
+
+        function syncCouponUI() {
+            const input = document.getElementById('cart-coupon-input');
+            const applyBtn = document.getElementById('apply-coupon-btn');
+            if (!input || !applyBtn) return;
+
+            if (appliedCoupon) {
+                input.value = appliedCoupon.code;
+                input.disabled = true;
+                applyBtn.textContent = 'Remove';
+                applyBtn.onclick = removeCartCoupon;
+                applyBtn.className = 'px-3.5 py-2 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 text-xs font-bold rounded-xl border border-rose-200 dark:border-rose-800 transition-all cursor-pointer';
+            } else {
+                input.disabled = false;
+                applyBtn.textContent = 'Apply';
+                applyBtn.onclick = applyCartCoupon;
+                applyBtn.className = 'px-3.5 py-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold rounded-xl border border-slate-700/60 transition-all cursor-pointer';
+            }
+        }
+        window.syncCouponUI = syncCouponUI;
+
+        async function applyCartCoupon() {
+            const input = document.getElementById('cart-coupon-input');
+            const feedback = document.getElementById('coupon-feedback');
+            const applyBtn = document.getElementById('apply-coupon-btn');
+
+            if (!input || !feedback) return;
+
+            const code = input.value.trim().toUpperCase();
+
+            feedback.classList.remove(
+                'hidden',
+                'text-rose-600',
+                'text-emerald-600',
+                'dark:text-rose-400',
+                'dark:text-emerald-400'
+            );
+
+            if (!code) {
+                removeCartCoupon();
+                feedback.textContent = 'Please enter a coupon code.';
+                feedback.classList.add('text-rose-600', 'dark:text-rose-400');
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (cart.length === 0) {
+                feedback.textContent = 'Add items to your cart before applying a coupon.';
+                feedback.classList.add('text-rose-600', 'dark:text-rose-400');
+                feedback.classList.remove('hidden');
+                return;
+            }
+
+            if (applyBtn) {
+                applyBtn.disabled = true;
+                applyBtn.textContent = '...';
+            }
+
+            try {
+                const { client } = await import('./supaBase.js');
+
+                // The redesigned cart may contain products from multiple storefronts.
+                // Validate this code securely against each storefront represented
+                // in the cart.
+                const storefronts = [
+                    ...new Set(
+                        cart
+                            .map(item => item.storefront)
+                            .filter(Boolean)
+                    )
+                ];
+
+                const validMatches = [];
+                const invalidMessages = [];
+
+                for (const storefront of storefronts) {
+                    const storefrontSubtotal = cart
+                        .filter(item => item.storefront === storefront)
+                        .reduce(
+                            (sum, item) =>
+                                sum +
+                                (
+                                    (parseFloat(item.price) || 0) *
+                                    (parseInt(item.qty, 10) || 0)
+                                ),
+                            0
+                        );
+
+                    const { data, error } = await client.rpc(
+                        'validate_coupon',
+                        {
+                            p_code: code,
+                            p_storefront: storefront,
+                            p_subtotal: storefrontSubtotal
+                        }
+                    );
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    const result = Array.isArray(data)
+                        ? data[0]
+                        : data;
+
+                    if (result?.is_valid) {
+                        validMatches.push({
+                            storefront,
+                            result
+                        });
+                    } else if (result?.message) {
+                        invalidMessages.push(result.message);
+                    }
+                }
+
+                // Same coupon code existing for multiple storefronts in the same
+                // mixed cart would be ambiguous for the current UI.
+                if (validMatches.length > 1) {
+                    appliedCoupon = null;
+
+                    feedback.textContent =
+                        `Coupon "${code}" is valid for more than one storefront in your cart. ` +
+                        'Please check out one storefront at a time when using this code.';
+
+                    feedback.classList.add(
+                        'text-rose-600',
+                        'dark:text-rose-400'
+                    );
+
+                    syncCouponUI();
+                    updateCartUI();
+                    return;
+                }
+
+                if (validMatches.length === 0) {
+                    appliedCoupon = null;
+
+                    // Prefer a meaningful validation error such as expiration,
+                    // minimum purchase, or usage limit over "Coupon not found."
+                    const usefulMessage =
+                        invalidMessages.find(
+                            message => message !== 'Coupon not found.'
+                        ) ||
+                        invalidMessages[0] ||
+                        'Coupon not found.';
+
+                    feedback.textContent = usefulMessage;
+
+                    feedback.classList.add(
+                        'text-rose-600',
+                        'dark:text-rose-400'
+                    );
+
+                    syncCouponUI();
+                    updateCartUI();
+                    return;
+                }
+
+                const match = validMatches[0];
+                const result = match.result;
+
+                appliedCoupon = {
+                    code,
+                    storefront: match.storefront,
+                    discountType: result.discount_type,
+                    discountValue: Number(result.discount_value)
+                };
+
+                const discountDesc =
+                    result.discount_type === 'percent'
+                        ? `${Number(result.discount_value)}%`
+                        : `$${Number(result.discount_value).toFixed(2)}`;
+
+                feedback.textContent =
+                    `Coupon applied! ${discountDesc} off eligible items from ${match.storefront}.`;
+
+                feedback.classList.add(
+                    'text-emerald-600',
+                    'dark:text-emerald-400'
+                );
+
+                feedback.classList.remove('hidden');
+
+                syncCouponUI();
+                updateCartUI();
+
+            } catch (err) {
+                appliedCoupon = null;
+
+                feedback.textContent =
+                    'Could not validate coupon: ' +
+                    (err.message || 'Unknown error.');
+
+                feedback.classList.add(
+                    'text-rose-600',
+                    'dark:text-rose-400'
+                );
+
+                feedback.classList.remove('hidden');
+
+                syncCouponUI();
+                updateCartUI();
+
+            } finally {
+                if (applyBtn) {
+                    applyBtn.disabled = false;
+
+                    if (!appliedCoupon) {
+                        applyBtn.textContent = 'Apply';
+                    }
+                }
+            }
+        }
+        window.applyCartCoupon = applyCartCoupon;
+
+        function removeCartCoupon() {
+            appliedCoupon = null;
+            const input = document.getElementById('cart-coupon-input');
+            const feedback = document.getElementById('coupon-feedback');
+
+            if (input) {
+                input.value = '';
+            }
+            if (feedback) {
+                feedback.textContent = 'Coupon removed.';
+                feedback.className = 'text-xs text-slate-500 dark:text-slate-400 mt-1 block';
+            }
+            syncCouponUI();
+            updateCartUI();
+        }
+        window.removeCartCoupon = removeCartCoupon;
 
         function removeFromCart(id) {
             cart = cart.filter(c => c.id !== id);
@@ -1871,99 +2155,256 @@
 
         async function placeOrder() {
             if (!currentUser) {
-                openAuthModal('Sign in to your account to complete checkout and reserve inventory across your selected depots.');
+                if (typeof toggleCartDrawer === 'function') {
+                    toggleCartDrawer(false);
+                }
+
+                openAuthModal('Sign in to your account to complete checkout.');
+                return;
+            }
+
+            if (!cart.length) {
+                showToast('Your cart is empty.', 'error');
                 return;
             }
 
             const { client } = await import('./supaBase.js');
+
             const orderBtn = document.getElementById('order-btn');
             orderBtn.disabled = true;
             orderBtn.textContent = 'Processing Order...';
 
-            // Partition items by branch
+            // Keep the redesigned multi-storefront behavior.
+            // Each storefront becomes its own secure order.
             const branchMap = {};
+
             cart.forEach(item => {
-                const b = item.storefront || 'Main Depot';
-                if (!branchMap[b]) branchMap[b] = [];
-                branchMap[b].push(item);
+                const branch = item.storefront || 'Storefront';
+
+                if (!branchMap[branch]) {
+                    branchMap[branch] = [];
+                }
+
+                branchMap[branch].push(item);
             });
 
+            const placedOrders = [];
+
             try {
-                const placedOrders = [];
-
                 for (const [branch, items] of Object.entries(branchMap)) {
-                    const orderNum = `Order #${Math.floor(1000 + Math.random() * 9000)}`;
-                    const itemString = items.map(i => `${i.qty}x ${i.title} (${i.sku})`).join(', ');
-                    const branchSubtotal = items.reduce((sum, i) => sum + (i.qty * i.price), 0);
-                    const branchTax = branchSubtotal * 0.0825;
-                    const branchTotal = (branchSubtotal + branchTax).toFixed(2);
-                    const branchSubtotalStr = branchSubtotal.toFixed(2);
-                    const branchTaxStr = branchTax.toFixed(2);
 
-                    const { error: orderErr } = await client.from('orders').insert([{
-                        order_number: orderNum,
-                        storefront: branch,
-                        items: itemString,
-                        status: 'Processing'
-                    }]);
+                    // Only send IDs + quantities.
+                    // Price, stock, title, SKU, storefront and totals
+                    // are loaded again by PostgreSQL.
+                    const secureItems = items.map(item => ({
+                        id: item.id,
+                        qty: parseInt(item.qty, 10)
+                    }));
 
-                    if (orderErr) throw orderErr;
+                    // A coupon is sent only to the storefront
+                    // for which it was securely validated.
+                    const couponForBranch =
+                        appliedCoupon &&
+                        appliedCoupon.storefront === branch
+                            ? appliedCoupon.code
+                            : null;
 
-                    // Decrement stock for items belonging to this branch
-                    for (const item of items) {
-                        const newStock = Math.max(0, item.stock - item.qty);
-                        await client.from('listings').update({ stock: newStock }).eq('id', item.id);
-                        const local = allListings.find(l => l.id === item.id);
-                        if (local) local.stock = newStock;
+                    const { data, error } = await client.rpc(
+                        'place_order',
+                        {
+                            p_items: secureItems,
+                            p_coupon_code: couponForBranch
+                        }
+                    );
+
+                    if (error) {
+                        throw error;
                     }
 
+                    const result =
+                        typeof data === 'string'
+                            ? JSON.parse(data)
+                            : data;
+
+                    if (!result || !result.order_number) {
+                        throw new Error(
+                            'The server did not return a valid order confirmation.'
+                        );
+                    }
+
+                    const subtotal =
+                        Number(result.subtotal || 0).toFixed(2);
+
+                    const discount =
+                        Number(result.discount_amount || 0).toFixed(2);
+
+                    const tax =
+                        Number(result.tax_amount || 0).toFixed(2);
+
+                    const total =
+                        Number(result.total || 0).toFixed(2);
+
+                    const orderNumber =
+                        String(result.order_number);
+
+                    const orderStorefront =
+                        String(result.storefront || branch);
+
+                    const orderItems =
+                        String(result.items || '');
+
+                    const couponCode =
+                        result.coupon_code
+                            ? String(result.coupon_code)
+                            : '';
+
                     placedOrders.push({
-                        orderNum,
-                        branch,
-                        subtotal: branchSubtotalStr,
-                        tax: branchTaxStr,
-                        total: branchTotal,
+                        orderNum: orderNumber,
+                        branch: orderStorefront,
+                        subtotal,
+                        tax,
+                        total,
                         count: items.length,
-                        items: itemString
+                        items: orderItems,
+                        discount,
+                        couponCode
                     });
+
                     storeCustomerOrderReference({
-                        order_number: orderNum,
-                        storefront: branch,
-                        items: itemString,
-                        subtotal: branchSubtotalStr,
-                        tax: branchTaxStr,
-                        total: branchTotal,
+                        order_number: orderNumber,
+                        storefront: orderStorefront,
+                        items: orderItems,
+                        subtotal,
+                        tax,
+                        total,
+                        discount,
+                        coupon_code: couponCode || null,
                         created_at: new Date().toISOString(),
                         status: 'Processing'
                     });
+
+                    /*
+                     * Remove this storefront from the local cart immediately
+                     * after the database confirms it.
+                     *
+                     * This matters for a multi-storefront cart:
+                     * if storefront #1 succeeds but storefront #2 fails,
+                     * retrying checkout will not accidentally order
+                     * storefront #1 twice.
+                     */
+                    cart = cart.filter(
+                        cartItem => cartItem.storefront !== branch
+                    );
+
+                    saveCartToStorage();
                 }
 
-                // Render confirmation
-                const msgEl = document.getElementById('confirmation-message');
-                const listEl = document.getElementById('confirmation-orders-list');
+                // ==========================================
+                // ORDER CONFIRMATION
+                // ==========================================
+
+                const msgEl =
+                    document.getElementById('confirmation-message');
+
+                const listEl =
+                    document.getElementById('confirmation-orders-list');
 
                 if (placedOrders.length === 1) {
                     const single = placedOrders[0];
-                    msgEl.innerHTML = `Your delivery order <strong class="text-amber-500 font-mono">${single.orderNum}</strong> from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> is confirmed and queued for courier dispatch. Total: <strong>$${single.total}</strong> <span class="text-xs text-slate-500 dark:text-slate-400 font-normal">(incl. $${single.tax} tax)</span>.`;
+
+                    msgEl.innerHTML =
+                        `Your delivery order ` +
+                        `<strong class="text-amber-500 font-mono">${sanitizeHtml(single.orderNum)}</strong> ` +
+                        `from <strong class="text-slate-900 dark:text-white">${sanitizeHtml(single.branch)}</strong> ` +
+                        `is confirmed and being prepared for delivery. ` +
+                        `Total: <strong>$${single.total}</strong> ` +
+                        `<span class="text-xs text-slate-500 dark:text-slate-400 font-normal">` +
+                        `(incl. $${single.tax} tax)` +
+                        `</span>.`;
+
                     if (listEl) {
                         listEl.innerHTML = `
-                            <button onclick="viewReceiptDirect('${sanitizeHtml(single.orderNum)}', '${sanitizeHtml(single.branch)}', '${sanitizeHtml(single.items)}', '${single.total}', '${single.subtotal}', '${single.tax}')" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                            <button
+                                onclick="viewReceiptDirect(
+                                    '${sanitizeHtml(single.orderNum)}',
+                                    '${sanitizeHtml(single.branch)}',
+                                    '${sanitizeHtml(single.items)}',
+                                    '${single.total}',
+                                    '${single.subtotal}',
+                                    '${single.tax}',
+                                    '${single.discount}',
+                                    '${sanitizeHtml(single.couponCode || '')}'
+                                )"
+                                class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 dark:text-amber-400 border border-amber-500/30 text-xs font-bold rounded-xl transition-colors"
+                            >
+                                <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                                    />
+                                </svg>
+
                                 <span>View Order Receipt</span>
                             </button>
                         `;
                     }
+
                 } else {
-                    msgEl.innerHTML = `Successfully generated <strong class="text-slate-900 dark:text-white">${placedOrders.length} separate warehouse delivery shipments</strong>:`;
+                    msgEl.innerHTML =
+                        `Successfully generated ` +
+                        `<strong class="text-slate-900 dark:text-white">` +
+                        `${placedOrders.length} separate delivery shipments` +
+                        `</strong>:`;
+
                     if (listEl) {
-                        listEl.innerHTML = placedOrders.map(o => `
-                            <div class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-left flex justify-between items-center text-xs gap-3">
+                        listEl.innerHTML = placedOrders.map(order => `
+                            <div
+                                class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-left flex justify-between items-center text-xs gap-3"
+                            >
                                 <div class="min-w-0 flex-1">
-                                    <span class="font-mono font-bold text-amber-500 text-sm">${o.orderNum}</span>
-                                    <span class="block text-slate-700 dark:text-slate-300 font-semibold mt-0.5 truncate">${sanitizeHtml(o.branch)} &bull; ${o.count} item${o.count === 1 ? '' : 's'}</span>
-                                    <span class="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">$${o.total} <span class="text-[11px] font-normal text-slate-500 dark:text-slate-400">(incl. $${o.tax} tax)</span></span>
+
+                                    <span class="font-mono font-bold text-amber-500 text-sm">
+                                        ${sanitizeHtml(order.orderNum)}
+                                    </span>
+
+                                    <span class="block text-slate-700 dark:text-slate-300 font-semibold mt-0.5 truncate">
+                                        ${sanitizeHtml(order.branch)}
+                                        &bull;
+                                        ${order.count}
+                                        item${order.count === 1 ? '' : 's'}
+                                    </span>
+
+                                    <span class="font-mono font-bold text-slate-900 dark:text-white text-xs block mt-0.5">
+                                        $${order.total}
+
+                                        <span class="text-[11px] font-normal text-slate-500 dark:text-slate-400">
+                                            (incl. $${order.tax} tax)
+                                        </span>
+                                    </span>
+
                                 </div>
-                                <button onclick="viewReceiptDirect('${sanitizeHtml(o.orderNum)}', '${sanitizeHtml(o.branch)}', '${sanitizeHtml(o.items)}', '${o.total}', '${o.subtotal}', '${o.tax}')" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors">
+
+                                <button
+                                    onclick="viewReceiptDirect(
+                                        '${sanitizeHtml(order.orderNum)}',
+                                        '${sanitizeHtml(order.branch)}',
+                                        '${sanitizeHtml(order.items)}',
+                                        '${order.total}',
+                                        '${order.subtotal}',
+                                        '${order.tax}',
+                                        '${order.discount}',
+                                        '${sanitizeHtml(order.couponCode || '')}'
+                                    )"
+                                    class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs shrink-0 transition-colors"
+                                >
                                     View Receipt
                                 </button>
                             </div>
@@ -1971,19 +2412,60 @@
                     }
                 }
 
-                document.getElementById('confirmation-modal').classList.remove('hidden');
+                document
+                    .getElementById('confirmation-modal')
+                    .classList.remove('hidden');
 
-                cart = [];
+                appliedCoupon = null;
+
                 saveCartToStorage();
+                syncCouponUI();
                 updateCartUI();
+
                 toggleCartDrawer(false);
+
+                // Reload trusted stock values from Supabase.
                 await fetchListings();
                 renderCatalog();
+
             } catch (err) {
-                showToast('Failed to place order: ' + err.message, 'error');
+
+                /*
+                 * A storefront that already succeeded has already
+                 * been removed from the cart.
+                 *
+                 * Therefore a retry will only retry the remaining
+                 * storefronts instead of duplicating an order.
+                 */
+                saveCartToStorage();
+                updateCartUI();
+
+                await fetchListings();
+                renderCatalog();
+
+                const message =
+                    err?.message ||
+                    'Unknown checkout error.';
+
+                if (placedOrders.length > 0) {
+                    showToast(
+                        `${placedOrders.length} shipment(s) were placed successfully, ` +
+                        `but another shipment failed: ${message}. ` +
+                        `The remaining items are still in your cart.`,
+                        'error'
+                    );
+
+                } else {
+                    showToast(
+                        'Failed to place order: ' + message,
+                        'error'
+                    );
+                }
+
             } finally {
                 orderBtn.disabled = false;
-                orderBtn.textContent = 'Proceed to Checkout • Place Delivery Order';
+                orderBtn.textContent =
+                    'Proceed to Checkout • Place Delivery Order';
             }
         }
 
@@ -1991,7 +2473,7 @@
             document.getElementById('confirmation-modal').classList.add('hidden');
         }
 
-        function viewReceiptDirect(orderNum, branchName, itemsString, total, subtotal, tax) {
+        function viewReceiptDirect(orderNum, branchName, itemsString, total, subtotal, tax, discount, couponCode) {
             closeConfirmationModal();
             const branch = activeStorefronts.find(s => s.name === branchName);
             trackedOrderCache = {
@@ -2001,6 +2483,8 @@
                 total: total,
                 subtotal: subtotal,
                 tax: tax,
+                discount: discount || '0.00',
+                coupon_code: couponCode || null,
                 created_at: new Date().toISOString()
             };
             openReceiptModal();
@@ -2043,7 +2527,7 @@
                         </div>
                         <p class="text-sm font-bold text-slate-900 dark:text-white">Sign In to View Your Order History</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-                            Connect your customer account to automatically view past warehouse orders, shipment milestones, and printable receipts.
+                            Connect your customer account to view past orders, delivery updates, and printable receipts.
                         </p>
                         <button onclick="openBuiltInAuth('signin')" class="mt-2 inline-flex items-center px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl shadow-xs transition-colors">
                             Sign In / Create Account
@@ -2073,10 +2557,10 @@
                         </div>
                         <p class="text-sm font-bold text-slate-900 dark:text-white">No Placed Orders Found Yet</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-                            You haven't placed any delivery orders under <span class="font-mono text-slate-700 dark:text-slate-300 font-semibold">${sanitizeHtml(currentUser.email)}</span>. Browse our active warehouse inventory to get started!
+                            You haven't placed any delivery orders under <span class="font-mono text-slate-700 dark:text-slate-300 font-semibold">${sanitizeHtml(currentUser.email)}</span>. Browse our catalog to get started!
                         </p>
                         <button onclick="switchTab('catalog')" class="mt-2 inline-flex items-center px-4 py-2 bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 font-bold text-xs rounded-xl hover:bg-slate-800 dark:hover:bg-amber-400 transition-colors">
-                            Explore Warehouse Catalog
+                            Explore Catalog
                         </button>
                     </div>
                 `;
@@ -2088,39 +2572,63 @@
 
             listContainer.innerHTML = `
                 <div class="p-4 text-center text-xs text-slate-500 dark:text-slate-400">
-                    Syncing live delivery statuses with warehouse dispatch...
+                    Syncing live delivery statuses...
                 </div>
             `;
 
-            // Query live database statuses for these orders from Supabase
+
+            // Query live database orders that this customer is still allowed to see.
+            // Because Supabase RLS now restricts customers to their own orders,
+            // any deleted or inaccessible local order references are removed.
             try {
                 const { client } = await import('./supaBase.js');
                 const orderNumbers = storedOrders.map(o => o.order_number);
-                
-                const { data: liveOrders } = await client
+
+                const { data: liveOrders, error } = await client
                     .from('orders')
                     .select('*')
                     .in('order_number', orderNumbers);
 
-                if (liveOrders && liveOrders.length > 0) {
-                    const liveMap = new Map(liveOrders.map(lo => [lo.order_number, lo]));
-                    storedOrders = storedOrders.map(so => {
-                        const match = liveMap.get(so.order_number);
-                        if (match) {
-                            return {
-                                ...so,
-                                status: match.status || so.status,
-                                storefront: match.storefront || so.storefront,
-                                items: match.items || so.items,
-                                created_at: match.created_at || so.created_at
-                            };
-                        }
-                        return so;
-                    });
-                    localStorage.setItem(key, JSON.stringify(storedOrders));
+                if (error) {
+                    throw error;
                 }
+
+                const liveMap = new Map(
+                    (liveOrders || []).map(order => [
+                        order.order_number,
+                        order
+                    ])
+                );
+
+                storedOrders = storedOrders
+                    .filter(order => liveMap.has(order.order_number))
+                    .map(order => {
+                        const liveOrder = liveMap.get(order.order_number);
+
+                        return {
+                            ...order,
+                            status: liveOrder.status || order.status,
+                            storefront: liveOrder.storefront || order.storefront,
+                            items: liveOrder.items || order.items,
+                            created_at: liveOrder.created_at || order.created_at
+                        };
+                    });
+
+                localStorage.setItem(
+                    key,
+                    JSON.stringify(storedOrders)
+                );
+
+                if (countBadge) {
+                    countBadge.textContent =
+                        `${storedOrders.length} Order${storedOrders.length === 1 ? '' : 's'}`;
+                }
+
             } catch (syncErr) {
-                console.warn('Live order status sync skipped:', syncErr);
+                console.warn(
+                    'Live order status sync skipped:',
+                    syncErr
+                );
             }
 
             listContainer.innerHTML = storedOrders.map(order => {
@@ -2169,7 +2677,7 @@
                                     ${statusBadge}
                                 </div>
                                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                    Placed on ${placedDate} &bull; Depot: <span class="font-medium text-slate-700 dark:text-slate-300">${sanitizeHtml(order.storefront)}</span>
+                                    Placed on ${placedDate} &bull; Storefront: <span class="font-medium text-slate-700 dark:text-slate-300">${sanitizeHtml(order.storefront)}</span>
                                 </p>
                             </div>
                             <div class="flex items-center gap-2 self-start sm:self-auto">
@@ -2179,7 +2687,7 @@
                                     </svg>
                                     <span>Track Live</span>
                                 </button>
-                                <button type="button" onclick="viewReceiptDirect('${sanitizeHtml(order.order_number)}', '${sanitizeHtml(order.storefront)}', '${sanitizeHtml(order.items)}', '${order.total || '0.00'}', '${order.subtotal || ''}', '${order.tax || ''}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-300 dark:border-slate-700 hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-400 text-slate-700 dark:text-slate-300 font-bold text-xs rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                <button type="button" onclick="viewReceiptDirect('${sanitizeHtml(order.order_number)}', '${sanitizeHtml(order.storefront)}', '${sanitizeHtml(order.items)}', '${order.total || '0.00'}', '${order.subtotal || ''}', '${order.tax || ''}', '${order.discount || ''}', '${sanitizeHtml(order.coupon_code || '')}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-300 dark:border-slate-700 hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-400 text-slate-700 dark:text-slate-300 font-bold text-xs rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                                     </svg>
@@ -2190,8 +2698,10 @@
 
                         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 text-xs">
                             <div class="space-y-0.5">
-                                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Reserved Items</span>
-                                <p class="font-mono text-xs text-slate-800 dark:text-slate-200 line-clamp-1">${sanitizeHtml(order.items)}</p>
+                                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 block">Ordered Items</span>
+                                <div class="space-y-1">
+                                    <p class="font-mono text-xs text-slate-800 dark:text-slate-200 line-clamp-1">${sanitizeHtml((order.items || '').replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim())}</p>
+                                </div>
                             </div>
                             ${order.total ? `
                                 <div class="text-left sm:text-right shrink-0">
@@ -2230,13 +2740,18 @@
             if (!rawQuery) return;
 
             // Extract numeric digits if present (e.g., 'Order #5041' -> '5041'), else clean special chars
-            const digits = rawQuery.replace(/\D/g, '');
-            const cleanPattern = digits || rawQuery.replace(/[#%_]/g, '').trim();
+           const cleanOrderId = rawQuery
+                .replace(/^order\s*#?\s*/i, '')
+                .replace(/[#%_]/g, '')
+                .trim()
+                .toUpperCase();
+
+            const normalizedOrderNumber = `Order #${cleanOrderId}`;
 
             const { data, error } = await client
                 .from('orders')
                 .select('*')
-                .ilike('order_number', `%${cleanPattern}%`)
+                .eq('order_number', normalizedOrderNumber)
                 .maybeSingle();
 
             const errorContainer = document.getElementById('tracking-error');
@@ -2258,7 +2773,11 @@
             document.getElementById('tracking-card').classList.remove('hidden');
             document.getElementById('track-order-id').textContent = data.order_number;
             document.getElementById('track-storefront').textContent = data.storefront;
-            document.getElementById('track-items').textContent = data.items;
+            const cleanTrackItems = (data.items || '').replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
+            const trackItemsEl = document.getElementById('track-items');
+            if (trackItemsEl) {
+                trackItemsEl.textContent = cleanTrackItems;
+            }
             const displayStatus = data.status === 'Ready for Driver' ? 'Shipped' : data.status;
             document.getElementById('track-status-text').textContent = displayStatus;
 
@@ -2316,66 +2835,79 @@
 
             document.getElementById('receipt-order-id').textContent = trackedOrderCache.order_number;
             document.getElementById('receipt-branch-name').textContent = trackedOrderCache.storefront;
-            document.getElementById('receipt-branch-address').textContent = branch ? branch.address : 'Storefront Depot';
-            document.getElementById('receipt-items-list').textContent = trackedOrderCache.items;
-            document.getElementById('receipt-date').textContent = new Date(trackedOrderCache.created_at).toLocaleDateString();
+            document.getElementById('receipt-branch-address').textContent = branch ? branch.address : 'Storefront Location';
+            document.getElementById('receipt-date').textContent = trackedOrderCache.created_at ? new Date(trackedOrderCache.created_at).toLocaleDateString() : 'Recent';
 
-            // Populate financial breakdown (subtotal, 8.25% state tax, total)
-            let subtotalVal = 0;
-            let taxVal = 0;
-            let totalVal = 0;
+            const rawItemsStr = trackedOrderCache.items || '';
+            let discountVal = 0;
+            let couponCode = '';
 
-            if (trackedOrderCache.subtotal && trackedOrderCache.tax && trackedOrderCache.total) {
-                subtotalVal = parseFloat(trackedOrderCache.subtotal) || 0;
-                taxVal = parseFloat(trackedOrderCache.tax) || 0;
-                totalVal = parseFloat(trackedOrderCache.total) || 0;
-            } else if (trackedOrderCache.total) {
-                totalVal = parseFloat(trackedOrderCache.total) || 0;
-                subtotalVal = totalVal / 1.0825;
-                taxVal = totalVal - subtotalVal;
-            } else {
-                // If tracked order came from direct manual tracking input or orders table query, check user's stored orders
-                const key = getCustomerOrdersStorageKey();
-                if (key) {
-                    try {
-                        const saved = localStorage.getItem(key);
-                        if (saved) {
-                            const list = JSON.parse(saved);
-                            const matched = list.find(o => o.order_number === trackedOrderCache.order_number);
-                            if (matched && matched.total) {
-                                totalVal = parseFloat(matched.total) || 0;
-                                subtotalVal = matched.subtotal ? parseFloat(matched.subtotal) : (totalVal / 1.0825);
-                                taxVal = matched.tax ? parseFloat(matched.tax) : (totalVal - subtotalVal);
-                            }
-                        }
-                    } catch (e) {}
-                }
-
-                // If still 0, parse items from listings or fallback
-                if (totalVal === 0 && trackedOrderCache.items) {
-                    const itemsArr = trackedOrderCache.items.split(/,\s*(?=\d+\s*x)/i);
-                    itemsArr.forEach(rawItem => {
-                        const countMatch = rawItem.match(/^(\d+)\s*x\s*(.*)$/i);
-                        const qty = countMatch ? parseInt(countMatch[1], 10) : 1;
-                        const titleStr = countMatch ? countMatch[2].trim() : rawItem.trim();
-                        const matchedListing = allListings.find(l =>
-                            (l.sku && titleStr.toLowerCase().includes(l.sku.toLowerCase())) ||
-                            (l.title && titleStr.toLowerCase().includes(l.title.toLowerCase()))
-                        );
-                        const unitPrice = matchedListing ? parseFloat(matchedListing.price) : 24.99;
-                        subtotalVal += unitPrice * qty;
-                    });
-                    taxVal = subtotalVal * 0.0825;
-                    totalVal = subtotalVal + taxVal;
-                }
+            const couponMatch = rawItemsStr.match(/\[Coupon:\s*([^\]]+?)\s*\(-?\$?([\d\.]+)\)\]/i);
+            if (couponMatch) {
+                couponCode = couponMatch[1].trim();
+                discountVal = parseFloat(couponMatch[2]) || 0;
             }
+
+            if (trackedOrderCache.discount && parseFloat(trackedOrderCache.discount) > 0) {
+                discountVal = parseFloat(trackedOrderCache.discount);
+            }
+            if (trackedOrderCache.coupon_code) {
+                couponCode = trackedOrderCache.coupon_code;
+            }
+
+            const cleanItemsStr = rawItemsStr.replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
+
+            const itemsListEl = document.getElementById('receipt-items-list');
+            if (itemsListEl) {
+                itemsListEl.textContent = cleanItemsStr;
+            }
+
+            // Calculate Gross Subtotal
+            let grossSubtotal = 0;
+            if (cleanItemsStr) {
+                const itemsArr = cleanItemsStr.split(/,\s*(?=\d+\s*x)/i);
+                itemsArr.forEach(rawItem => {
+                    const countMatch = rawItem.match(/^(\d+)\s*x\s*(.*)$/i);
+                    const qty = countMatch ? parseInt(countMatch[1], 10) : 1;
+                    const rawTitle = countMatch ? countMatch[2].trim() : rawItem.trim();
+                    const titleStr = rawTitle.replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
+                    const matchedListing = allListings.find(l =>
+                        (l.sku && titleStr.toLowerCase().includes(l.sku.toLowerCase())) ||
+                        (l.title && titleStr.toLowerCase().includes(l.title.toLowerCase()))
+                    );
+                    const unitPrice = matchedListing ? parseFloat(matchedListing.price) : 24.99;
+                    grossSubtotal += unitPrice * qty;
+                });
+            }
+
+            if (grossSubtotal === 0 && trackedOrderCache.subtotal) {
+                grossSubtotal = parseFloat(trackedOrderCache.subtotal) || 0;
+            }
+
+            const netSubtotal = Math.max(0, grossSubtotal - discountVal);
+            const taxVal = netSubtotal * 0.0825;
+            const totalVal = netSubtotal + taxVal;
 
             const receiptSubtotalEl = document.getElementById('receipt-subtotal');
             const receiptTaxEl = document.getElementById('receipt-tax');
             const receiptTotalEl = document.getElementById('receipt-total');
-            if (receiptSubtotalEl) receiptSubtotalEl.textContent = `$${subtotalVal.toFixed(2)}`;
-            if (receiptTaxEl) receiptTaxEl.textContent = `$${taxVal.toFixed(2)}`;
-            if (receiptTotalEl) receiptTotalEl.textContent = `$${totalVal.toFixed(2)}`;
+            const discountRow = document.getElementById('receipt-discount-row');
+            const discountLabel = document.getElementById('receipt-discount-label');
+            const discountEl = document.getElementById('receipt-discount');
+
+            if (discountRow) {
+                if (discountVal > 0) {
+                    discountRow.classList.remove('hidden');
+                    if (discountLabel) discountLabel.textContent = `Discount (${sanitizeHtml(couponCode)})`;
+                    if (discountEl) discountEl.textContent = `-${discountVal.toFixed(2)}`;
+                } else {
+                    discountRow.classList.add('hidden');
+                }
+            }
+
+            if (receiptSubtotalEl) receiptSubtotalEl.textContent = `${grossSubtotal.toFixed(2)}`;
+            if (receiptTaxEl) receiptTaxEl.textContent = `${taxVal.toFixed(2)}`;
+            if (receiptTotalEl) receiptTotalEl.textContent = `${totalVal.toFixed(2)}`;
 
             document.getElementById('receipt-modal').classList.remove('hidden');
         }

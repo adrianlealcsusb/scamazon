@@ -92,6 +92,10 @@
                 Listings
                 <span id="badge-listings" class="text-xs bg-slate-950/20 text-slate-950 px-2 py-0.5 rounded-md">0</span>
             </button>
+                        <button onclick="switchTab('coupons')" data-tab="coupons" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
+                Coupons & Discounts
+                <span id="badge-coupons" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md font-mono">0</span>
+            </button>
             <button onclick="switchTab('storefronts')" data-tab="storefronts" class="nav-item w-full text-left px-3.5 py-2.5 rounded-xl flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all font-semibold">
                 Storefronts
                 <span id="badge-storefronts" class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md">0</span>
@@ -357,6 +361,42 @@
                     </div>
                 </div>
             </section>
+                    <!-- COUPONS TAB -->
+            <section id="pane-coupons" class="tab-pane hidden space-y-6" hidden>
+                <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition-colors">
+                    <h2 class="text-lg font-black tracking-tight text-slate-900 dark:text-white mb-2">
+                        Manage Coupons & Discounts
+                    </h2>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-6">
+                        Create and manage discount codes for your storefronts.
+                    </p>
+                    <form id="coupon-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input id="coupon-code" type="text" placeholder="Coupon Code" maxlength="32" required class="border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all uppercase">
+                        <select id="coupon-storefront" required class="border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
+                            <option value="">Select Storefront</option>
+                        </select>
+                        <select id="coupon-type" class="border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
+                            <option value="percent">Percentage (%)</option>
+                            <option value="fixed">Fixed Amount ($)</option>
+                        </select>
+                        <input id="coupon-value" type="number" min="0.01" step="0.01" placeholder="Discount Value" required class="border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 bg-white dark:bg-slate-800/80 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all">
+                        <div class="md:col-span-2 flex justify-start">
+                            <button type="submit" class="inline-flex items-center justify-center px-4 py-2.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 active:scale-95 disabled:opacity-50">
+                                Create Coupon
+                            </button>
+                        </div>
+                    </form>
+                    <p id="coupon-message" class="text-xs font-semibold mt-4"></p>
+                </div>
+                <div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition-colors">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white mb-4">
+                        Existing Coupons
+                    </h2>
+                    <div id="coupons-list" class="space-y-3">
+                        <p class="text-xs text-slate-500 dark:text-slate-400">No coupons loaded.</p>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -575,6 +615,10 @@
                         <span>Items Subtotal</span>
                         <span id="receipt-subtotal" class="font-mono text-slate-900 dark:text-slate-200 font-medium">$0.00</span>
                     </div>
+                    <div id="receipt-discount-row" class="hidden flex justify-between text-emerald-600 dark:text-emerald-400 font-medium">
+                        <span id="receipt-discount-label">Discount</span>
+                        <span id="receipt-discount" class="font-mono">-$0.00</span>
+                    </div>
                     <div class="flex justify-between text-slate-600 dark:text-slate-400">
                         <span>Estimated State Tax (8.25%)</span>
                         <span id="receipt-tax" class="font-mono text-slate-900 dark:text-slate-200 font-medium">$0.00</span>
@@ -693,12 +737,17 @@
 
             const titles = {
                 listings: 'Manage Listings',
+                coupons: 'Coupons & Discounts',
                 storefronts: 'Manage Storefronts',
                 workers: 'Manage Workers',
                 orders: 'Orders & Fulfillment',
                 sales: 'Sales & Analytics'
             };
             document.getElementById('page-heading').textContent = titles[tab] || 'Dashboard';
+
+            if (tab === 'coupons') {
+                loadCoupons();
+            }
         }
 
         async function init() {
@@ -765,11 +814,223 @@
                 if (el) el.innerHTML = '<option value="">All Storefronts</option>' + activeOptions;
             });
 
+            const couponDropdown = document.getElementById('coupon-storefront');
+            if (couponDropdown) {
+                couponDropdown.innerHTML = '<option value="">Select Storefront</option>' + activeOptions;
+            }
+
             ['modal-storefront', 'worker-storefront'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.innerHTML = activeOptions;
             });
         }
+
+        // ==========================================
+        // COUPONS & DISCOUNTS
+        // ==========================================
+
+        function getCouponFormData() {
+            const code = document.getElementById('coupon-code')
+                .value.trim().toUpperCase();
+
+            const storefront = document.getElementById('coupon-storefront').value;
+            const discountType = document.getElementById('coupon-type').value;
+            const discountValue = Number(
+                document.getElementById('coupon-value').value
+            );
+
+            if (!/^[A-Z0-9_-]{3,32}$/.test(code)) {
+                throw new Error('Enter a valid coupon code (3-32 characters).');
+            }
+
+            if (!storefront) {
+                throw new Error('Select a storefront.');
+            }
+
+            if (!Number.isFinite(discountValue) ||
+                discountValue <= 0 ||
+                (discountType === 'percent' && discountValue > 100)) {
+                throw new Error('Enter a valid discount amount.');
+            }
+
+            return {
+                code,
+                storefront,
+                discount_type: discountType,
+                discount_value: discountValue,
+                is_active: true
+            };
+        }
+
+        async function loadCoupons() {
+            const list = document.getElementById('coupons-list');
+            if (!list) return;
+
+            list.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400">Loading coupons...</p>';
+
+            try {
+                const { client } = await import('./supaBase.js');
+                const { data, error } = await client
+                    .from('coupons')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    if (error.code === 'PGRST205' || (error.message && error.message.includes('public.coupons'))) {
+                        list.innerHTML = `<div class="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl text-xs text-amber-700 dark:text-amber-400">
+                            <strong>Notice:</strong> The <code>coupons</code> database table has not been initialized yet in the Supabase schema. Please create the table in Supabase SQL Editor.
+                        </div>`;
+                    } else {
+                        list.innerHTML = `<p class="text-xs text-rose-600 dark:text-rose-400">Error loading coupons: ${sanitizeHtml(error.message)}</p>`;
+                    }
+                    return;
+                }
+
+                const badge = document.getElementById('badge-coupons');
+                if (badge) {
+                    badge.textContent = data ? data.length : 0;
+                }
+
+                if (!data || data.length === 0) {
+                    list.innerHTML = '<p class="text-xs text-slate-500 dark:text-slate-400">No coupons found.</p>';
+                    return;
+                }
+
+                list.innerHTML = data.map(coupon => {
+                    const discount = coupon.discount_type === 'percent'
+                        ? `${Number(coupon.discount_value)}%`
+                        : `${Number(coupon.discount_value).toFixed(2)}`;
+
+                    return `
+                        <div class="border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between gap-4 transition-colors">
+                            <div>
+                                <div class="font-bold text-slate-900 dark:text-white text-sm font-mono tracking-tight">
+                                    ${sanitizeHtml(coupon.code)}
+                                </div>
+                                <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                    ${sanitizeHtml(coupon.storefront)} &bull; ${discount} off
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    onclick="toggleCouponStatus('${sanitizeHtml(coupon.id)}', ${coupon.is_active})"
+                                    class="text-xs font-semibold ${
+                                        coupon.is_active
+                                            ? 'text-amber-600 hover:text-amber-500 dark:text-amber-400 dark:hover:text-amber-300'
+                                            : 'text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300'
+                                    } transition">
+                                    ${coupon.is_active ? 'Disable' : 'Enable'}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onclick="deleteCoupon('${sanitizeHtml(coupon.id)}')"
+                                    class="text-xs font-semibold text-rose-600 hover:text-rose-500 dark:text-rose-400 dark:hover:text-rose-300 transition">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                list.innerHTML = `<p class="text-xs text-rose-600 dark:text-rose-400">Error loading coupons: ${sanitizeHtml(err.message)}</p>`;
+            }
+        }
+        window.loadCoupons = loadCoupons;
+
+        function deleteCoupon(id) {
+            askDelete(
+                'Delete Coupon',
+                'Delete this coupon? It cannot be undone.',
+                async () => {
+                    const { client } = await import('./supaBase.js');
+                    const { error } = await client
+                        .from('coupons')
+                        .delete()
+                        .eq('id', id);
+
+                    if (error) {
+                        showToast('Failed to delete coupon: ' + error.message, 'error');
+                        throw error;
+                    }
+
+                    showToast('Coupon deleted successfully.');
+                    await loadCoupons();
+                }
+            );
+        }
+        window.deleteCoupon = deleteCoupon;
+
+        async function toggleCouponStatus(id, isActive) {
+            try {
+                const { client } = await import('./supaBase.js');
+                const { error } = await client
+                    .from('coupons')
+                    .update({ is_active: !isActive })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                showToast(`Coupon ${!isActive ? 'enabled' : 'disabled'}.`);
+                await loadCoupons();
+            } catch (err) {
+                showToast('Failed to update coupon: ' + err.message, 'error');
+            }
+        }
+        window.toggleCouponStatus = toggleCouponStatus;
+
+        document.getElementById('coupon-form')
+            ?.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const form = event.currentTarget;
+                const message = document.getElementById('coupon-message');
+                const button = form.querySelector('button[type="submit"]');
+
+                if (message) {
+                    message.textContent = '';
+                }
+
+                try {
+                    const coupon = getCouponFormData();
+
+                    button.disabled = true;
+                    button.textContent = 'Creating...';
+
+                    const { client } = await import('./supaBase.js');
+                    const { error } = await client
+                        .from('coupons')
+                        .insert(coupon);
+
+                    if (error) throw error;
+
+                    showToast(`Coupon ${coupon.code} created successfully!`);
+                    if (message) {
+                        message.textContent = `Coupon ${coupon.code} created successfully!`;
+                        message.className = 'text-xs font-semibold mt-4 text-emerald-600 dark:text-emerald-400';
+                    }
+
+                    form.reset();
+                    await loadCoupons();
+
+                } catch (error) {
+                    const errMsg = error.code === '23505'
+                        ? 'This coupon code already exists for this storefront.'
+                        : (error.code === 'PGRST205' ? 'The coupons database table has not been initialized yet in Supabase.' : error.message);
+
+                    showToast(errMsg, 'error');
+                    if (message) {
+                        message.textContent = errMsg;
+                        message.className = 'text-xs font-semibold mt-4 text-rose-600 dark:text-rose-400';
+                    }
+
+                } finally {
+                    button.disabled = false;
+                    button.textContent = 'Create Coupon';
+                }
+            });
 
         // ==========================================
         // SALES & ANALYTICS
@@ -798,6 +1059,10 @@
                         
                         if (matchedItem) {
                             sfRev += (parseFloat(matchedItem.price) || 0) * count;
+                        }
+                        const cMatch = o.items.match(/\[Coupon:\s*([^\]]+?)\s*\(-?\$?([\d\.]+)\)\]/i);
+                        if (cMatch) {
+                            sfRev = Math.max(0, sfRev - (parseFloat(cMatch[2]) || 0));
                         }
                     }
                 });
@@ -1276,7 +1541,7 @@
                         </button>
                     </td>
                     <td class="py-3 px-4 text-sm text-slate-600 dark:text-slate-400">${sanitizeHtml(o.storefront)}</td>
-                    <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300">${sanitizeHtml(o.items)}</td>
+                    <td class="py-3 px-4 text-sm text-slate-700 dark:text-slate-300">${sanitizeHtml((o.items || '').replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim())}</td>
                     <td class="py-3 px-4">
                         <select onchange="updateOrderStatus('${sanitizeHtml(o.id)}', this.value)" class="text-xs font-medium border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer">
                             <option value="Processing" ${currentStatus === 'Processing' ? 'selected' : ''}>Processing</option>
@@ -1305,16 +1570,17 @@
                     .eq('id', orderId);
 
                 if (error) {
-                    if (error.code === '23514' && newStatus === 'Delivered') {
-                        const { error: fallbackErr } = await client
-                            .from('orders')
-                            .update({ status: 'Out for Delivery' })
-                            .eq('id', orderId);
-                        if (fallbackErr) throw fallbackErr;
-                    } else {
-                        throw error;
-                    }
+                    throw error;
                 }
+            
+                order.status = (newStatus === 'Shipped') ? 'Ready for Driver' : newStatus;
+                renderOrders();
+                renderSales();
+            } catch (err) {
+                console.error('Failed to update order status:', err);
+                showToast('Could not update order status: ' + (err.message || 'Unknown error'), 'error');
+                renderOrders();
+            }
 
                 order.status = (newStatus === 'Shipped') ? 'Ready for Driver' : newStatus;
                 renderOrders();
@@ -1354,14 +1620,26 @@
             const tbody = document.getElementById('receipt-items-tbody');
             let subtotal = 0;
             let itemRows = '';
+            let discount = 0;
+            let couponCode = '';
 
-            if (order.items && typeof order.items === 'string') {
-                const itemsArr = order.items.split(/,\s*(?=\d+\s*x)/i);
+            const rawItemsStr = (order.items && typeof order.items === 'string') ? order.items : '';
+            const couponMatch = rawItemsStr.match(/\[Coupon:\s*([^\]]+?)\s*\(-?\$?([\d\.]+)\)\]/i);
+            if (couponMatch) {
+                couponCode = couponMatch[1].trim();
+                discount = parseFloat(couponMatch[2]) || 0;
+            }
+
+            const cleanItemsStr = rawItemsStr.replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
+
+            if (cleanItemsStr) {
+                const itemsArr = cleanItemsStr.split(/,\s*(?=\d+\s*x)/i);
                 
                 itemsArr.forEach(rawItem => {
                     const countMatch = rawItem.match(/^(\d+)\s*x\s*(.*)$/i);
                     const qty = countMatch ? parseInt(countMatch[1], 10) : 1;
-                    const titleStr = countMatch ? countMatch[2].trim() : rawItem.trim();
+                    const rawTitle = countMatch ? countMatch[2].trim() : rawItem.trim();
+                    const titleStr = rawTitle.replace(/\s*\[Coupon:[^\]]+\]/gi, '').trim();
 
                     const matchedListing = state.listings.find(l => 
                         (l.sku && titleStr.toLowerCase().includes(l.sku.toLowerCase())) || 
@@ -1376,8 +1654,8 @@
                         <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
                             <td class="py-2.5 px-3 text-slate-800 dark:text-slate-200 font-sans font-medium">${sanitizeHtml(titleStr)}</td>
                             <td class="py-2.5 px-3 text-center text-slate-600 dark:text-slate-400">${qty}</td>
-                            <td class="py-2.5 px-3 text-right text-slate-600 dark:text-slate-400">$${unitPrice.toFixed(2)}</td>
-                            <td class="py-2.5 px-3 text-right font-semibold text-slate-900 dark:text-white">$${lineTotal.toFixed(2)}</td>
+                            <td class="py-2.5 px-3 text-right text-slate-600 dark:text-slate-400">${unitPrice.toFixed(2)}</td>
+                            <td class="py-2.5 px-3 text-right font-semibold text-slate-900 dark:text-white">${lineTotal.toFixed(2)}</td>
                         </tr>
                     `;
                 });
@@ -1388,12 +1666,27 @@
             }
             tbody.innerHTML = itemRows;
 
-            const tax = subtotal * 0.0825;
-            const total = subtotal + tax;
+            const netSubtotal = Math.max(0, subtotal - discount);
+            const tax = netSubtotal * 0.0825;
+            const total = netSubtotal + tax;
 
-            document.getElementById('receipt-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('receipt-tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('receipt-total').textContent = `$${total.toFixed(2)}`;
+            const discountRow = document.getElementById('receipt-discount-row');
+            const discountLabel = document.getElementById('receipt-discount-label');
+            const discountEl = document.getElementById('receipt-discount');
+
+            if (discountRow) {
+                if (discount > 0) {
+                    discountRow.classList.remove('hidden');
+                    if (discountLabel) discountLabel.textContent = `Discount (${sanitizeHtml(couponCode)})`;
+                    if (discountEl) discountEl.textContent = `-${discount.toFixed(2)}`;
+                } else {
+                    discountRow.classList.add('hidden');
+                }
+            }
+
+            document.getElementById('receipt-subtotal').textContent = `${subtotal.toFixed(2)}`;
+            document.getElementById('receipt-tax').textContent = `${tax.toFixed(2)}`;
+            document.getElementById('receipt-total').textContent = `${total.toFixed(2)}`;
 
             showModal('receipt-modal');
         }
