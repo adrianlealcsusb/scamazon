@@ -1327,6 +1327,10 @@
             window.location.replace('login.html');
         });
 
+        window.addEventListener('focus', async () => {
+            await loadAll();
+        });
+
         init();
     </script>
     <script src="branch-switcher.js" defer></script>
