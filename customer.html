@@ -436,9 +436,18 @@
 
         function populateStorefrontDropdown() {
             const select = document.getElementById('catalog-storefront');
-            select.innerHTML = `<option value="">All Storefronts</option>` + 
-                activeStorefronts.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
-            select.value = "";
+            const previousValue = select.value;
+
+            select.innerHTML = `<option value="">All Storefronts</option>` +
+                activeStorefronts.map(s =>
+                    `<option value="${s.name}">${s.name}</option>`
+                ).join('');
+
+            const storefrontStillExists = [...select.options].some(
+                option => option.value === previousValue
+            );
+
+            select.value = storefrontStillExists ? previousValue : "";
         }
 
         function renderCatalog() {
