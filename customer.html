@@ -284,6 +284,48 @@
         let lastPlacedOrderNumber = '';
         let currentCustomerId = '';
 
+        function getCatalogFilterKey() {
+            if (!currentCustomerId) return null;
+            return `scamazon_catalog_filters_${currentCustomerId}`;
+        }
+
+        function saveCatalogFilters() {
+            const key = getCatalogFilterKey();
+            if (!key) return;
+
+            sessionStorage.setItem(key, JSON.stringify({
+                storefront: document.getElementById('catalog-storefront').value,
+                search: document.getElementById('catalog-search').value
+            }));
+        }
+
+        function restoreCatalogFilters() {
+            const key = getCatalogFilterKey();
+            if (!key) return;
+
+            try {
+                const saved = JSON.parse(sessionStorage.getItem(key) || '{}');
+
+                const dropdown = document.getElementById('catalog-storefront');
+
+                if (
+                    typeof saved.storefront === 'string' &&
+                    Array.from(dropdown.options).some(
+                        option => option.value === saved.storefront
+                    )
+                ) {
+                    dropdown.value = saved.storefront;
+                }
+
+                if (typeof saved.search === 'string') {
+                    document.getElementById('catalog-search').value = saved.search;
+                }
+            } catch (error) {
+                console.error('Could not restore catalog filters:', error);
+                sessionStorage.removeItem(key);
+            }
+        }
+
         function getCartStorageKey() {
             if (!currentCustomerId) return null;
             return `scamazon_proto1_cart_${currentCustomerId}`;
@@ -394,6 +436,7 @@
         async function loadInitialData() {
             await Promise.all([fetchStorefronts(), fetchListings()]);
             populateStorefrontDropdown();
+            restoreCatalogFilters();
             renderCatalog();
         }
 
@@ -430,7 +473,17 @@
         }
 
         async function fetchListings() {
-            const { data } = await client.from('listings').select('*');
+            const { data, error } = await client
+                .from('listings')
+                .select('*')
+                .order('created_at', { ascending: true })
+                .order('id', { ascending: true });
+
+            if (error) {
+                console.error('Failed to load listings:', error);
+                return;
+            }
+
             allListings = data || [];
         }
 
@@ -755,8 +808,15 @@
             document.getElementById('receipt-modal').classList.add('hidden');
         }
 
-        document.getElementById('catalog-storefront').addEventListener('change', renderCatalog);
-        document.getElementById('catalog-search').addEventListener('input', renderCatalog);
+        document.getElementById('catalog-storefront').addEventListener('change', () => {
+            saveCatalogFilters();
+            renderCatalog();
+        });
+
+        document.getElementById('catalog-search').addEventListener('input', () => {
+            saveCatalogFilters();
+            renderCatalog();
+        });
 
         document.getElementById('logout-btn').addEventListener('click', async () => {
             await client.auth.signOut();
