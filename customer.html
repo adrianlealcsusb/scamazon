@@ -362,9 +362,24 @@
 
             const role = userRecord?.role || session.user?.user_metadata?.role || 'customer';
 
+            if (role === 'worker') {
+                window.location.replace('worker.html');
+                return;
+            }
+
+            if (role === 'storefront_owner') {
+                window.location.replace('storefront.html');
+                return;
+            }
+
+            if (role === 'owner') {
+                window.location.replace('owner.html');
+                return;
+            }
+
             if (role !== 'customer') {
-                alert('Access restricted to Customers.');
-                window.location.href = 'login.html';
+                await client.auth.signOut();
+                window.location.replace('login.html?unauthorized=1');
                 return;
             }
 
@@ -737,6 +752,10 @@
         document.getElementById('logout-btn').addEventListener('click', async () => {
             await client.auth.signOut();
             window.location.href = 'login.html';
+        });
+
+        window.addEventListener('focus', async () => {
+            await checkSession();
         });
 
         checkSession();

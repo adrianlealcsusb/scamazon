@@ -447,7 +447,18 @@
                     .eq('email', session.user.email)
                     .maybeSingle();
 
-                if (userErr || !user || user.role !== 'worker') {
+                if (userErr || !user) {
+                    await client.auth.signOut();
+                    window.location.replace('login.html?unauthorized=1');
+                    return;
+                }
+
+                if (user.role === 'customer') {
+                    window.location.replace('customer.html');
+                    return;
+                }
+
+                if (user.role !== 'worker' || user.status === 'Suspended') {
                     await client.auth.signOut();
                     window.location.replace('login.html?unauthorized=1');
                     return;
@@ -819,8 +830,8 @@
             window.location.replace('login.html');
         });
         window.addEventListener('focus', async () => {
-            if (currentWorker?.storefront) {
-                await loadAll();
+            if (currentWorker) {
+                await init();
             }
         });
         
