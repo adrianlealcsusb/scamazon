@@ -484,9 +484,14 @@
             if (el) el.classList.add('hidden');
         }
 
-        function askDelete(title, msg, fn) {
+        function askDelete(title, msg, fn, confirmText = 'Delete') {
             document.getElementById('delete-modal-title').textContent = title;
             document.getElementById('delete-modal-message').textContent = msg;
+
+            const btn = document.getElementById('delete-modal-confirm-btn');
+            btn.textContent = confirmText;
+            btn.dataset.confirmText = confirmText;
+
             onConfirmDelete = fn;
             showModal('delete-modal');
         }
@@ -506,7 +511,7 @@
                 err.classList.remove('hidden');
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'Delete';
+                btn.textContent = btn.dataset.confirmText || 'Delete';
             }
         });
 
@@ -782,7 +787,9 @@
                                 <span class="px-2 py-0.5 ${w.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200'} text-xs font-medium rounded-md">${sanitizeHtml(w.status)}</span>
                             </td>
                             <td class="py-3 px-4 text-right space-x-2">
-                                <button onclick="removeWorker('${sanitizeHtml(w.id)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 transition">Revoke Access</button>
+                                <button onclick="removeWorker('${sanitizeHtml(w.id)}')" class="text-xs font-medium text-rose-600 hover:text-rose-800 transition">
+                                    Revoke Access
+                                </button>
                             </td>
                         </tr>
                     `;
@@ -792,13 +799,26 @@
             tbody.innerHTML = htmlStr || '<tr><td colspan="4" class="p-6 text-center text-slate-500">No workers found for this storefront.</td></tr>';
         }
 
+
         function removeWorker(id) {
-            askDelete('Revoke Access', `Remove this worker's access from ${branchStorefront}?`, async () => {
-                const { error } = await client.from('users').delete().eq('id', id).eq('storefront', branchStorefront);
-                if (error) throw error;
-                state.workers = state.workers.filter(x => x.id !== id);
-                renderWorkers();
-            });
+            askDelete(
+                'Revoke Access',
+                `Revoke this worker's access to ${branchStorefront}?`,
+                async () => {
+                    const { error } = await client.rpc('revoke_worker', {
+                        p_worker_id: id
+                    });
+
+                    if (error) throw error;
+
+                    // The user is now a customer, so remove them
+                    // from this storefront's worker list immediately.
+                    state.workers = state.workers.filter(worker => worker.id !== id);
+
+                    renderWorkers();
+                },
+                'Revoke Access'
+            );
         }
 
         document.getElementById('worker-form').addEventListener('submit', (e) => {
@@ -821,34 +841,90 @@
 
         document.getElementById('confirm-email-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+
             if (!pendingWorker) return;
+
             const input = document.getElementById('confirm-email-input').value.trim();
-            
+            const errorBox = document.getElementById('confirm-email-error');
+
+            errorBox.textContent = '';
+            errorBox.classList.add('hidden');
+
             if (input.toLowerCase() !== pendingWorker.payload.email.toLowerCase()) {
-                console.error('Email verification did not match.');
+                errorBox.textContent = 'The email addresses do not match.';
+                errorBox.classList.remove('hidden');
                 return;
             }
 
             try {
-                const { data: user } = await client.from('users').select('id, name').eq('email', pendingWorker.payload.email).maybeSingle();
-                if (user) {
-                    await client.from('users').update({
-                        name: pendingWorker.payload.name || user.name,
-                        storefront: pendingWorker.payload.storefront,
-                        status: pendingWorker.payload.status,
-                        role: 'worker'
-                    }).eq('id', user.id);
-                } else {
-                    console.error('No account found for', pendingWorker.payload.email);
+                const { data: user, error: lookupError } = await client
+                    .from('users')
+                    .select('id, name, role, storefront')
+                    .eq('email', pendingWorker.payload.email)
+                    .maybeSingle();
+
+                if (lookupError) throw lookupError;
+
+                if (!user) {
+                    errorBox.textContent =
+                        'No Scamazon account exists with this email. The worker must create an account first.';
+                    errorBox.classList.remove('hidden');
+                    return;
                 }
 
-                hideModal('confirm-email-modal');
-                pendingWorker = null;
-                const { data: refreshed } = await client.from('users').select('*').eq('role', 'worker').eq('storefront', branchStorefront).order('created_at', { ascending: false });
+                if (user.role === 'owner' || user.role === 'storefront_owner') {
+                    errorBox.textContent =
+                        'This account already has management access and cannot be assigned as a worker.';
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                if (
+                    user.role === 'worker' &&
+                    user.storefront &&
+                    user.storefront !== branchStorefront
+                ) {
+                    errorBox.textContent =
+                        `This worker is already assigned to ${user.storefront}.`;
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                const { error: updateError } = await client
+                    .from('users')
+                    .update({
+                        name: pendingWorker.payload.name || user.name,
+                        storefront: branchStorefront,
+                        status: pendingWorker.payload.status,
+                        role: 'worker'
+                    })
+                    .eq('id', user.id);
+
+                if (updateError) throw updateError;
+
+                const { data: refreshed, error: refreshError } = await client
+                    .from('users')
+                    .select('*')
+                    .eq('role', 'worker')
+                    .eq('storefront', branchStorefront)
+                    .order('created_at', { ascending: false });
+
+                if (refreshError) throw refreshError;
+
                 state.workers = refreshed || [];
                 renderWorkers();
+
+                hideModal('confirm-email-modal');
+                document.getElementById('worker-form').reset();
+                document.getElementById('worker-storefront-display').value = branchStorefront;
+                pendingWorker = null;
+
             } catch (ex) {
-                console.error("Worker save error:", ex);
+                console.error('Worker save error:', ex);
+
+                errorBox.textContent =
+                    ex.message || 'Could not add this worker. Please try again.';
+                errorBox.classList.remove('hidden');
             }
         });
 
@@ -1026,10 +1102,16 @@
             const el = document.getElementById(id);
             if (el) el.addEventListener(event, handler);
         });
+        
 
         document.getElementById('logout-btn').addEventListener('click', async () => {
             await client.auth.signOut();
             window.location.replace('login.html');
+        });
+        window.addEventListener('focus', async () => {
+            if (branchStorefront) {
+                await loadAll();
+            }
         });
 
         init();
