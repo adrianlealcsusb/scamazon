@@ -282,6 +282,70 @@
         let cart = [];
         let trackedOrderCache = null;
         let lastPlacedOrderNumber = '';
+        let currentCustomerId = '';
+
+        function getCartStorageKey() {
+            if (!currentCustomerId) return null;
+            return `scamazon_proto1_cart_${currentCustomerId}`;
+        }
+
+        function saveCart() {
+            const key = getCartStorageKey();
+            if (!key) return;
+
+            const savedCart = cart.map(item => ({
+                id: item.id,
+                qty: item.qty
+            }));
+
+            localStorage.setItem(key, JSON.stringify(savedCart));
+        }
+
+        function restoreCart() {
+            const key = getCartStorageKey();
+            if (!key) return;
+
+            try {
+                const savedCart = JSON.parse(localStorage.getItem(key) || '[]');
+
+                cart = savedCart
+                    .map(savedItem => {
+                        const listing = allListings.find(
+                            item => item.id === savedItem.id
+                        );
+
+                        if (!listing || listing.stock <= 0) {
+                            return null;
+                        }
+
+                        const qty = Math.min(
+                            Math.max(parseInt(savedItem.qty, 10) || 1, 1),
+                            listing.stock
+                        );
+
+                        return {
+                            ...listing,
+                            qty
+                        };
+                    })
+                    .filter(Boolean);
+
+            } catch (err) {
+                console.error('Could not restore cart:', err);
+                cart = [];
+                localStorage.removeItem(key);
+            }
+
+            updateCartUI();
+        }
+
+        function clearSavedCart() {
+            const key = getCartStorageKey();
+
+            if (key) {
+                localStorage.removeItem(key);
+            }
+        }
 
         async function checkSession() {
             const { data: { session } } = await client.auth.getSession();
@@ -304,8 +368,12 @@
                 return;
             }
 
-            document.getElementById('user-display').textContent = session.user.email;
+           document.getElementById('user-display').textContent = session.user.email;
+
+            currentCustomerId = session.user.id;
+
             await loadInitialData();
+            restoreCart();
         }
 
         async function loadInitialData() {
@@ -421,6 +489,7 @@
             }
 
             updateCartUI();
+            saveCart();
         }
 
         function updateCartUI() {
@@ -468,6 +537,7 @@
         function removeFromCart(id) {
             cart = cart.filter(c => c.id !== id);
             updateCartUI();
+            saveCart();
         }
 
         function toggleCartDrawer() {
@@ -503,6 +573,7 @@
                 document.getElementById('confirmation-modal').classList.remove('hidden');
 
                 cart = [];
+                clearSavedCart();
                 updateCartUI();
                 toggleCartDrawer();
                 await fetchListings();
