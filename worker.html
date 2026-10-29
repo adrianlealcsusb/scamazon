@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#f59e0b">
     <meta name="msapplication-TileColor" content="#f59e0b">
 
-    <link rel="icon" type="image/jpg" href="/img/scamazon.jpg">
+    <link rel="icon" type="image/jpg" href="assets/img/scamazon.jpg">
     
     <!-- Preconnect to Google Fonts for performance optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -543,7 +543,7 @@
     </div>
     </div>
 
-    <script type="module" src="./shared-portal.js"></script>
+    <script type="module" src="./js/shared-portal.js"></script>
     <script>
         window.addEventListener('unhandledrejection', (event) => {
             console.error('Uncaught Async Error:', event.reason);
@@ -649,7 +649,7 @@
         }
 
         async function init() {
-            const { client } = await import('./supaBase.js');
+            const { client } = await import('./js/supaBase.js');
 
             try {
                 const { data: { session }, error: sessionErr } = await client.auth.getSession();
@@ -685,7 +685,7 @@
         }
 
         async function loadAll() {
-            const { client } = await import('./supaBase.js');
+            const { client } = await import('./js/supaBase.js');
             if (!currentWorker.storefront) return;
 
             const [listRes, ordRes] = await Promise.all([
@@ -819,7 +819,7 @@
 
         function removeListing(id) {
             askDelete('Delete Listing', `Delete this listing? It won't come back.`, async () => {
-                const { client } = await import('./supaBase.js');
+                const { client } = await import('./js/supaBase.js');
                 const { error } = await client.from('listings').delete().eq('id', id).eq('storefront', currentWorker.storefront);
                 if (error) throw error;
                 state.listings = state.listings.filter(x => x.id !== id);
@@ -828,7 +828,7 @@
         }
 
         document.getElementById('listing-form').addEventListener('submit', async (e) => {
-            const { client } = await import('./supaBase.js');
+            const { client } = await import('./js/supaBase.js');
             e.preventDefault();
             const btn = document.getElementById('modal-submit-btn');
             const err = document.getElementById('listingError');
@@ -1235,7 +1235,7 @@
         }
 
         async function updateOrderStatus(orderId, newStatus) {
-            const { client } = await import('./supaBase.js');
+            const { client } = await import('./js/supaBase.js');
             const order = state.orders.find(o => o.id === orderId);
             if (!order) return;
 
@@ -1381,13 +1381,13 @@
         });
 
         document.getElementById('logout-btn').addEventListener('click', async () => {
-            const { client } = await import('./supaBase.js');
+            const { client } = await import('./js/supaBase.js');
             await client.auth.signOut();
             window.location.replace('./');
         });
 
         init();
     </script>
-    <script src="branch-switcher.js" defer></script>
+    <script src="js/branch-switcher.js" defer></script>
 </body>
 </html>
