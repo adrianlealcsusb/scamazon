@@ -92,7 +92,7 @@
             
             <!-- Left: Brand Logo -->
             <div class="flex items-center gap-4 sm:gap-6 shrink-0">
-                <a href="index.html" class="flex items-center gap-1.5 text-xl sm:text-2xl font-black tracking-tight text-white hover:text-amber-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-sm">
+                <a href="./" class="flex items-center gap-1.5 text-xl sm:text-2xl font-black tracking-tight text-white hover:text-amber-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-sm">
                     <span>Scamazon</span><span class="text-amber-500">.</span>
                 </a>
 
@@ -722,7 +722,7 @@
         <div class="max-w-[1536px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>&copy; 2026 Scamazon. All rights reserved.</p>
             <div class="flex items-center gap-6">
-                <a href="index.html" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Platform Home</a>
+                <a href="./" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Platform Home</a>
                 <a href="plans.html" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Pricing Plans</a>
                 <a href="aboutus.html" class="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Meet the Team</a>
             </div>
@@ -1182,10 +1182,10 @@
                     currentUser = { email, role };
 
                     if (role === 'storefront_owner') {
-                        window.location.href = 'storefront.html';
+                        window.location.href = 'storefront';
                         return;
                     } else if (role !== 'customer') {
-                        window.location.href = `${role}.html`;
+                        window.location.href = `${role}`;
                         return;
                     }
 
@@ -1431,7 +1431,7 @@
                 // If non-customer role, offer direct link to their portal
                 if (dashContainer && currentUser.role && currentUser.role !== 'customer') {
                     dashContainer.classList.remove('hidden');
-                    const targetPage = currentUser.role === 'storefront_owner' ? 'storefront.html' : `${currentUser.role}.html`;
+                    const targetPage = currentUser.role === 'storefront_owner' ? 'storefront' : `${currentUser.role}.html`;
                     dashContainer.innerHTML = `
                         <a href="${targetPage}" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-amber-300 bg-slate-800 hover:bg-slate-700 rounded-lg border border-amber-500/40 transition-colors">
                             Portal Dashboard &rarr;

@@ -77,7 +77,7 @@
     <!-- Sidebar -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0 text-white transition-transform duration-200 ease-in-out -translate-x-full md:translate-x-0 md:static">
         <div class="p-4 h-16 border-b border-slate-800 flex items-center justify-between">
-            <a href="index.html" class="flex items-center gap-1.5 text-xl font-black tracking-tight text-white hover:text-amber-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-sm">
+            <a href="./" class="flex items-center gap-1.5 text-xl font-black tracking-tight text-white hover:text-amber-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-sm">
                 <span>Scamazon</span><span class="text-amber-500">.</span>
             </a>
             <div class="flex items-center gap-2">
@@ -756,7 +756,7 @@
             try {
                 const { data: { session }, error: sessionErr } = await client.auth.getSession();
                 if (sessionErr || !session) {
-                    window.location.replace('index.html');
+                    window.location.replace('./');
                     return;
                 }
 
@@ -768,14 +768,14 @@
 
                 if (userErr || !user || user.role !== 'owner') {
                     await client.auth.signOut();
-                    window.location.replace('index.html');
+                    window.location.replace('./');
                     return;
                 }
 
                 document.getElementById('user-display').textContent = session.user.email;
                 await loadAll();
             } catch (err) {
-                window.location.replace('index.html');
+                window.location.replace('./');
                 console.log(err);
             }
         }
@@ -1710,7 +1710,7 @@
         document.getElementById('logout-btn').addEventListener('click', async () => {
             const { client } = await import('./supaBase.js');
             await client.auth.signOut();
-            window.location.replace('index.html');
+            window.location.replace('./');
         });
 
         init();
