@@ -36,7 +36,7 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0">
         <div class="p-4 h-16 border-b border-slate-200 flex items-center justify-between">
-            <a href="index.html" class="text-lg font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity">
+            <a href="./" class="text-lg font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity">
                 Scamazon<span class="text-amber-500">.</span>
             </a>
             <span class="text-[11px] font-semibold uppercase tracking-wider bg-amber-50 text-amber-800 px-2 py-0.5 rounded-md border border-amber-200 font-mono">worker</span>
@@ -437,7 +437,7 @@
             try {
                 const { data: { session }, error: sessionErr } = await client.auth.getSession();
                 if (sessionErr || !session) {
-                    window.location.replace('login.html');
+                    window.location.replace('login');
                     return;
                 }
 
@@ -449,18 +449,18 @@
 
                 if (userErr || !user) {
                     await client.auth.signOut();
-                    window.location.replace('login.html?unauthorized=1');
+                    window.location.replace('login?unauthorized=1');
                     return;
                 }
 
                 if (user.role === 'customer') {
-                    window.location.replace('customer.html');
+                    window.location.replace('customer');
                     return;
                 }
 
                 if (user.role !== 'worker' || user.status === 'Suspended') {
                     await client.auth.signOut();
-                    window.location.replace('login.html?unauthorized=1');
+                    window.location.replace('login?unauthorized=1');
                     return;
                 }
 
@@ -474,7 +474,7 @@
 
                 await loadAll();
             } catch (err) {
-                window.location.replace('login.html');
+                window.location.replace('login');
             }
         }
 
@@ -827,7 +827,7 @@
 
         document.getElementById('logout-btn').addEventListener('click', async () => {
             await client.auth.signOut();
-            window.location.replace('login.html');
+            window.location.replace('login');
         });
         window.addEventListener('focus', async () => {
             if (currentWorker) {

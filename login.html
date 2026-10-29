@@ -34,7 +34,7 @@
     <!-- Navigation -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center" aria-label="Main Navigation">
-            <a href="index.html" class="text-xl font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-sm">
+            <a href="./" class="text-xl font-bold tracking-tight text-slate-900 hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-sm">
                 Scamazon<span class="text-amber-500">.</span>
             </a>
         </nav>
@@ -175,9 +175,9 @@
                     const role = userRecord?.role || data?.user?.user_metadata?.role || 'customer';
 
                     if (role === 'storefront_owner') {
-                        window.location.href = 'storefront.html';
+                        window.location.href = 'storefront';
                     } else {
-                        window.location.href = `${role}.html`;
+                        window.location.href = `${role}`;
                     }
                 }
             } catch (err) {

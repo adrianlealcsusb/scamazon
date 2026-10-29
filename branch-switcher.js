@@ -170,26 +170,27 @@
         const host = window.location.hostname;
         const isProto = path.startsWith('/prototype-1') || host.startsWith('prototype1.');
 
-        // Extract current base file
-        let currentFile = path.split('/').filter(Boolean).pop() || 'index.html';
-        if (!currentFile.includes('.')) {
-            currentFile += '.html';
+        // Extract current base file without .html extension
+        let currentFile = path.split('/').filter(Boolean).pop() || '';
+        currentFile = currentFile.replace(/\.html$/i, '');
+        if (currentFile === 'index' || currentFile === 'prototype-1' || currentFile === 'prototype-2') {
+            currentFile = '';
         }
 
-        // Compute counterpart destination
+        // Compute counterpart destination with clean URLs
         let targetUrl = '';
         if (isProto) {
             // Target is Prototype-2 build (/prototype-2/)
-            if (['owner.html', 'storefront.html', 'worker.html'].includes(currentFile)) {
+            if (['owner', 'storefront', 'worker'].includes(currentFile)) {
                 targetUrl = '/prototype-2/' + currentFile;
-            } else if (currentFile === 'customer.html' || currentFile === 'login.html') {
-                targetUrl = '/prototype-2/index.html';
+            } else if (currentFile === 'customer' || currentFile === 'login') {
+                targetUrl = '/prototype-2/';
             } else {
                 targetUrl = '/prototype-2/';
             }
         } else {
             // Target is Prototype-1 build (/prototype-1/)
-            if (['owner.html', 'storefront.html', 'worker.html'].includes(currentFile)) {
+            if (['owner', 'storefront', 'worker'].includes(currentFile)) {
                 targetUrl = '/prototype-1/' + currentFile;
             } else {
                 targetUrl = '/prototype-1/';
