@@ -179,16 +179,16 @@
         // Compute counterpart destination
         let targetUrl = '';
         if (isProto) {
-            // Target is Main build
+            // Target is Prototype-2 build (/prototype-2/)
             if (['owner.html', 'storefront.html', 'worker.html'].includes(currentFile)) {
-                targetUrl = '/' + currentFile;
+                targetUrl = '/prototype-2/' + currentFile;
             } else if (currentFile === 'customer.html' || currentFile === 'login.html') {
-                targetUrl = '/index.html';
+                targetUrl = '/prototype-2/index.html';
             } else {
-                targetUrl = '/';
+                targetUrl = '/prototype-2/';
             }
         } else {
-            // Target is Prototype-1 build
+            // Target is Prototype-1 build (/prototype-1/)
             if (['owner.html', 'storefront.html', 'worker.html'].includes(currentFile)) {
                 targetUrl = '/prototype-1/' + currentFile;
             } else {
