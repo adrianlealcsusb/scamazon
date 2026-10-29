@@ -521,9 +521,9 @@
 
             container.innerHTML = branchItems.map(item => {
                 const isOutOfStock = item.stock <= 0;
-                const img = item.image_url 
-                    ? `<img src="${item.image_url}" class="w-full h-40 object-cover rounded-lg mb-3 border border-slate-200">`
-                    : `<div class="w-full h-40 bg-slate-100 rounded-lg mb-3 flex items-center justify-center text-slate-400 font-mono text-xs border border-slate-200">No Image</div>`;
+                const img = item.image_url
+                    ? `<img src="${item.image_url}" class="w-full h-48 object-contain bg-white rounded-lg mb-3 border border-slate-200">`
+                    : `<div class="w-full h-48 bg-slate-100 rounded-lg mb-3 flex items-center justify-center text-slate-400 font-mono text-xs border border-slate-200">No Image</div>`;
 
                 return `
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
