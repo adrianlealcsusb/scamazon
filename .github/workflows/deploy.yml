@@ -1,8 +1,9 @@
-name: Deploy to Oracle Cloud
+name: Deploy Prototype-2 to Oracle Cloud
 
 on:
   push:
     branches:
+      - prototype-2
       - main
   workflow_dispatch:
 
@@ -10,7 +11,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Copy files to Oracle VM
