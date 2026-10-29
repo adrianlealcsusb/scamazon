@@ -199,10 +199,10 @@
         // Default to minimized at first; only expand if user explicitly toggled it open in this session
         const isCollapsed = sessionStorage.getItem('scamazon_branch_switcher_min') !== 'false';
 
-        const activeBranchName = isProto ? 'Prototype-1' : 'main';
-        const targetBranchName = isProto ? 'main' : 'Prototype-1';
+        const activeBranchName = isProto ? 'Prototype-1' : 'prototype-2';
+        const targetBranchName = isProto ? 'prototype-2' : 'Prototype-1';
         const targetDescription = isProto 
-            ? 'Switch to main build (Courier Deliveries)' 
+            ? 'Switch to prototype-2 build (Courier Deliveries)' 
             : 'Switch to Prototype 1 build (In-Store Pickups)';
 
         const container = document.createElement('div');
