@@ -8,7 +8,7 @@ const state = {
             orders: []
         };
 
-        let onConfirmDelete = null;
+
         let pendingWorker = null;
 
         
@@ -17,59 +17,7 @@ const state = {
 
         
 
-        function askDelete(title, msg, fn) {
-            document.getElementById('delete-modal-title').textContent = title;
-            document.getElementById('delete-modal-message').textContent = msg;
-            onConfirmDelete = fn;
-            showModal('delete-modal');
-        }
-
-        document.getElementById('delete-modal-confirm-btn').addEventListener('click', async () => {
-            if (!onConfirmDelete) return;
-            const btn = document.getElementById('delete-modal-confirm-btn');
-            btn.disabled = true;
-            btn.textContent = '...';
-            try {
-                await onConfirmDelete();
-                hideModal('delete-modal');
-                onConfirmDelete = null;
-            } catch (e) {
-                const err = document.getElementById('delete-modal-error');
-                err.textContent = e.message || 'Action failed.';
-                err.classList.remove('hidden');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Delete';
-            }
-        });
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
-            const targetPane = document.getElementById(`pane-${tab}`);
-            if (targetPane) targetPane.classList.remove('hidden');
-
-            document.querySelectorAll('#sidebar-nav .nav-item').forEach(btn => {
-                const badge = btn.querySelector('span');
-                const isSelected = btn.dataset.tab === tab;
-                btn.className = `nav-item w-full text-left px-3 py-2 rounded-lg flex items-center justify-between text-sm font-medium transition-all ${
-                    isSelected ? 'bg-slate-900 text-white shadow-sm shadow-slate-900/10' : 'hover:bg-slate-100 text-slate-600 hover:text-slate-900'
-                }`;
-                if (badge) {
-                    badge.className = `text-xs px-2 py-0.5 rounded-md font-mono ${
-                        isSelected ? 'bg-slate-800 text-slate-200' : 'bg-slate-100 text-slate-600'
-                    }`;
-                }
-            });
-
-            const titles = {
-                listings: 'Manage Listings',
-                storefronts: 'Manage Storefronts',
-                workers: 'Manage Workers',
-                orders: 'Orders & Fulfillment',
-                sales: 'Sales & Analytics'
-            };
-            document.getElementById('page-heading').textContent = titles[tab] || 'Dashboard';
-        }
+        
 
         async function init() {
             try {
@@ -647,111 +595,12 @@ const state = {
             });
         }
 
-        async function updateOrderStatus(orderId, newStatus) {
-            const order = state.orders.find(o => o.id === orderId);
-            if (!order) return;
+        window.updateOrderStatus = (orderId, newStatus) => updateOrderStatusHelper(orderId, newStatus, state.orders, () => {
+            renderOrders();
+            renderSales();
+        });
 
-            const dbStatus = newStatus === 'Shipped' ? 'Ready for Driver' : newStatus;
-
-            try {
-                const { error } = await client
-                    .from('orders')
-                    .update({ status: dbStatus })
-                    .eq('id', orderId);
-
-                if (error) {
-                    if (error.code === '23514' && newStatus === 'Delivered') {
-                        const { error: fallbackErr } = await client
-                            .from('orders')
-                            .update({ status: 'Out for Delivery' })
-                            .eq('id', orderId);
-                        if (fallbackErr) throw fallbackErr;
-                    } else {
-                        throw error;
-                    }
-                }
-
-                order.status = (newStatus === 'Shipped') ? 'Ready for Driver' : newStatus;
-                renderOrders();
-                renderSales();
-            } catch (err) {
-                console.error('Failed to update order status:', err);
-                alert('Could not update order status: ' + (err.message || 'Unknown error'));
-                renderOrders();
-            }
-        }
-        window.updateOrderStatus = updateOrderStatus;
-
-        function viewOrderReceipt(orderId) {
-            const order = state.orders.find(o => o.id === orderId);
-            if (!order) return;
-
-            document.getElementById('receipt-order-id').textContent = order.order_number || ('Order #' + order.id.slice(0, 6));
-            document.getElementById('receipt-branch-name').textContent = order.storefront || 'Central Depot';
-
-            const d = order.created_at ? new Date(order.created_at) : new Date();
-            const formattedDate = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-            const formattedTime = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('receipt-date-time').textContent = `${formattedDate} at ${formattedTime}`;
-
-            const badge = document.getElementById('receipt-status-badge');
-            if (badge) {
-                const displayStatus = order.status === 'Ready for Driver' ? 'Shipped' : (order.status || 'Processing');
-                badge.textContent = displayStatus;
-                badge.className = 'inline-block mt-0.5 px-2.5 py-0.5 text-xs font-semibold rounded-md border ' + 
-                    (order.status === 'Shipped' || order.status === 'Ready for Driver' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                     order.status === 'Out for Delivery' ? 'bg-purple-50 text-purple-700 border-purple-200' :
-                     order.status === 'Delivered' ? 'bg-teal-50 text-teal-700 border-teal-200' :
-                     order.status === 'Pick' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                     'bg-slate-100 text-slate-900 border-slate-200');
-            }
-
-            const tbody = document.getElementById('receipt-items-tbody');
-            let subtotal = 0;
-            let itemRows = '';
-
-            if (order.items && typeof order.items === 'string') {
-                const itemsArr = order.items.split(/,\s*(?=\d+\s*x)/i);
-                
-                itemsArr.forEach(rawItem => {
-                    const countMatch = rawItem.match(/^(\d+)\s*x\s*(.*)$/i);
-                    const qty = countMatch ? parseInt(countMatch[1], 10) : 1;
-                    const titleStr = countMatch ? countMatch[2].trim() : rawItem.trim();
-
-                    const matchedListing = state.listings.find(l => 
-                        (l.sku && titleStr.toLowerCase().includes(l.sku.toLowerCase())) || 
-                        (l.title && titleStr.toLowerCase().includes(l.title.toLowerCase()))
-                    );
-
-                    const unitPrice = matchedListing ? parseFloat(matchedListing.price) : 24.99;
-                    const lineTotal = unitPrice * qty;
-                    subtotal += lineTotal;
-
-                    itemRows += `
-                        <tr class="hover:bg-slate-50/50">
-                            <td class="py-2.5 px-3 text-slate-800 font-sans font-medium">${sanitizeHtml(titleStr)}</td>
-                            <td class="py-2.5 px-3 text-center text-slate-600">${qty}</td>
-                            <td class="py-2.5 px-3 text-right text-slate-600">$${unitPrice.toFixed(2)}</td>
-                            <td class="py-2.5 px-3 text-right font-semibold text-slate-900">$${lineTotal.toFixed(2)}</td>
-                        </tr>
-                    `;
-                });
-            }
-
-            if (!itemRows) {
-                itemRows = `<tr><td colspan="4" class="p-3 text-center text-slate-400">No item details recorded.</td></tr>`;
-            }
-            tbody.innerHTML = itemRows;
-
-            const tax = subtotal * 0.0825;
-            const total = subtotal + tax;
-
-            document.getElementById('receipt-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('receipt-tax').textContent = `$${tax.toFixed(2)}`;
-            document.getElementById('receipt-total').textContent = `$${total.toFixed(2)}`;
-
-            showModal('receipt-modal');
-        }
+        window.viewOrderReceipt = (orderId) => viewOrderReceiptHelper(orderId, state.orders, state.listings, 'Central Depot');
 
         const filterBindings = [
             ['search-input', 'input', renderListings],
@@ -767,11 +616,6 @@ const state = {
         filterBindings.forEach(([id, event, handler]) => {
             const el = document.getElementById(id);
             if (el) el.addEventListener(event, handler);
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', async () => {
-            await client.auth.signOut();
-            window.location.replace('login');
         });
 
         window.addEventListener('focus', async () => {

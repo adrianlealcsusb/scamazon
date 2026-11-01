@@ -1019,7 +1019,7 @@ let activeStorefronts = [];
                     : 'Recent';
 
                 const totalFormatted = order.total
-                    ? (order.total.toString().startsWith('$') ? sanitizeHtml(order.total) : '$' + Number(order.total).toFixed(2))
+                    ? formatCurrency(order.total)
                     : '';
 
                 // Calculate timeline progression
@@ -1272,11 +1272,6 @@ let activeStorefronts = [];
         document.getElementById('catalog-search').addEventListener('input', () => {
             saveCatalogFilters();
             renderCatalog();
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', async () => {
-            await client.auth.signOut();
-            window.location.href = 'login';
         });
 
         window.addEventListener('focus', async () => {
