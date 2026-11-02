@@ -63,3 +63,6 @@
 🟢: implemented  
 🟡: partially implemented  
 🔴: not implemented
+
+Software Engineers:
+- John Aaron Salcedo (whileLost)
