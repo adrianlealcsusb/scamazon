@@ -1205,10 +1205,10 @@
                     currentUser = { email, role };
 
                     if (role === 'storefront_owner') {
-                        window.location.href = 'storefront';
+                        window.location.href = 'storefront.html';
                         return;
                     } else if (role !== 'customer') {
-                        window.location.href = `${role}`;
+                        window.location.href = `${role}.html`;
                         return;
                     }
 
@@ -1454,7 +1454,7 @@
                 // If non-customer role, offer direct link to their portal
                 if (dashContainer && currentUser.role && currentUser.role !== 'customer') {
                     dashContainer.classList.remove('hidden');
-                    const targetPage = currentUser.role === 'storefront_owner' ? 'storefront' : `${currentUser.role}.html`;
+                    const targetPage = currentUser.role === 'storefront_owner' ? 'storefront.html' : `${currentUser.role}.html`;
                     dashContainer.innerHTML = `
                         <a href="${targetPage}" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-amber-300 bg-slate-800 hover:bg-slate-700 rounded-lg border border-amber-500/40 transition-colors">
                             Portal Dashboard &rarr;
