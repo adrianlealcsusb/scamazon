@@ -68,3 +68,4 @@ Software Engineers:
 - John Aaron Salcedo (whileLost)
 - Enzo Cayetano (enzoCayetano)
 - Eduardo Quezada (Equezada-4)
+- Adrian Leal
