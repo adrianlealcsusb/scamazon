@@ -199,7 +199,7 @@ let activeStorefronts = [];
         async function checkSession() {
             const { data: { session } } = await client.auth.getSession();
             if (!session) {
-                window.location.href = 'login';
+                window.location.href = 'login.html';
                 return;
             }
 
@@ -212,23 +212,23 @@ let activeStorefronts = [];
             const role = userRecord?.role || session.user?.user_metadata?.role || 'customer';
 
             if (role === 'worker') {
-                window.location.replace('worker');
+                window.location.replace('worker.html');
                 return;
             }
 
             if (role === 'storefront_owner') {
-                window.location.replace('storefront');
+                window.location.replace('storefront.html');
                 return;
             }
 
             if (role === 'owner') {
-                window.location.replace('owner');
+                window.location.replace('owner.html');
                 return;
             }
 
             if (role !== 'customer') {
                 await client.auth.signOut();
-                window.location.replace('login?unauthorized=1');
+                window.location.replace('login.html?unauthorized=1');
                 return;
             }
 

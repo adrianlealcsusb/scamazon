@@ -11,7 +11,7 @@ async function init() {
             try {
                 const { data: { session }, error: sessionErr } = await client.auth.getSession();
                 if (sessionErr || !session) {
-                    window.location.replace('login');
+                    window.location.replace('login.html');
                     return;
                 }
 
@@ -23,18 +23,18 @@ async function init() {
 
                 if (userErr || !user) {
                     await client.auth.signOut();
-                    window.location.replace('login?unauthorized=1');
+                    window.location.replace('login.html?unauthorized=1');
                     return;
                 }
 
                 if (user.role === 'customer') {
-                    window.location.replace('customer');
+                    window.location.replace('customer.html');
                     return;
                 }
 
                 if (user.role !== 'worker' || user.status === 'Suspended') {
                     await client.auth.signOut();
-                    window.location.replace('login?unauthorized=1');
+                    window.location.replace('login.html?unauthorized=1');
                     return;
                 }
 
@@ -48,7 +48,7 @@ async function init() {
 
                 await loadAll();
             } catch (err) {
-                window.location.replace('login');
+                window.location.replace('login.html');
             }
         }
 

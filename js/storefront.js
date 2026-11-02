@@ -23,7 +23,7 @@ let pendingWorker = null;
             try {
                 const { data: { session }, error: sessionErr } = await client.auth.getSession();
                 if (sessionErr || !session) {
-                    window.location.replace('login');
+                    window.location.replace('login.html');
                     return;
                 }
 
@@ -35,14 +35,14 @@ let pendingWorker = null;
 
                 if (userErr || !user || user.role !== 'storefront_owner') {
                     await client.auth.signOut();
-                    window.location.replace('login?unauthorized=1');
+                    window.location.replace('login.html?unauthorized=1');
                     return;
                 }
 
                 if (!user.storefront) {
                     alert('Your account is not linked to any storefront. Please contact the administrator.');
                     await client.auth.signOut();
-                    window.location.replace('login');
+                    window.location.replace('login.html');
                     return;
                 }
 
@@ -59,7 +59,7 @@ let pendingWorker = null;
 
                 await loadAll();
             } catch (err) {
-                window.location.replace('login');
+                window.location.replace('login.html');
             }
         }
 

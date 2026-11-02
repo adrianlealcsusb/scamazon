@@ -393,7 +393,7 @@ function setupLogoutButton() {
                     console.warn('SignOut error:', e);
                 }
             }
-            window.location.replace('login');
+            window.location.replace('login.html');
         });
     }
 }

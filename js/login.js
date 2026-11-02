@@ -16,6 +16,12 @@ let isSignUp = false;
         const errorDiv = document.getElementById('error-msg');
         const successDiv = document.getElementById('success-msg');
 
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('unauthorized')) {
+            errorDiv.textContent = 'Unauthorized access. Please sign in with an authorized account.';
+            errorDiv.classList.remove('hidden');
+        }
+
         toggleBtn.addEventListener('click', () => {
             isSignUp = !isSignUp;
             errorDiv.classList.add('hidden');
@@ -75,9 +81,9 @@ let isSignUp = false;
                     const role = userRecord?.role || data?.user?.user_metadata?.role || 'customer';
 
                     if (role === 'storefront_owner') {
-                        window.location.href = 'storefront';
+                        window.location.href = 'storefront.html';
                     } else {
-                        window.location.href = `${role}`;
+                        window.location.href = `${role}.html`;
                     }
                 }
             } catch (err) {
